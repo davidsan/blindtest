@@ -49,7 +49,7 @@ namespace test1_musique
         public MainWindow()
         {
             InitializeComponent();
-            XDocument myDoc = XDocument.Load(@"C:\Users\Floppy\Documents\David\M2\TPGP\blindtest\song.xml");
+            XDocument myDoc = XDocument.Load(@"../../../../song.xml");
 
             boutons[0] = Radio1;
             boutons[1] = Radio2;
