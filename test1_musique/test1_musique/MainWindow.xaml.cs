@@ -27,15 +27,20 @@ namespace test1_musique
         {
             public String Title { get; set; }
             public String Link { get; set; }
+            public String categorie { get; set; }
         }
 
         String bonneRep;
+        String genreMusic;
         Random random = new Random();
-        Entry[] feeds = new Entry[100]; //tableau contenant les titres et les liens de musiques
+        Entry[] feeds = new Entry[200]; //tableau contenant les titres et les liens de musiques
+        Entry[] genre = new Entry[100];
+        Entry[] selectTab = null;
         RadioButton[] boutons = new RadioButton[4]; //tableau pour les components radioButton
         MediaPlayer mp = new MediaPlayer();
         Uri url = null;
-        bool[] used = new bool[100]; // tableau pour savoir si une musique a deja ete joue
+        bool[] used = new bool[200]; // tableau pour savoir si une musique a deja ete joue
+        bool[] selected = new bool[200];
         bool choose = false;
         int nbRound = 1;
         int MAX_ROUND = 10;
@@ -44,7 +49,7 @@ namespace test1_musique
         public MainWindow()
         {
             InitializeComponent();
-            XDocument myDoc = XDocument.Load(@"C:\Users\Floppy\Documents\David\M2\TPGP\song.xml");
+            XDocument myDoc = XDocument.Load(@"C:\Users\Floppy\Documents\David\M2\TPGP\blindtest\song.xml");
 
             boutons[0] = Radio1;
             boutons[1] = Radio2;
@@ -58,13 +63,14 @@ namespace test1_musique
              select new Entry
              {
                  Title = entry.Element(XName.Get("title", nsUrl)).Value,
+                 categorie = entry.Element(XName.Get("category", nsUrl)).Attribute("term").Value,
                  Link = entry.Elements(XName.Get("link", nsUrl)).Skip(1).First().Attribute("href").Value,
              }).ToArray<Entry>();
 
-            
             for(int i = 0; i< feeds.Length; i++){
-                used[i]=false;
+                selected[i] = false;
             }
+
         }
 
 
@@ -104,22 +110,29 @@ namespace test1_musique
 
         private void chooseSongAndPlay()
         {
-            int r = random.Next(0, 100);
+            if (selectTab == null) selectTab = feeds;
+            int max_range = selectTab.Count();
+            int r;
             int bonnechanson = random.Next(0, 4);
-
+            for (int i = 0; i < selectTab.Length; i++)
+            {
+                used[i] = false;
+            }
 
             for (int i = 0; i < boutons.Length; i++)
             {
-                while (used[r] == true)
+                r = random.Next(0, max_range);
+                while (used[r] == true || (selected[r] == true && i == bonnechanson))
                 {
-                    r = random.Next(0, 100);
+                    r = random.Next(0, max_range);
                 }
-                boutons[i].Content = feeds[r].Title;
+                boutons[i].Content = selectTab[r].Title;
                 used[r] = true;
                 if (i == bonnechanson)
                 {
-                    url = new Uri(feeds[r].Link);
-                    bonneRep = feeds[r].Title;
+                    url = new Uri(selectTab[r].Link);
+                    bonneRep = selectTab[r].Title;
+                    selected[r] = true;
                 }
             }
 
@@ -129,6 +142,10 @@ namespace test1_musique
 
         private void startRound()
         {
+            foreach (RadioButton bu in boutons)
+            {
+                bu.IsChecked = false;
+            }
             if (nbRound <= MAX_ROUND)
             {
                 choose = false;
@@ -152,6 +169,25 @@ namespace test1_musique
         {
             score = 0;
             nbRound = 1;
+            genreMusic = genreCombo.SelectionBoxItem.ToString();
+            Console.WriteLine(genreMusic);
+            if (genreMusic.Equals("All"))
+            {
+                selectTab = feeds;
+            }
+            else
+            {
+                List<Entry> tmp = new List<Entry>();
+                foreach (Entry en in feeds)
+                {
+                    if (en.categorie.Equals(genreMusic))
+                    {
+                        tmp.Add(en);
+                    }
+                }
+                genre = tmp.ToArray();
+                selectTab = genre;
+            }
             startRound();
         }
 
@@ -178,5 +214,23 @@ namespace test1_musique
         {
             this.Close();
         }
+
+        private void menuButton_Click(object sender, RoutedEventArgs e)
+        {
+            endCanvas.Visibility = Visibility.Hidden;
+            startCanvas.Visibility = Visibility.Visible;
+        }
+
+        private void mainMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            mp.Stop();
+            for (int i = 0; i < feeds.Length; i++)
+            {
+                selected[i] = false;
+            }
+            gameCanvas.Visibility = Visibility.Hidden;
+            startCanvas.Visibility = Visibility.Visible;
+        }
+
     }
 }
