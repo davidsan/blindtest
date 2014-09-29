@@ -29,18 +29,18 @@ namespace test1_musique
             public String Link { get; set; }
         }
 
+        static int nrofSongs = 200;
         String bonneRep;
         Random random = new Random();
-        Entry[] feeds = new Entry[100]; //tableau contenant les titres et les liens de musiques
-        RadioButton[] boutons = new RadioButton[4]; //tableau pour les components radioButton
+        Entry[] feeds = new Entry[nrofSongs]; // tableau contenant les titres et les liens de musiques
+        RadioButton[] boutons = new RadioButton[4]; // tableau pour les components radioButton
         MediaPlayer mp = new MediaPlayer();
         Uri url = null;
-        bool[] used = new bool[100]; // tableau pour savoir si une musique a deja ete joue
+        bool[] used = new bool[nrofSongs]; // tableau pour savoir si une musique a deja ete joue
         bool choose = false;
         int nbRound = 1;
         int MAX_ROUND = 10;
         int score = 0;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -104,7 +104,7 @@ namespace test1_musique
 
         private void chooseSongAndPlay()
         {
-            int r = random.Next(0, 100);
+            int r = random.Next(0, nrofSongs);
             int bonnechanson = random.Next(0, 4);
 
 
@@ -112,7 +112,7 @@ namespace test1_musique
             {
                 while (used[r] == true)
                 {
-                    r = random.Next(0, 100);
+                    r = random.Next(0, nrofSongs);
                 }
                 boutons[i].Content = feeds[r].Title;
                 used[r] = true;
