@@ -35,12 +35,12 @@ namespace test1_musique
         Random random = new Random();
         Entry[] feeds = new Entry[200]; //tableau contenant les titres et les liens de musiques
         Entry[] genre = new Entry[100];
+        List<int> usedList = new List<int>();
+        List<int> selectedList = new List<int>();
         Entry[] selectTab = null;
         RadioButton[] boutons = new RadioButton[4]; //tableau pour les components radioButton
         MediaPlayer mp = new MediaPlayer();
         Uri url = null;
-        bool[] used = new bool[200]; // tableau pour savoir si une musique a deja ete joue
-        bool[] selected = new bool[200];
         bool choose = false;
         int nbRound = 1;
         int MAX_ROUND = 10;
@@ -66,39 +66,35 @@ namespace test1_musique
                  Category = entry.Element(XName.Get("category", nsUrl)).Attribute("term").Value,
                  Link = entry.Elements(XName.Get("link", nsUrl)).Skip(1).First().Attribute("href").Value,
              }).ToArray<Entry>();
-
-            for(int i = 0; i< feeds.Length; i++){
-                selected[i] = false;
-            }
-
         }
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            String good = "Bonne réponse !!!!";
             if (!choose)
             {
                 if ((bool)Radio1.IsChecked && (String)Radio1.Content == bonneRep)
                 {
-                    Reponse.Text = "Bonne reponse";
+                    Reponse.Text = good;
                     score++;
                 }
                 else if ((bool)Radio2.IsChecked && (String)Radio2.Content == bonneRep)
                 {
-                    Reponse.Text = "Bonne reponse";
+                    Reponse.Text = good;
                     score++;
                 }
                 else if ((bool)Radio3.IsChecked && (String)Radio3.Content == bonneRep)
                 {
-                    Reponse.Text = "Bonne reponse";
+                    Reponse.Text = good;
                     score++;
                 }
                 else if ((bool)Radio4.IsChecked && (String)Radio4.Content == bonneRep)
                 {
-                    Reponse.Text = "Bonne reponse";
+                    Reponse.Text = good;
                     score++;
                 }
-                else Reponse.Text = "Mauvaise reponse";
+                else Reponse.Text = "Faux ! La bonne réponse était " + bonneRep;
                 choose = true;
                 nextButton.IsEnabled = true;
             }
@@ -114,25 +110,23 @@ namespace test1_musique
             int max_range = selectTab.Count();
             int r;
             int bonnechanson = random.Next(0, 4);
-            for (int i = 0; i < selectTab.Length; i++)
-            {
-                used[i] = false;
-            }
+            
+            usedList.RemoveAll(x => true);
 
             for (int i = 0; i < boutons.Length; i++)
             {
                 r = random.Next(0, max_range);
-                while (used[r] == true || (selected[r] == true && i == bonnechanson))
+                while (usedList.Contains(r) || (i == bonnechanson && selectedList.Contains(r)))
                 {
                     r = random.Next(0, max_range);
                 }
                 boutons[i].Content = selectTab[r].Title;
-                used[r] = true;
+                usedList.Add(r);
                 if (i == bonnechanson)
                 {
                     url = new Uri(selectTab[r].Link);
                     bonneRep = selectTab[r].Title;
-                    selected[r] = true;
+                    selectedList.Add(r);
                 }
             }
 
@@ -224,10 +218,7 @@ namespace test1_musique
         private void mainMenuButton_Click(object sender, RoutedEventArgs e)
         {
             mp.Stop();
-            for (int i = 0; i < feeds.Length; i++)
-            {
-                selected[i] = false;
-            }
+            selectedList.RemoveAll(x => true);
             gameCanvas.Visibility = Visibility.Hidden;
             startCanvas.Visibility = Visibility.Visible;
         }
