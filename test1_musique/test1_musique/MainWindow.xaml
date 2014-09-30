@@ -10,12 +10,11 @@
             <RadioButton x:Name="Radio3" GroupName="radios" Content="Musique3" VerticalAlignment="Top" Canvas.Left="169" Canvas.Top="155" Width="435"/>
             <RadioButton x:Name="Radio4" GroupName="radios" Content="Musique4" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="169" Canvas.Top="176"/>
             <Button x:Name="valider" Content="Valider" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="101" Click="Button_Click" Canvas.Left="169" Canvas.Top="209"/>
-            <TextBox x:Name="Reponse" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" Canvas.Left="169" Canvas.Top="256"/>
-            <Button Name="nextButton" Content="Next Round" Canvas.Left="319" Canvas.Top="209" Width="101" Visibility="Visible" Click="nextButton_Click"/>
+            <TextBlock x:Name="Reponse" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" Canvas.Left="169" Canvas.Top="256"/>
+            <Button Name="nextButton" Content="Next Round" Canvas.Left="319" Canvas.Top="209" Width="101" Click="nextButton_Click" IsEnabled="False"/>
             <Label Name="scoreLabel" Content="Score : 0" Canvas.Left="436" Canvas.Top="31" Width="98"/>
             <Label Name="roundLabel" Content="Round 1" Canvas.Left="51" Canvas.Top="31" Width="98"/>
             <Button Name="mainMenuButton" Content="Main Menu" Canvas.Left="255" Canvas.Top="288" Width="75" Click="mainMenuButton_Click" RenderTransformOrigin="-0.533,0.364"/>
-
         </Canvas>
         <Canvas HorizontalAlignment="Left" Height="320" VerticalAlignment="Top" Width="638" Name="startCanvas" Visibility="Visible" Margin="74,10,0,-10">
             <Button Content="Start" Canvas.Left="252" Canvas.Top="91" Width="134" Height="74"  Click="Button_Click_1"/>

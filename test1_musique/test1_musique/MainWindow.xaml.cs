@@ -27,7 +27,7 @@ namespace test1_musique
         {
             public String Title { get; set; }
             public String Link { get; set; }
-            public String categorie { get; set; }
+            public String Category { get; set; }
         }
 
         String bonneRep;
@@ -63,7 +63,7 @@ namespace test1_musique
              select new Entry
              {
                  Title = entry.Element(XName.Get("title", nsUrl)).Value,
-                 categorie = entry.Element(XName.Get("category", nsUrl)).Attribute("term").Value,
+                 Category = entry.Element(XName.Get("category", nsUrl)).Attribute("term").Value,
                  Link = entry.Elements(XName.Get("link", nsUrl)).Skip(1).First().Attribute("href").Value,
              }).ToArray<Entry>();
 
@@ -100,7 +100,7 @@ namespace test1_musique
                 }
                 else Reponse.Text = "Mauvaise reponse";
                 choose = true;
-                nextButton.Visibility = Visibility.Visible;
+                nextButton.IsEnabled = true;
             }
             else
             {
@@ -152,7 +152,7 @@ namespace test1_musique
                 Reponse.Text = "";
                 roundLabel.Content = "Round " + nbRound;
                 scoreLabel.Content = "Score : " + score;
-                nextButton.Visibility = Visibility.Hidden;
+                nextButton.IsEnabled = false;
                 chooseSongAndPlay();
                 nbRound++;
             }
@@ -180,7 +180,7 @@ namespace test1_musique
                 List<Entry> tmp = new List<Entry>();
                 foreach (Entry en in feeds)
                 {
-                    if (en.categorie.Equals(genreMusic))
+                    if (en.Category.Equals(genreMusic))
                     {
                         tmp.Add(en);
                     }
