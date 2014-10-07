@@ -1,0 +1,49 @@
+﻿<Window x:Class="WpfApplication2.vuemodele.ViewModeleRound"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        mc:Ignorable="d" 
+        xmlns:design="clr-namespace:WpfApplication2.vuemodele.Design"
+        xmlns:vuemodele="clr-namespace:WpfApplication2.vuemodele"
+        xmlns:local="clr-namespace:WpfApplication2.vuemodele"
+        Title="BlindTest" Height="350" Width="756">
+   
+    <Grid Name="Boutons" Margin="0,0,-8,0" >
+        <Canvas HorizontalAlignment="Left" Height="320" VerticalAlignment="Top" Width="628" Name="gameCanvas"  Margin="84,0,0,0">
+            <Label Content="Quel est le titre de la chanson ?" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="237" Canvas.Left="169" Canvas.Top="66"/>
+            <RadioButton x:Name="Radio1" GroupName="radios" Content="Musique1" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="169" Canvas.Top="113" RenderTransformOrigin="0.5,0.5" Text="{Binding Song1}/>
+            <RadioButton x:Name="Radio2" GroupName="radios" Content="Musique2" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="169" Canvas.Top="134" Text="{Binding Song2}/>
+            <RadioButton x:Name="Radio3" GroupName="radios" Content="Musique3" VerticalAlignment="Top" Canvas.Left="169" Canvas.Top="155" Width="435"/ Text="{Binding Song3}>
+            <RadioButton x:Name="Radio4" GroupName="radios" Content="Musique4" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="169" Canvas.Top="176" Text="{Binding Song4}/>
+            <Button x:Name="valider" Content="Valider" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="101" Click="Button_Click" Canvas.Left="169" Canvas.Top="209"/>
+            <TextBox x:Name="Reponse" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" Canvas.Left="169" Canvas.Top="256"/>
+            <Button Name="nextButton" Content="Next Round" Canvas.Left="319" Canvas.Top="209" Width="101" Visibility="Visible" Click="nextButton_Click"/>
+            <Label Name="scoreLabel" Content="Score : 0" Canvas.Left="436" Canvas.Top="31" Width="98"/>
+            <Label Name="roundLabel" Content="Round 1" Canvas.Left="51" Canvas.Top="31" Width="98"/>
+            <Button Name="mainMenuButton" Content="Main Menu" Canvas.Left="255" Canvas.Top="288" Width="75" Click="mainMenuButton_Click" RenderTransformOrigin="-0.533,0.364"/>
+
+        </Canvas>
+        <Canvas HorizontalAlignment="Left" Height="320" VerticalAlignment="Top" Width="638" Name="startCanvas" Visibility="Hidden" Margin="74,10,0,-10">
+            <Button Content="Start" Canvas.Left="252" Canvas.Top="91" Width="134" Height="74"  Click="Button_Click_1" Command="{Binding ChargerSongsCommand}"/>
+            <Label Content="Menu" FontSize="50" Canvas.Left="251" Canvas.Top="10" Width="135" Height="76"/>
+            <ComboBox Name="genreCombo" Canvas.Left="252" Canvas.Top="201" Width="134" >
+                <ComboBoxItem IsSelected="True">All</ComboBoxItem>
+                <ComboBoxItem>Pop</ComboBoxItem>
+                <ComboBoxItem>Dance</ComboBoxItem>
+                <ComboBoxItem>Electronic</ComboBoxItem>
+                <ComboBoxItem>Hip Hop/Rap</ComboBoxItem>
+                <ComboBoxItem>Alternative</ComboBoxItem>
+                <ComboBoxItem>Rock</ComboBoxItem>
+                <ComboBoxItem>French Pop</ComboBoxItem>
+            </ComboBox>
+            <Label Content="Genre :" Canvas.Left="199" Canvas.Top="197"/>
+        </Canvas>
+        <Canvas Name="endCanvas" HorizontalAlignment="Left" Height="320" VerticalAlignment="Top" Width="628" Visibility="Hidden" Margin="84,0,0,0">
+            <Label Name="scoreFinalLabel" FontSize="50" Content="Score Final : 0" Canvas.Left="109" Canvas.Top="101" Height="96" Width="437"/>
+            <Button Name="restartButton" Content="Rejouer" Canvas.Left="235" Canvas.Top="202" Width="91" Height="40" Click="restartButton_Click"/>
+            <Button Name="quitButton" Content="Quitter" Canvas.Left="342" Canvas.Top="202" Width="91" Height="40" Click="quitButton_Click"/>
+            <Button Name="menuButton" Content="Menu" Canvas.Left="127" Canvas.Top="202" Width="91" Height="40" Click="menuButton_Click"/>
+        </Canvas>
+    </Grid>
+</Window>
