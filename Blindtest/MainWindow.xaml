@@ -1,0 +1,8 @@
+﻿<Window x:Class="Blindtest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="The Blindtest" Height="350" Width="525">
+    <Grid>
+        
+    </Grid>
+</Window>
