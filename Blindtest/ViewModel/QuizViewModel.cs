@@ -69,7 +69,7 @@ namespace Blindtest.ViewModel
             get { return correctSong; }
             set { correctSong = value; }
         }
-        
+
         public QuizViewModel()
         {
             Songs = new ObservableCollection<string>();
@@ -83,18 +83,16 @@ namespace Blindtest.ViewModel
         private void NewRound()
         {
             SelectedSong = null;
-            // assign 4 new songs to the list + the correct one
-            // TODO : wrap this in Quiz class
-            Random rnd = new Random();
             Songs = new ObservableCollection<string>();
+            Quiz q = new Quiz(4);
             for (int i = 0; i < 4; i++)
             {
-                Songs.Add("Title " + rnd.Next(100) + " - Artist " + rnd.Next(100));
+                Songs.Add(q.Songs.ElementAt(i).Title);
             }
-            CorrectSong = Songs.Last();
+            CorrectSong = q.CorrectSong.Title;
         }
 
-        public void Submit(object obj)
+        private void Submit(object obj)
         {
             // increment rounds
             RoundsCount++;
