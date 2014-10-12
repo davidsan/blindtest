@@ -25,7 +25,7 @@ namespace Blindtest.Model
             }
 
             // pick the correct song among the set.
-            CorrectSong = null;
+            CorrectSong = Songs.ElementAt(rnd.Next(Songs.Count));
         }
 
 
