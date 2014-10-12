@@ -10,65 +10,66 @@ using System.Windows.Input;
 
 namespace Blindtest.ViewModel
 {
-    class QuizViewModel : INotifyPropertyChanged
+    class QuizViewModel : ViewModelBase
     {
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler) { handler(this, new PropertyChangedEventArgs(propertyName)); }
-        }
+        #region Fields
+
         private string selectedSong;
+        private ObservableCollection<String> songs;
+        private int score;
+        private int roundsCount;
+        private String lastAnswer;
+        private ICommand btnSubmit;
+        private String correctSong; // TODO Change this to Song type
+
+        #endregion // Fields
+
+        #region Public Properties / Commands
 
         public String SelectedSong
         {
             get { return selectedSong; }
-            set { selectedSong = value; NotifyPropertyChanged("SelectedSong"); }
+            set { selectedSong = value; OnPropertyChanged("SelectedSong"); }
         }
 
-        private ObservableCollection<String> songs;
         public ObservableCollection<String> Songs
         {
             get { return songs; }
-            set { songs = value; NotifyPropertyChanged("Songs"); }
+            set { songs = value; OnPropertyChanged("Songs"); }
         }
 
-        private int score;
         public int Score
         {
             get { return score; }
-            set { score = value; NotifyPropertyChanged("Score"); }
+            set { score = value; OnPropertyChanged("Score"); }
         }
 
-        private int roundsCount;
         public int RoundsCount
         {
             get { return roundsCount; }
-            set { roundsCount = value; NotifyPropertyChanged("RoundsCount"); }
+            set { roundsCount = value; OnPropertyChanged("RoundsCount"); }
         }
 
+        public String LastAnswer
+        {
+            get { return lastAnswer; }
+            set { lastAnswer = value; OnPropertyChanged("LastAnswer"); }
+        }
 
-        private ICommand btnSubmit;
         public ICommand BtnSubmit
         {
-            get
-            {
-                return btnSubmit;
-            }
-            set
-            {
-                btnSubmit = value;
-            }
+            get { return btnSubmit; }
+            set { btnSubmit = value; }
         }
 
-        // TODO Change this to Song type
-        private String correctSong;
         public String CorrectSong
         {
             get { return correctSong; }
             set { correctSong = value; }
         }
+
+        #endregion // Public Properties / Commands
 
         public QuizViewModel()
         {
@@ -120,13 +121,6 @@ namespace Blindtest.ViewModel
             }
         }
 
-        private String lastAnswer;
-
-        public String LastAnswer
-        {
-            get { return lastAnswer; }
-            set { lastAnswer = value; NotifyPropertyChanged("LastAnswer"); }
-        }
 
     }
 }

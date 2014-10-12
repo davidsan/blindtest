@@ -8,34 +8,58 @@ namespace Blindtest.ViewModel
 {
     class RelayCommand : ICommand
     {
-        private Action<object> _action;
+        #region Fields
 
-        public RelayCommand(Action<object> action)
+        readonly Action<object> _execute;
+        readonly Predicate<object> _canExecute;
+
+        #endregion // Fields
+
+        #region Constructors
+
+        /// <summary>
+        /// Creates a new command that can always execute.
+        /// </summary>
+        /// <param name="execute">The execution logic.</param>
+        public RelayCommand(Action<object> execute)
+            : this(execute, null)
         {
-            _action = action;
         }
+
+        /// <summary>
+        /// Creates a new command.
+        /// </summary>
+        /// <param name="execute">The execution logic.</param>
+        /// <param name="canExecute">The execution status logic.</param>
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+        {
+            if (execute == null)
+                throw new ArgumentNullException("execute");
+
+            _execute = execute;
+            _canExecute = canExecute;
+        }
+
+        #endregion // Constructors
 
         #region ICommand Members
-
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object parameters)
         {
-            return true;
+            return _canExecute == null ? true : _canExecute(parameters);
         }
 
-        public event EventHandler CanExecuteChanged;
-
-        public void Execute(object parameter)
+        public event EventHandler CanExecuteChanged
         {
-            if (parameter != null)
-            {
-                _action(parameter);
-            }
-            else
-            {
-                _action("");
-            }
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
         }
 
-        #endregion
+        public void Execute(object parameters)
+        {
+            _execute(parameters);
+        }
+
+        #endregion // ICommand Members
+
     }
 }

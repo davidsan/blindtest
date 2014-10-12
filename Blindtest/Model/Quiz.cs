@@ -8,10 +8,9 @@ namespace Blindtest.Model
 {
     class Quiz
     {
-
         public HashSet<Song> Songs { get; set; }
-
         public Song CorrectSong { get; set; }
+
         public Quiz(int nrofSongs)
         {
             Songs = new HashSet<Song>();
@@ -23,7 +22,6 @@ namespace Blindtest.Model
                 Song s = sm.Songs[rnd.Next(sm.Songs.Count)];
                 Songs.Add(s);
             }
-
             // pick the correct song among the set.
             CorrectSong = Songs.ElementAt(rnd.Next(Songs.Count));
         }
