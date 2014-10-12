@@ -4,12 +4,6 @@
         xmlns:v="clr-namespace:Blindtest.View"
         xmlns:vm="clr-namespace:Blindtest.ViewModel"
         Title="The Blindtest" Height="350" Width="525">
-    <Window.Resources>
-        <DataTemplate
-            DataType="{x:Type vm:QuizViewModel}">
-            <v:QuizView />
-        </DataTemplate>
-    </Window.Resources>
     <Window.DataContext>
         <vm:QuizViewModel />
     </Window.DataContext>
