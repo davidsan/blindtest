@@ -76,6 +76,7 @@ namespace Blindtest.ViewModel
             SelectedSong = null;
             Score = 0;
             RoundsCount = 0;
+            LastAnswer = "You have 30 seconds to find out the artist and the title of the song you hear";
             BtnSubmit = new RelayCommand(new Action<object>(Submit));
         }
 
@@ -92,6 +93,10 @@ namespace Blindtest.ViewModel
             for (int i = 0; i < 4; i++)
             {
                 Songs.Add(q.Songs.ElementAt(i).Title);
+            }
+            if (RoundsCount > 0)
+            {
+                LastAnswer = "The answer was " + CorrectSong;
             }
             CorrectSong = q.CorrectSong.Title;
             Audio.AudioManager.Instance.Play(q.CorrectSong.Link);
@@ -114,5 +119,14 @@ namespace Blindtest.ViewModel
                 Score++;
             }
         }
+
+        private String lastAnswer;
+
+        public String LastAnswer
+        {
+            get { return lastAnswer; }
+            set { lastAnswer = value; NotifyPropertyChanged("LastAnswer"); }
+        }
+
     }
 }
