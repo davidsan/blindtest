@@ -90,10 +90,12 @@ namespace Blindtest.ViewModel
                 Songs.Add(q.Songs.ElementAt(i).Title);
             }
             CorrectSong = q.CorrectSong.Title;
+            Audio.AudioManager.Instance.Play(q.CorrectSong.Link);
         }
 
         private void Submit(object obj)
         {
+            Audio.AudioManager.Instance.Stop();
             // increment rounds
             RoundsCount++;
             // check if selected song was correct, increment score if it was

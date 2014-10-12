@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Service\SongManager.cs" />
     <Compile Include="Model\Quiz.cs" />
     <Compile Include="Model\Song.cs" />
