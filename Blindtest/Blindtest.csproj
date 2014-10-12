@@ -55,11 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\SongManager.cs" />
+    <Compile Include="Service\SongManager.cs" />
     <Compile Include="Model\Quiz.cs" />
     <Compile Include="Model\Song.cs" />
     <Compile Include="ViewModel\QuizViewModel.cs" />
-    <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="View\QuizView.xaml.cs">
       <DependentUpon>QuizView.xaml</DependentUpon>
     </Compile>
