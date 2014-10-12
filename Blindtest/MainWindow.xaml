@@ -1,8 +1,25 @@
 ﻿<Window x:Class="Blindtest.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v="clr-namespace:Blindtest.View"
+        xmlns:vm="clr-namespace:Blindtest.ViewModel"
         Title="The Blindtest" Height="350" Width="525">
+    <Window.Resources>
+        <DataTemplate
+            DataType="{x:Type vm:QuizViewModel}">
+            <v:QuizView />
+        </DataTemplate>
+    </Window.Resources>
+    <Window.DataContext>
+        <vm:QuizViewModel />
+    </Window.DataContext>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ContentControl x:Name="contentControl" Grid.Row="1">
+            <Button Content="Play" Margin="5" Padding="5" Click="Button_Click" FontSize="120" FontFamily="Comic Sans MS"/>
+        </ContentControl>
     </Grid>
 </Window>
