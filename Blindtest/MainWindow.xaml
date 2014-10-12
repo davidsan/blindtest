@@ -19,7 +19,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ContentControl x:Name="contentControl" Grid.Row="1">
-            <Button Content="Play" Margin="5" Padding="5" Click="Button_Click" FontSize="120" FontFamily="Comic Sans MS"/>
+            <Button Content="Play" Margin="5" Padding="5" FontSize="120" FontFamily="Comic Sans MS" Click="PlayClick"/>
         </ContentControl>
     </Grid>
 </Window>

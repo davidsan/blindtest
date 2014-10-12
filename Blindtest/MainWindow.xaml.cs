@@ -1,4 +1,5 @@
 ﻿using Blindtest.View;
+using Blindtest.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,11 @@ namespace Blindtest
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void PlayClick(object sender, RoutedEventArgs e)
         {
+            var viewModel = DataContext as QuizViewModel;
             this.contentControl.Content = new QuizView();
+            viewModel.Play();
         }
     }
 }

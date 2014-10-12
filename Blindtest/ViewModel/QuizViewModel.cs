@@ -77,6 +77,10 @@ namespace Blindtest.ViewModel
             Score = 0;
             RoundsCount = 0;
             BtnSubmit = new RelayCommand(new Action<object>(Submit));
+        }
+
+        public void Play()
+        {
             this.NewRound();
         }
 
@@ -110,6 +114,5 @@ namespace Blindtest.ViewModel
                 Score++;
             }
         }
-
     }
 }
