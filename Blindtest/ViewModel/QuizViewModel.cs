@@ -1,4 +1,5 @@
 ﻿using Blindtest.Model;
+using Blindtest.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -110,7 +111,13 @@ namespace Blindtest.ViewModel
             RoundsCount++;
             // check if selected song was correct, increment score if it was
             this.UpdateScore();
+            if (RoundsCount > 6)
+            {
+                MainWindow.Instance.contentControl.Content = new ResultView();
+                return;
+            }
             this.NewRound();
+
         }
 
         private void UpdateScore()

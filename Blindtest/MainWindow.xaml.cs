@@ -22,7 +22,13 @@ namespace Blindtest
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public static MainWindow Instance { get; set; }
+
+        static MainWindow()
+        {
+            Instance = new MainWindow();
+        }
+        private MainWindow()
         {
             InitializeComponent();
         }
@@ -33,5 +39,6 @@ namespace Blindtest
             this.contentControl.Content = new QuizView();
             viewModel.Play();
         }
+
     }
 }

@@ -61,8 +61,12 @@
     <Compile Include="Model\Song.cs" />
     <Compile Include="ViewModel\QuizViewModel.cs" />
     <Compile Include="Command\RelayCommand.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\QuizView.xaml.cs">
       <DependentUpon>QuizView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ResultView.xaml.cs">
+      <DependentUpon>ResultView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -77,6 +81,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\QuizView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ResultView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
