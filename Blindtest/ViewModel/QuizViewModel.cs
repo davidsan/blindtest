@@ -75,7 +75,7 @@ namespace Blindtest.ViewModel
             Songs = new ObservableCollection<string>();
             SelectedSong = null;
             Score = 0;
-            RoundsCount = 0;
+            RoundsCount = 1;
             LastAnswer = "You have 30 seconds to find out the artist and the title of the song you hear";
             BtnSubmit = new RelayCommand(new Action<object>(Submit));
         }
