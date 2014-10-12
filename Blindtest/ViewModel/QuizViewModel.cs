@@ -75,7 +75,7 @@ namespace Blindtest.ViewModel
             Songs = new ObservableCollection<string>();
             SelectedSong = null;
             Score = 0;
-            RoundsCount = 0;
+            RoundsCount = 1;
             BtnSubmit = new RelayCommand(new Action<object>(Submit));
         }
 
