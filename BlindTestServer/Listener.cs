@@ -45,7 +45,6 @@ namespace BlindTestServer
                 string srep = Encoding.ASCII.GetString(rep);
                 string reponse = srep.Substring(0, count);
                 reponseSplit = reponse.Split(';');
-                reponse = reponse.Trim();
                 switch (reponseSplit[0])
                 {
                     case "exit":
@@ -54,7 +53,7 @@ namespace BlindTestServer
                         sock.Close();
                         break;
                     case "connect":
-                        string arg1 = reponseSplit[1].Trim();
+                        string arg1 = reponseSplit[1];
                         if (connect(arg1))
                         {
                             sendMessage("This username is already in use : "
@@ -66,7 +65,11 @@ namespace BlindTestServer
                             donnee.addUser(username);
                             sendMessage("Welcome " + username + " !!\n");
                             Console.WriteLine(username + " join the server !!");
-                            sendMessage("xml;" + donnee.getXmlUrl() + "\n");
+                            donnee.incrUserReady();
+                            if (donnee.NumberUserReady == donnee.MinJoueur)
+                            {
+
+                            }
                         }
                         break;
                     default:

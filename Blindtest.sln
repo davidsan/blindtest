@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blindtest", "Blindtest\Blindtest.csproj", "{DE95E36B-F858-47B8-B35D-99F7BCF2E543}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlindTestServer", "BlindTestServeur\BlindTestServer.csproj", "{90829028-4A72-49BB-A591-DA2DD58F0F12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlindTestServer", "BlindTestServer\BlindTestServer.csproj", "{90829028-4A72-49BB-A591-DA2DD58F0F12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

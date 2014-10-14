@@ -44,7 +44,10 @@
     <Compile Include="Donnee.cs" />
     <Compile Include="Listener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quiz.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="Song.cs" />
+    <Compile Include="SongManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
