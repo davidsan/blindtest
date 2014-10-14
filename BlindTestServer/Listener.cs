@@ -49,6 +49,8 @@ namespace BlindTestServer
                 {
                     case "exit":
                         Console.WriteLine(username + " leave the server !!");
+                        donnee.NumberUserReady--;
+                        donnee.removeSocket(sock);
                         sock.Shutdown(SocketShutdown.Both);
                         sock.Close();
                         break;
@@ -63,12 +65,14 @@ namespace BlindTestServer
                         {
                             username = arg1;
                             donnee.addUser(username);
-                            sendMessage("Welcome " + username + " !!\n");
+                            sendMessage("Welcome " + username + " !!");
+                            sendMessageExcept(username + " join the server !!", sock);
                             Console.WriteLine(username + " join the server !!");
                             donnee.incrUserReady();
                             if (donnee.NumberUserReady == donnee.MinJoueur)
                             {
-
+                                sendMessage("A game will start soon !!");
+                                donnee.startGame.Set();
                             }
                         }
                         break;
@@ -95,13 +99,35 @@ namespace BlindTestServer
         }
 
         /// <summary>
-        /// Broadcast to client
+        /// Broadcast to all client
         /// </summary>
         /// <param name="message"></param>
         private void sendMessage(String message)
         {
-            reponseByServer = ASCIIEncoding.ASCII.GetBytes(message);
+            StringBuilder broadcast = new StringBuilder("broadcast;");
+            broadcast.Append(message);
+            broadcast.Append(";\n");
+            reponseByServer = ASCIIEncoding.ASCII.GetBytes(broadcast.ToString());
             sock.Send(reponseByServer);
+        }
+
+        /// <summary>
+        /// Broadcast to all client except the one in param
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="sock"></param>
+        private void sendMessageExcept(String message, Socket sock)
+        {
+            StringBuilder broadcast = new StringBuilder("broadcast;");
+            broadcast.Append(message);
+            broadcast.Append(";\n");
+            foreach (Socket s in donnee.SockList) {
+                if (s != sock)
+                {
+                    reponseByServer = ASCIIEncoding.ASCII.GetBytes(broadcast.ToString());
+                    s.Send(reponseByServer);
+                }
+            }
         }
         #endregion
 

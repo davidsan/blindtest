@@ -18,12 +18,16 @@ namespace BlindTestServer
             serverSocket.Start();
             Console.WriteLine("Server Started !!");
             Console.WriteLine("Waiting for users !!");
+            Game game = new Game(donnee);
+            Thread thrGame = new Thread(new ThreadStart(game.Run));
+            thrGame.Start();
 
             while (true)
             {
                 Socket client = serverSocket.AcceptSocket();
                 if (client.Connected)
                 {
+                    donnee.addSocket(client);
                     Listener listener = new Listener(client, donnee);
                     Thread thr = new Thread(new ThreadStart(listener.Listen));
                     thr.Start();
