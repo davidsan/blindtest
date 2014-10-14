@@ -118,7 +118,8 @@ namespace Blindtest.ViewModel
                 return;
             }
             this.NewRound();
-
+            // for transition effect
+            MainWindow.Instance.contentControl.Content = new QuizView();
         }
 
         private void UpdateScore()
