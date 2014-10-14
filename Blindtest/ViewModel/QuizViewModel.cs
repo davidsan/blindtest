@@ -114,6 +114,7 @@ namespace Blindtest.ViewModel
             if (RoundsCount > 6)
             {
                 MainWindow.Instance.contentControl.Content = new ResultView();
+                MainWindow.Instance.DataContext = new ResultViewModel(score);
                 return;
             }
             this.NewRound();
