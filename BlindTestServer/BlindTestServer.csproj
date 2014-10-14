@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C9DFDD28-EC98-4BF9-9D75-81EE84DFDAE5}</ProjectGuid>
+    <ProjectGuid>{90829028-4A72-49BB-A591-DA2DD58F0F12}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BlindTestServer</RootNamespace>
-    <AssemblyName>BlindTestServer</AssemblyName>
+    <AssemblyName>BlindTestServeur</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -43,8 +43,8 @@
   <ItemGroup>
     <Compile Include="Donnee.cs" />
     <Compile Include="Listener.cs" />
-    <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blindtest", "Blindtest\Blindtest.csproj", "{DE95E36B-F858-47B8-B35D-99F7BCF2E543}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlindTestServer", "BlindTestServeur\BlindTestServer.csproj", "{90829028-4A72-49BB-A591-DA2DD58F0F12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{DE95E36B-F858-47B8-B35D-99F7BCF2E543}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE95E36B-F858-47B8-B35D-99F7BCF2E543}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE95E36B-F858-47B8-B35D-99F7BCF2E543}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90829028-4A72-49BB-A591-DA2DD58F0F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90829028-4A72-49BB-A591-DA2DD58F0F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90829028-4A72-49BB-A591-DA2DD58F0F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90829028-4A72-49BB-A591-DA2DD58F0F12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

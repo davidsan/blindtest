@@ -6,33 +6,32 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using BlindTestServer;
 
 namespace BlindTestServer
 {
     class Listener
     {
-        #region Param 
+        #region Param
         Socket sock;
         Donnee donnee;
         byte[] reponseByServer = new byte[32767];
         byte[] rep = new Byte[32767];
         String[] reponseSplit;
         String username;
-        #endregion  
-        
+        #endregion
+
         #region Construcor
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="client"></param>
         /// <param name="donnee"></param>
-        public Listener(Socket client, Donnee donnee) 
+        public Listener(Socket client, Donnee donnee)
         {
             this.sock = client;
             this.donnee = donnee;
         }
-        #endregion 
+        #endregion
 
         #region Listenner
         /// <summary>
@@ -49,12 +48,12 @@ namespace BlindTestServer
                 reponse = reponse.Trim();
                 switch (reponseSplit[0])
                 {
-                    case "exit" :
+                    case "exit":
                         Console.WriteLine(username + " leave the server !!");
                         sock.Shutdown(SocketShutdown.Both);
                         sock.Close();
                         break;
-                    case "connect" :
+                    case "connect":
                         string arg1 = reponseSplit[1].Trim();
                         if (connect(arg1))
                         {
@@ -70,12 +69,12 @@ namespace BlindTestServer
                             sendMessage("xml;" + donnee.getXmlUrl() + "\n");
                         }
                         break;
-                    default :
+                    default:
                         Console.WriteLine(reponse);
                         break;
                 }
-                
-              
+
+
             }
             Thread.CurrentThread.Abort();
         }
@@ -87,7 +86,8 @@ namespace BlindTestServer
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private bool connect(String name) {
+        private bool connect(String name)
+        {
             return donnee.exist(name);
         }
 

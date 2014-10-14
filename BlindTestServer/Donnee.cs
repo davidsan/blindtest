@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlindTestServer;
 
 namespace BlindTestServer
 {
@@ -17,7 +16,8 @@ namespace BlindTestServer
             userList = new List<string>();
         }
 
-        public bool exist(String name) {
+        public bool exist(String name)
+        {
             return userList.Exists(x => x.Equals(name));
         }
 
