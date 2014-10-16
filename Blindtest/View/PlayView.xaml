@@ -6,7 +6,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Orientation="Vertical">
-        <Button Content="Play"                
-                Command="{Binding BtnPlay}"/>
+        <Button Content="Play offline"                
+                Command="{Binding BtnPlayOffline}"/>
+        <Button Content="Play online"                
+                Command="{Binding BtnPlayOnline}"/>
+        <Button Content="Ready"                
+                Command="{Binding BtnReady}"/>
     </StackPanel>
 </UserControl>

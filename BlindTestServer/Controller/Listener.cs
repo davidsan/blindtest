@@ -83,7 +83,7 @@ namespace BlindTestServer.Controller
                 reponseSplit = reponse.Split(';');
                 switch (reponseSplit[0])
                 {
-                    case "exit":
+                    case "exit" :
                         Console.WriteLine(username + " leave the server !!");
                         donnee.NumberUserReady--;
                         donnee.UserList.Remove(username);
@@ -92,7 +92,7 @@ namespace BlindTestServer.Controller
                         sock.Shutdown(SocketShutdown.Both);
                         sock.Close();
                         break;
-                    case "connect":
+                    case "connect" :
                         string arg1 = reponseSplit[1];
                         if (connect(arg1))
                         {
@@ -108,7 +108,7 @@ namespace BlindTestServer.Controller
                             Console.WriteLine(username + " join the server !!");
                         }
                         break;
-                    case "ready" :
+                    case "ready":
                         if (!IsReady)
                         {
                             donnee.NumberUserReady++;
@@ -124,7 +124,7 @@ namespace BlindTestServer.Controller
                             donnee.startGame.Set();
                         }
                         break;
-                    case "guess" :
+                    case "guess":
                         string title = reponseSplit[1];
                         if (guessed)
                         {
@@ -149,7 +149,7 @@ namespace BlindTestServer.Controller
                             donnee.roundOver.Set();
                         }
                         break;
-                    case "chat" :
+                    case "chat":
                         string msg = reponseSplit[1];
                         Message.sendMessageToAll("chatR;" + username + ";" + msg + ";");
                         break;
@@ -173,7 +173,8 @@ namespace BlindTestServer.Controller
             return donnee.UserList.Exists(x => x.Equals(name));
         }
 
-        private bool checkRightTitle(String title) {
+        private bool checkRightTitle(String title)
+        {
             return donnee.Quiz.CorrectSong.Title.Equals(title);
         }
         #endregion
