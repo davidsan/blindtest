@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
+using BlindTestServer.Service;
+using BlindTestServer.Controller;
+using BlindTestServer.Model;
+using BlindTestServer.Tools;
 
 namespace BlindTestServer
 {
@@ -16,9 +20,12 @@ namespace BlindTestServer
             TcpListener serverSocket = new TcpListener(IPAddress.Any, 8888);
             Donnee donnee = new Donnee();
             serverSocket.Start();
+            Console.WriteLine("Server is loading please wait ...");
+            SongManager s = SongManager.Instance;
             Console.WriteLine("Server Started !!");
             Console.WriteLine("Waiting for users !!");
-            Game game = new Game(donnee);
+            Message message = new Message(donnee);
+            Game game = new Game(donnee, message);
             Thread thrGame = new Thread(new ThreadStart(game.Run));
             thrGame.Start();
 
@@ -27,8 +34,8 @@ namespace BlindTestServer
                 Socket client = serverSocket.AcceptSocket();
                 if (client.Connected)
                 {
-                    donnee.addSocket(client);
-                    Listener listener = new Listener(client, donnee);
+                    donnee.SockList.Add(client);
+                    Listener listener = new Listener(client, donnee, message);
                     Thread thr = new Thread(new ThreadStart(listener.Listen));
                     thr.Start();
                 }

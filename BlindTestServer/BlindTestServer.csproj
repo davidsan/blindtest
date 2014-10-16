@@ -41,18 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Donnee.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="Listener.cs" />
+    <Compile Include="Model\Donnee.cs" />
+    <Compile Include="Controller\Game.cs" />
+    <Compile Include="Controller\Listener.cs" />
+    <Compile Include="Tools\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Quiz.cs" />
+    <Compile Include="Model\Quiz.cs" />
     <Compile Include="Server.cs" />
-    <Compile Include="Song.cs" />
-    <Compile Include="SongManager.cs" />
+    <Compile Include="Model\Song.cs" />
+    <Compile Include="Service\SongManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
