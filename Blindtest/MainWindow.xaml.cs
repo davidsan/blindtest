@@ -27,18 +27,26 @@ namespace Blindtest
         static MainWindow()
         {
             Instance = new MainWindow();
+
         }
         private MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new PlayViewModel();
+            var viewModel = DataContext as PlayViewModel;
+            this.contentControl.Content = new PlayView();
+
+            //var viewModel = DataContext as QuizViewModel;
+            //this.contentControl.Content = new QuizView();
+            //viewModel.Play();
         }
 
-        private void PlayClick(object sender, RoutedEventArgs e)
-        {
-            var viewModel = DataContext as QuizViewModel;
-            this.contentControl.Content = new QuizView();
-            viewModel.Play();
-        }
+        //private void PlayClick(object sender, RoutedEventArgs e)
+        //{
+        //    var viewModel = DataContext as QuizViewModel;
+        //    this.contentControl.Content = new QuizView();
+        //    viewModel.Play();
+        //}
 
     }
 }

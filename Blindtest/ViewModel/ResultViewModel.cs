@@ -33,7 +33,6 @@ namespace Blindtest.ViewModel
 
         private void Replay(object obj)
         {
-            Console.WriteLine("test");
             MainWindow.Instance.contentControl.Content = new QuizView();
             qvm = new QuizViewModel();
             MainWindow.Instance.DataContext = qvm;

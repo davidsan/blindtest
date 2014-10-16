@@ -4,16 +4,12 @@
         xmlns:v="clr-namespace:Blindtest.View"
         xmlns:vm="clr-namespace:Blindtest.ViewModel"
         Title="The Blindtest" Height="350" Width="525">
-    <Window.DataContext>
-        <vm:QuizViewModel />
-    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ContentControl x:Name="contentControl" Grid.Row="1">
-            <Button Content="Play" Margin="5" Padding="5" FontSize="120" FontFamily="Comic Sans MS" Click="PlayClick"/>
         </ContentControl>
     </Grid>
 </Window>
