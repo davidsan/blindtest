@@ -33,13 +33,12 @@ namespace Blindtest.ViewModel
 
         private void Replay(object obj)
         {
-            MainWindow.Instance.contentControl.Content = new QuizView();
-            qvm = new QuizViewModel();
-            MainWindow.Instance.DataContext = qvm;
-            qvm.Play();
+            MainWindow.Instance.contentControl.Content = new PlayView();
+            pvm = new PlayViewModel();
+            MainWindow.Instance.DataContext = pvm;
 
         }
 
-        public QuizViewModel qvm { get; set; }
+        public PlayViewModel pvm { get; set; }
     }
 }
