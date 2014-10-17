@@ -63,7 +63,7 @@ namespace Blindtest.ViewModel
             hasClickedOnline = true;
             Random r = new Random();
             String pseudo = "user" + r.Next(10000);
-            String address = "localhoast";
+            String address = "127.0.0.1";
             int port = 8888;
 
             NetworkManager nm = NetworkManager.Instance;
