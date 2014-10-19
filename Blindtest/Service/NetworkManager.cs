@@ -72,6 +72,7 @@ namespace Blindtest.Service
                         PlayViewModel pvm = (PlayViewModel)MainWindow.Instance.DataContext;
                         string message = reponseSplit[2];
                         Console.WriteLine(message);
+                        pvm.hasConnected = true;
                         break;
                     default:
                         Console.WriteLine("Command error, please retry\n");
