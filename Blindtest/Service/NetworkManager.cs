@@ -56,28 +56,64 @@ namespace Blindtest.Service
                         Console.WriteLine(arg1);
                         break;
                     case "round":
-                        
                         string numRound = reponseSplit[1];
                         string song1 = reponseSplit[2];
                         string song2 = reponseSplit[3];
                         string song3 = reponseSplit[4];
                         string song4 = reponseSplit[5];
                         string songUrl = reponseSplit[6];
+                        QuizOnlineViewModel qvm;
+                        MainWindow.Instance.Dispatcher.Invoke(() =>
+                        {
+                            qvm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
+                            qvm.Songs.Add(song1);
+                            qvm.Songs.Add(song2);
+                            qvm.Songs.Add(song3);
+                            qvm.Songs.Add(song4);
+                            qvm.CorrectSongUrl = songUrl;
+                            qvm.RoundsCount = Convert.ToInt32(numRound); 
+                        });
                         Console.WriteLine(numRound, song1, song2, song3, song4, songUrl);
                         break;
                     case "score":
-                        string value = reponseSplit[2];
+                        string value = reponseSplit[1];
+                        QuizOnlineViewModel q2vm;
+                        MainWindow.Instance.Dispatcher.Invoke(() =>
+                        {
+                            q2vm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
+                            q2vm.Score = Convert.ToInt32(value);
+                        });
                         Console.WriteLine(value);
                         break;
                     case "broadcast":
-                        PlayViewModel pvm;
-                        MainWindow.Instance.Dispatcher.Invoke(() =>
-                        {
-                            pvm = MainWindow.Instance.DataContext as PlayViewModel;
-                            pvm.hasConnected = true;
-                        });
+                        string message = reponseSplit[1];
+                        Console.WriteLine("message  :" + message);
 
-                        string message = reponseSplit[2];
+                        string message1 = reponseSplit[2];
+                        Console.WriteLine("message 1 :" + message1);
+
+                        String[] reponseSplit2 = message.Split(' ');
+                        string message2 = reponseSplit[0];
+                        Console.WriteLine("message 2 :" +message2);
+
+                        if (message2.CompareTo("Welcome") == 0)
+                        {
+                            PlayViewModel pvm;
+                            MainWindow.Instance.Dispatcher.Invoke(() =>
+                            {
+                                pvm = MainWindow.Instance.DataContext as PlayViewModel;
+                                pvm.hasConnected = true;
+                            });
+                        }
+
+                       // QuizOnlineViewModel q3vm;
+                       // MainWindow.Instance.Dispatcher.Invoke(() =>
+                       // {
+                        //    q3vm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
+                         //   q3vm.CorrectSongTitre = message;
+                       // });
+
+                        
                         Console.WriteLine(message);
                         break;
                     default:

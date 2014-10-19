@@ -99,6 +99,7 @@ namespace Blindtest.ViewModel
             MainWindow.Instance.contentControl.Content = new QuizOnlineView();
             qovm = new QuizOnlineViewModel();
             MainWindow.Instance.DataContext = qovm;
+            qovm.Play();
         }
 
         public QuizViewModel qvm { get; set; }
