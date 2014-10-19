@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
+using Blindtest.ViewModel;
 
 namespace Blindtest.Service
 {
@@ -39,6 +40,8 @@ namespace Blindtest.Service
         }
         public void Listen()
         {
+
+
             while (sock.Connected != false)
             {
                 int count = sock.Receive(rep, rep.Length, 0);
@@ -52,6 +55,7 @@ namespace Blindtest.Service
                         Console.WriteLine(arg1);
                         break;
                     case "round":
+                        
                         string numRound = reponseSplit[1];
                         string song1 = reponseSplit[2];
                         string song2 = reponseSplit[3];
@@ -65,6 +69,7 @@ namespace Blindtest.Service
                         Console.WriteLine(value);
                         break;
                     case "broadcast":
+                        PlayViewModel pvm = (PlayViewModel)MainWindow.Instance.DataContext;
                         string message = reponseSplit[2];
                         Console.WriteLine(message);
                         break;

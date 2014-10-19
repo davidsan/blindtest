@@ -14,6 +14,7 @@ namespace Blindtest.ViewModel
     {
         bool hasClickedOnline = false;
         NetworkManager nm = NetworkManager.Instance;
+        public bool hasConnected { get; set; }
 
         private ICommand btnPlayOffline;
         public ICommand BtnPlayOffline
@@ -61,7 +62,6 @@ namespace Blindtest.ViewModel
 
         private void PlayOnline(object obj)
         {
-            hasClickedOnline = true;
             Random r = new Random();
             String pseudo = "user" + r.Next(10000);
             String address = "127.0.0.1";
@@ -73,11 +73,12 @@ namespace Blindtest.ViewModel
             Thread thr = new Thread(new ThreadStart(nm.Listen));
             thr.Start();
 
-
             String connectStr = "connect;" + pseudo + ";\n";
 
             byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
             nm.Sock.Send(reponseByServer);
+
+            if (hasConnected) hasClickedOnline = true;
 
         }
 
