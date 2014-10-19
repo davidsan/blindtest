@@ -13,6 +13,7 @@ namespace Blindtest.ViewModel
     class PlayViewModel : ViewModelBase
     {
         bool hasClickedOnline = false;
+        NetworkManager nm = NetworkManager.Instance;
 
         private ICommand btnPlayOffline;
         public ICommand BtnPlayOffline
@@ -66,7 +67,6 @@ namespace Blindtest.ViewModel
             String address = "127.0.0.1";
             int port = 8888;
 
-            NetworkManager nm = NetworkManager.Instance;
             nm.InitSock(address, port);
             // will create a new thread for listening
             // will also send a connect request
@@ -91,9 +91,16 @@ namespace Blindtest.ViewModel
 
         private void Ready(object obj)
         {
+            String connectStr = "ready;";
+            byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
+            nm.Sock.Send(reponseByServer);
 
+            MainWindow.Instance.contentControl.Content = new QuizOnlineView();
+            qovm = new QuizOnlineViewModel();
+            MainWindow.Instance.DataContext = qovm;
         }
 
         public QuizViewModel qvm { get; set; }
+        public QuizOnlineViewModel qovm { get; set; }
     }
 }

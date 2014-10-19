@@ -39,7 +39,6 @@ namespace Blindtest.Service
         }
         public void Listen()
         {
-
             while (sock.Connected != false)
             {
                 int count = sock.Receive(rep, rep.Length, 0);
