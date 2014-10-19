@@ -80,6 +80,7 @@ namespace Blindtest.ViewModel
             Songs = new ObservableCollection<string>();
             SelectedSong = null;
             Score = 0;
+            LastAnswer = "You have 30 seconds to find out the artist and the title of the song you hear";
             BtnSubmitOnline = new RelayCommand(new Action<object>(SubmitOnline));
         }
 
@@ -90,13 +91,17 @@ namespace Blindtest.ViewModel
 
         private void NewRound()
         {
+            if (RoundsCount > 1)
+            {
+                LastAnswer = "The answer was " + CorrectSongTitre;
+            }
             SelectedSong = null;
             Audio.AudioManager.Instance.Play(CorrectSongUrl);
         }
 
         private void SubmitOnline(object obj)
         {
-            String connectStr = "connect;" + SelectedSong + ";\n";
+            String connectStr = "guess;" + SelectedSong + ";\n";
             byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
             nm.Sock.Send(reponseByServer);
 
@@ -108,8 +113,6 @@ namespace Blindtest.ViewModel
                 return;
             }
             Songs.Clear();
-            this.NewRound();
-
         }
 
     }

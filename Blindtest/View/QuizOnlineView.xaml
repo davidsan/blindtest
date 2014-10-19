@@ -6,6 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Orientation="Vertical">
+        <Label Content="{Binding LastAnswer}" Margin="5"/>
         <StackPanel Orientation="Horizontal">
             <Label Content="Score Online : " Margin="5"/>
             <Label Content="{Binding Score}" Margin="5"/>

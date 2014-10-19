@@ -96,7 +96,7 @@ namespace Blindtest.ViewModel
             {
                 Songs.Add(q.Songs.ElementAt(i).Title);
             }
-            if (RoundsCount > 0)
+            if (RoundsCount > 1)
             {
                 LastAnswer = "The answer was " + CorrectSong;
             }

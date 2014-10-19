@@ -106,7 +106,7 @@ namespace Blindtest.Service
                             MainWindow.Instance.Dispatcher.Invoke(() =>
                             {
                                 q3vm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
-                                q3vm.CorrectSongTitre = message;
+                                q3vm.CorrectSongTitre = bonneChanson;
                             });
                         }
                         
