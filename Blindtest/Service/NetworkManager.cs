@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 using Blindtest.ViewModel;
+using System.Windows.Threading;
 
 namespace Blindtest.Service
 {
@@ -69,10 +70,15 @@ namespace Blindtest.Service
                         Console.WriteLine(value);
                         break;
                     case "broadcast":
-                        PlayViewModel pvm = (PlayViewModel)MainWindow.Instance.DataContext;
+                        PlayViewModel pvm;
+                        MainWindow.Instance.Dispatcher.Invoke(() =>
+                        {
+                            pvm = MainWindow.Instance.DataContext as PlayViewModel;
+                            pvm.hasConnected = true;
+                        });
+
                         string message = reponseSplit[2];
                         Console.WriteLine(message);
-                        pvm.hasConnected = true;
                         break;
                     default:
                         Console.WriteLine("Command error, please retry\n");

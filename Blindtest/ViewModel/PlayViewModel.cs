@@ -12,7 +12,7 @@ namespace Blindtest.ViewModel
 {
     class PlayViewModel : ViewModelBase
     {
-        bool hasClickedOnline = false;
+        public bool hasClickedOnline = false;
         NetworkManager nm = NetworkManager.Instance;
         public bool hasConnected { get; set; }
 
@@ -41,7 +41,7 @@ namespace Blindtest.ViewModel
         {
             BtnPlayOffline = new RelayCommand(new Action<object>(PlayOffline), PredicateOffline);
             BtnPlayOnline = new RelayCommand(new Action<object>(PlayOnline), PredicateOnline);
-            BtnReady = new RelayCommand(new Action<object>(Ready), PredicateReady);
+            BtnReady = new RelayCommand(new Action<object>(Ready), x => hasConnected);
         }
 
         private bool PredicateOnline(object obj)
@@ -78,7 +78,7 @@ namespace Blindtest.ViewModel
             byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
             nm.Sock.Send(reponseByServer);
 
-            if (hasConnected) hasClickedOnline = true;
+            hasClickedOnline = true;
 
         }
 
