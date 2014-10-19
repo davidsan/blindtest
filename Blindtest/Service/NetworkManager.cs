@@ -98,7 +98,7 @@ namespace Blindtest.Service
                             });
                         }
 
-                        if (message.Contains("La bonne chanson est"))
+                        if (message.Contains("La bonne chanson etait"))
                         {
                             String[] messageSplit = message.Split(':');
                             String bonneChanson = messageSplit[1].Trim();

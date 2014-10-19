@@ -92,6 +92,7 @@ namespace BlindTestServer.Controller
         {
             Console.WriteLine("Fin du round " + donnee.CurrentRound);
             Message.broadcastToAll("Round " + donnee.CurrentRound + " is over !!");
+            Message.broadcastToAll("La bonne chanson etait : " + donnee.Quiz.CorrectSong.Title);
             int score = 10;
             //  maj du score
             foreach (Listener e in donnee.UserWhoFindList)

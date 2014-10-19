@@ -106,7 +106,7 @@ namespace Blindtest.ViewModel
             nm.Sock.Send(reponseByServer);
 
             Audio.AudioManager.Instance.Stop();
-            if (RoundsCount > 6)
+            if (RoundsCount >= 3)
             {
                 MainWindow.Instance.contentControl.Content = new ResultView();
                 MainWindow.Instance.DataContext = new ResultViewModel(score);
