@@ -66,6 +66,7 @@ namespace Blindtest.Service
                         MainWindow.Instance.Dispatcher.Invoke(() =>
                         {
                             qvm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
+                            qvm.Songs.Clear();
                             qvm.Songs.Add(song1);
                             qvm.Songs.Add(song2);
                             qvm.Songs.Add(song3);

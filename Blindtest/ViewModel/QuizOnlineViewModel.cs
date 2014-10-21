@@ -81,11 +81,13 @@ namespace Blindtest.ViewModel
             SelectedSong = null;
             Score = 0;
             LastAnswer = "You have 30 seconds to find out the artist and the title of the song you hear";
-            BtnSubmitOnline = new RelayCommand(new Action<object>(SubmitOnline));
+            WaitNextRound = false;
+            BtnSubmitOnline = new RelayCommand(new Action<object>(SubmitOnline), x => !WaitNextRound);
         }
 
         public void Play()
         {
+            this.WaitNextRound = false;
             this.NewRound();
         }
 
@@ -106,13 +108,22 @@ namespace Blindtest.ViewModel
             nm.Sock.Send(reponseByServer);
 
             Audio.AudioManager.Instance.Stop();
+            WaitNextRound = true;
             if (RoundsCount >= 3)
             {
                 MainWindow.Instance.contentControl.Content = new ResultView();
                 MainWindow.Instance.DataContext = new ResultViewModel(score);
-                return;
             }
-            Songs.Clear();
+        }
+
+        private bool wait;
+        public bool WaitNextRound
+        {
+            get { return wait; }
+            set { 
+                wait = value; 
+                OnPropertyChanged("WaitNextRound");
+            }
         }
 
     }
