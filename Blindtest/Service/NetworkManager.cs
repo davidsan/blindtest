@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 using Blindtest.ViewModel;
+using Blindtest.View;
 using System.Windows.Threading;
 
 namespace Blindtest.Service
@@ -41,14 +42,14 @@ namespace Blindtest.Service
         }
         public void Listen()
         {
-
-
-            while (sock.Connected != false)
+            while (sock.Connected)
             {
                 int count = sock.Receive(rep, rep.Length, 0);
                 string srep = Encoding.ASCII.GetString(rep);
                 string reponse = srep.Substring(0, count);
+                Console.WriteLine("Client : " + reponse);
                 String[] reponseSplit = reponse.Split(';');
+                QuizOnlineViewModel qvm;
                 switch (reponseSplit[0])
                 {
                     case "chatR":
@@ -62,10 +63,10 @@ namespace Blindtest.Service
                         string song3 = reponseSplit[4];
                         string song4 = reponseSplit[5];
                         string songUrl = reponseSplit[6];
-                        QuizOnlineViewModel qvm;
                         MainWindow.Instance.Dispatcher.Invoke(() =>
                         {
                             qvm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
+                            Console.WriteLine("NEw SONG COMMING");
                             qvm.Songs.Clear();
                             qvm.Songs.Add(song1);
                             qvm.Songs.Add(song2);
@@ -73,19 +74,37 @@ namespace Blindtest.Service
                             qvm.Songs.Add(song4);
                             qvm.CorrectSongUrl = songUrl.Trim();
                             qvm.RoundsCount = Convert.ToInt32(numRound);
+                            qvm.WaitNextRound = false;
                             qvm.Play();
                         });
                         Console.WriteLine(numRound, song1, song2, song3, song4, songUrl);
                         break;
-                    case "score":
-                        string value = reponseSplit[1];
-                        QuizOnlineViewModel q2vm;
+                    case "roundover" :
+                        String correctSongTitle = reponseSplit[1];
                         MainWindow.Instance.Dispatcher.Invoke(() =>
                         {
-                            q2vm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
-                            q2vm.Score = Convert.ToInt32(value);
+                            qvm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
+                            qvm.CorrectSongTitre = correctSongTitle;
+                        });
+                        break;
+                    case "score":
+                        string value = reponseSplit[1];
+                        MainWindow.Instance.Dispatcher.Invoke(() =>
+                        {
+                            qvm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
+                            qvm.Score = Convert.ToInt32(value);
                         });
                         Console.WriteLine(value);
+                        break;
+                    case "gameover":
+                        MainWindow.Instance.Dispatcher.Invoke(() =>
+                        {
+                            MainWindow.Instance.contentControl.Content = new ResultView();
+                            ResultViewModel rvm = new ResultViewModel("");
+                            rvm.IsOnline = true;
+                            MainWindow.Instance.DataContext = rvm;
+                            
+                         });
                         break;
                     case "broadcast":
                         string message = reponseSplit[1];
@@ -99,15 +118,15 @@ namespace Blindtest.Service
                             });
                         }
 
-                        if (message.Contains("La bonne chanson etait"))
+                        if (message.Contains("Score : "))
                         {
-                            String[] messageSplit = message.Split(':');
-                            String bonneChanson = messageSplit[1].Trim();
-                            QuizOnlineViewModel q3vm;
+                            ResultViewModel rvm;
                             MainWindow.Instance.Dispatcher.Invoke(() =>
                             {
-                                q3vm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
-                                q3vm.CorrectSongTitre = bonneChanson;
+                                Console.WriteLine("Cool");
+                                rvm = MainWindow.Instance.DataContext as ResultViewModel;
+                                    Console.WriteLine("Cool2");
+                                    rvm.ScoreFinal = message;
                             });
                         }
                         

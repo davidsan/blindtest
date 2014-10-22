@@ -113,8 +113,10 @@ namespace Blindtest.ViewModel
             this.UpdateScore();
             if (RoundsCount > 6)
             {
+                ResultViewModel rvm = new ResultViewModel("");
+                rvm.IsOnline = false;
                 MainWindow.Instance.contentControl.Content = new ResultView();
-                MainWindow.Instance.DataContext = new ResultViewModel(score);
+                MainWindow.Instance.DataContext = rvm;
                 return;
             }
             this.NewRound();

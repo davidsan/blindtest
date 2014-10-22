@@ -10,7 +10,12 @@ namespace Blindtest.ViewModel
 {
     class ResultViewModel : ViewModelBase
     {
-
+        private bool isOnline;
+        public bool IsOnline
+        {
+            get { return isOnline; }
+            set { isOnline = value; }
+        }
         private ICommand btnReplay;
         public ICommand BtnReplay
         {
@@ -18,14 +23,14 @@ namespace Blindtest.ViewModel
             set { btnReplay = value; }
         }
 
-        public int scorefinal;
-        public int ScoreFinal
+        private String scorefinal;
+        public String ScoreFinal
         {
             get { return scorefinal; }
             set { scorefinal = value; OnPropertyChanged("ScoreFinal"); }
         }
 
-        public ResultViewModel(int score)
+        public ResultViewModel(String score)
         {
             this.scorefinal = score;
             BtnReplay = new RelayCommand(new Action<object>(Replay));
@@ -35,6 +40,11 @@ namespace Blindtest.ViewModel
         {
             MainWindow.Instance.contentControl.Content = new PlayView();
             pvm = new PlayViewModel();
+            if (IsOnline)
+            {
+                pvm.hasConnected = true;
+                pvm.hasClickedOnline = true;
+            }
             MainWindow.Instance.DataContext = pvm;
 
         }

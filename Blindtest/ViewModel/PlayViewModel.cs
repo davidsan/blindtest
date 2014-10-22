@@ -62,24 +62,26 @@ namespace Blindtest.ViewModel
 
         private void PlayOnline(object obj)
         {
-            Random r = new Random();
-            String pseudo = "user" + r.Next(10000);
-            String address = "127.0.0.1";
-            int port = 8888;
+            if (!hasConnected)
+            {
+                Random r = new Random();
+                String pseudo = "user" + r.Next(10000);
+                String address = "127.0.0.1";
+                int port = 8888;
 
-            nm.InitSock(address, port);
-            // will create a new thread for listening
-            // will also send a connect request
-            Thread thr = new Thread(new ThreadStart(nm.Listen));
-            thr.Start();
+                nm.InitSock(address, port);
+                // will create a new thread for listening
+                // will also send a connect request
+                Thread thr = new Thread(new ThreadStart(nm.Listen));
+                thr.Start();
 
-            String connectStr = "connect;" + pseudo + ";\n";
+                String connectStr = "connect;" + pseudo + ";\n";
 
-            byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
-            nm.Sock.Send(reponseByServer);
+                byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
+                nm.Sock.Send(reponseByServer);
 
-            hasClickedOnline = true;
-
+                hasClickedOnline = true;
+            }
         }
 
         private void PlayOffline(object obj)

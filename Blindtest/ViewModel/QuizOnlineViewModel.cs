@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Blindtest.Service;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 namespace Blindtest.ViewModel
 {
-    class QuizOnlineViewModel : ViewModelBase
+    class QuizOnlineViewModel : ViewModelBase, INotifyPropertyChanged
     {
 
         NetworkManager nm = NetworkManager.Instance;
@@ -35,7 +36,14 @@ namespace Blindtest.ViewModel
         public String SelectedSong
         {
             get { return selectedSong; }
-            set { selectedSong = value; OnPropertyChanged("SelectedSong"); }
+            set { selectedSong = value; RaisePropertyChanged("SelectedSong"); }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void RaisePropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public String CorrectSongUrl
@@ -47,25 +55,25 @@ namespace Blindtest.ViewModel
         public ObservableCollection<String> Songs
         {
             get { return songs; }
-            set { songs = value; OnPropertyChanged("Songs"); }
+            set { songs = value; RaisePropertyChanged("Songs"); }
         }
 
         public int Score
         {
             get { return score; }
-            set { score = value; OnPropertyChanged("Score"); }
+            set { score = value; RaisePropertyChanged("Score"); }
         }
 
         public int RoundsCount
         {
             get { return roundsCount; }
-            set { roundsCount = value; OnPropertyChanged("RoundsCount"); }
+            set { roundsCount = value; RaisePropertyChanged("RoundsCount"); }
         }
 
         public String LastAnswer
         {
             get { return lastAnswer; }
-            set { lastAnswer = value; OnPropertyChanged("LastAnswer"); }
+            set { lastAnswer = value; RaisePropertyChanged("LastAnswer"); }
         }
 
         public ICommand BtnSubmitOnline
@@ -109,11 +117,6 @@ namespace Blindtest.ViewModel
 
             Audio.AudioManager.Instance.Stop();
             WaitNextRound = true;
-            if (RoundsCount >= 3)
-            {
-                MainWindow.Instance.contentControl.Content = new ResultView();
-                MainWindow.Instance.DataContext = new ResultViewModel(score);
-            }
         }
 
         private bool wait;
@@ -121,8 +124,8 @@ namespace Blindtest.ViewModel
         {
             get { return wait; }
             set { 
-                wait = value; 
-                OnPropertyChanged("WaitNextRound");
+                wait = value;
+                RaisePropertyChanged("WaitNextRound");
             }
         }
 
