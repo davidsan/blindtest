@@ -81,6 +81,7 @@ namespace BlindTestServer.Tools
             {
                 reponseByServer = ASCIIEncoding.ASCII.GetBytes(message);
                 s.Send(reponseByServer);
+                Console.WriteLine(message);
             }
         }
 

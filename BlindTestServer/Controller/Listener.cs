@@ -75,7 +75,7 @@ namespace BlindTestServer.Controller
         /// </summary>
         public void Listen()
         {
-            while (sock.Connected != false)
+            while (sock.Connected)
             {
                 int count = sock.Receive(rep, rep.Length, 0);
                 string srep = Encoding.ASCII.GetString(rep);

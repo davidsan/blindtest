@@ -52,7 +52,7 @@ namespace BlindTestServer.Controller
         {
             resetAllScore();
             donnee.CurrentRound = 0;
-            Message.broadcastToAll("A new game will start !!");
+//            Message.broadcastToAll("A new game will start !!");
         }
 
         /// <summary>
@@ -63,25 +63,24 @@ namespace BlindTestServer.Controller
         /// </summary>
         private void initRound()
         {
-            Console.WriteLine("Init du round " + donnee.CurrentRound);
-            donnee.initQuiz();
-            resetPlayer();
-            donnee.UserAnswer = 0;
-            donnee.UserWhoFindList.RemoveAll(x => true);
-            List<String> songList = new List<String>();
-            for (int i = 0; i < 4; i++)
+            lock (Message)
             {
-                songList.Add(donnee.Quiz.Songs.ElementAt(i).Title);
+                Console.WriteLine("Init du round " + donnee.CurrentRound);
+                donnee.initQuiz();
+                resetPlayer();
+                donnee.UserAnswer = 0;
+                donnee.UserWhoFindList.RemoveAll(x => true);
+                List<String> songList = new List<String>();
+                StringBuilder sb = new StringBuilder("");
+                sb.Append("round;" + donnee.CurrentRound + ";");
+                for (int i = 0; i < 4; i++)
+                {
+                    sb.Append(donnee.Quiz.Songs.ElementAt(i).Title + ";");
+                }
+                sb.Append(donnee.Quiz.CorrectSong.Link + ";\n");
+                Message.sendMessageToAll(sb.ToString());
+                Console.WriteLine("La bonne chanson est :" + donnee.Quiz.CorrectSong.Title);
             }
-            String res = "round;" + donnee.CurrentRound + ";"
-                + songList.ElementAt(0) + ";"
-                + songList.ElementAt(1) + ";"
-                + songList.ElementAt(2) + ";"
-                + songList.ElementAt(3) + ";"
-                + donnee.Quiz.CorrectSong.Link + ";\n";
-            Message.sendMessageToAll(res);
-            Console.WriteLine("La bonne chanson est :" + donnee.Quiz.CorrectSong.Title);
-            Message.broadcastToAll("Round " + donnee.CurrentRound +" will starting !!");
         }
 
         /// <summary>
@@ -90,21 +89,23 @@ namespace BlindTestServer.Controller
         /// </summary>
         private void roundFinish()
         {
-            Console.WriteLine("Fin du round " + donnee.CurrentRound);
-            Message.broadcastToAll("Round " + donnee.CurrentRound + " is over !!");
-            Message.broadcastToAll("La bonne chanson etait : " + donnee.Quiz.CorrectSong.Title);
-            int score = 10;
-            //  maj du score
-            foreach (Listener e in donnee.UserWhoFindList)
+            lock (Message)
             {
-                e.Score += score;
-                if (score > 5)
-                    score--;
-            }
-            // envoie du score
-            foreach (Listener e in donnee.UserControlList)
-            {
-                Message.sendMessage("score;" + e.Score + ";", e.Sock);
+                Console.WriteLine("Fin du round " + donnee.CurrentRound);
+                Message.sendMessageToAll("roundover;" + donnee.Quiz.CorrectSong.Title+ ";");
+                int score = 10;
+                //  maj du score
+                foreach (Listener e in donnee.UserWhoFindList)
+                {
+                    e.Score += score;
+                    if (score > 5)
+                        score--;
+                }
+                // envoie du score
+                foreach (Listener e in donnee.UserControlList)
+                {
+                    Message.sendMessage("score;" + e.Score + ";", e.Sock);
+                }
             }
         }
 
@@ -115,15 +116,19 @@ namespace BlindTestServer.Controller
         private void gameOver()
         {
             Console.WriteLine("Game Over !!");
-            Message.broadcastToAll("The game is over !!");
-            Message.broadcastToAll("Score : ");
-            StringBuilder sb = new StringBuilder("");
-            foreach (Listener e in donnee.UserControlList)
+            lock (Message)
             {
-                e.IsReady = false;
-                sb.Append(e.Username + " : " + e.Score +"\n");
+                Message.sendMessageToAll("gameover;");
+
+                StringBuilder sb = new StringBuilder("");
+                sb.Append("Score : \n");
+                foreach (Listener e in donnee.UserControlList)
+                {
+                    e.IsReady = false;
+                    sb.Append(e.Username + " : " + e.Score + "\n");
+                }
+                Message.broadcastToAll(sb.ToString());
             }
-            Message.broadcastToAll(sb.ToString());
             donnee.NumberUserReady = 0;
           
         }
