@@ -11,8 +11,10 @@ namespace Blindtest.ViewModel
 {
     class LandingViewModel : ViewModelBase
     {
+        Random r = new Random();
         public LandingViewModel()
         {
+            Username = "user" + r.Next(10000);
             BtnGo = new RelayCommand(new Action<object>(Go));
         }
 
@@ -37,8 +39,11 @@ namespace Blindtest.ViewModel
         {
             if (Username == null || Username.Equals(""))
             {
-                Random r = new Random();
                 Username = "user" + r.Next(10000);
+            }
+            if (Username.Contains(";"))
+            {
+                Username = Username.Replace(";", "-");
             }
             MainWindow.Instance.contentControl.Content = new PlayView();
             MainWindow.Instance.Title += " - " + Username;

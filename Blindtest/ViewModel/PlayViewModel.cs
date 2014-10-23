@@ -18,7 +18,7 @@ namespace Blindtest.ViewModel
         public NetworkManager Nm
         {
             get { return nm; }
-            private set { nm = value; }
+            private set { nm = value; OnPropertyChanged("Nm.Username"); }
         }
 
         public bool hasConnected { get; set; }

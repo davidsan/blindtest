@@ -6,11 +6,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
-        <StackPanel Orientation="Vertical" Margin="120,50,100,80">
-            <Label Content="Write your nickname"  FontSize="30" />
-            <StackPanel Orientation="Horizontal" Margin=" 0,20">
-                <Label Content="Nickname : "  FontSize="20"/>
-                <TextBox Name="nickTextBox" TextWrapping="NoWrap" Text="{Binding Username}" Width="180"  FontSize="20" AcceptsReturn="False" />
+        <StackPanel Orientation="Vertical" Margin="120,50,90,80">
+            <Label Content="Choose your nickname"  FontSize="30" HorizontalAlignment="Center"/>
+        <StackPanel Orientation="Horizontal" Margin=" 0,20">
+            <TextBox Name="nickTextBox" TextWrapping="NoWrap" Text="{Binding Username}"
+                     Width="390"
+                     HorizontalAlignment="Stretch" 
+                     FontSize="20" 
+                     AcceptsReturn="False"
+                     MaxLength="20"/>
             </StackPanel>
         <Button Name="goButton"  Content="Let's go !!!" Margin="0,15" Height="40"  Command="{Binding BtnGo}"/>
 
