@@ -13,7 +13,14 @@ namespace Blindtest.ViewModel
     class PlayViewModel : ViewModelBase
     {
         public bool hasClickedOnline = false;
-        NetworkManager nm = NetworkManager.Instance;
+        private NetworkManager nm = NetworkManager.Instance;
+
+        public NetworkManager Nm
+        {
+            get { return nm; }
+            private set { nm = value; }
+        }
+
         public bool hasConnected { get; set; }
 
         private ICommand btnPlayOffline;
@@ -37,8 +44,18 @@ namespace Blindtest.ViewModel
             set { btnReady = value; }
         }
 
-        public PlayViewModel()
+        private String messageError;
+
+        public String MessageError
         {
+            get { return messageError; }
+            set { messageError = value; OnPropertyChanged("MessageError"); }
+        }
+         
+
+        public PlayViewModel(String username)
+        {
+            nm.Username = username;
             BtnPlayOffline = new RelayCommand(new Action<object>(PlayOffline), PredicateOffline);
             BtnPlayOnline = new RelayCommand(new Action<object>(PlayOnline), PredicateOnline);
             BtnReady = new RelayCommand(new Action<object>(Ready), x => hasConnected);
@@ -64,23 +81,27 @@ namespace Blindtest.ViewModel
         {
             if (!hasConnected)
             {
-                Random r = new Random();
-                String pseudo = "user" + r.Next(10000);
                 String address = "127.0.0.1";
                 int port = 8888;
 
-                nm.InitSock(address, port);
+                if (nm.InitSock(address, port))
+                {
                 // will create a new thread for listening
                 // will also send a connect request
                 Thread thr = new Thread(new ThreadStart(nm.Listen));
                 thr.Start();
 
-                String connectStr = "connect;" + pseudo + ";\n";
+                String connectStr = "connect;" + nm.Username + ";\n";
 
                 byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
                 nm.Sock.Send(reponseByServer);
 
                 hasClickedOnline = true;
+                }
+                else
+                {
+                    MessageError = "Connection error. Server may be offline";
+                }
             }
         }
 

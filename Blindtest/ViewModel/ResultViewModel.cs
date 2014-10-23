@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Blindtest.View;
 using System.Windows.Input;
+using Blindtest.Service;
 
 namespace Blindtest.ViewModel
 {
     class ResultViewModel : ViewModelBase
     {
+        private NetworkManager nm = NetworkManager.Instance;
         private bool isOnline;
         public bool IsOnline
         {
@@ -39,7 +41,7 @@ namespace Blindtest.ViewModel
         private void Replay(object obj)
         {
             MainWindow.Instance.contentControl.Content = new PlayView();
-            pvm = new PlayViewModel();
+            pvm = new PlayViewModel(nm.Username);
             if (IsOnline)
             {
                 pvm.hasConnected = true;

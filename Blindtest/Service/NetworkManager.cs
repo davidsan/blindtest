@@ -25,6 +25,15 @@ namespace Blindtest.Service
                 return instance;
             }
         }
+
+        private String username;
+
+        public String Username
+        {
+            get { return username; }
+            set { username = value; }
+        }
+        
         private Socket sock;
         public Socket Sock
         {
@@ -33,12 +42,15 @@ namespace Blindtest.Service
         }
 
         private byte[] rep = new Byte[32767];
-        public void InitSock(String address, int port)
+        public bool InitSock(String address, int port)
         {
             sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             sock.Blocking = true;
             IPEndPoint ipep = new IPEndPoint(IPAddress.Parse(address), port);
-            sock.Connect(ipep);
+            try { sock.Connect(ipep); }
+            catch (Exception e) { return false; }
+            return true;
+            
         }
         public void Listen()
         {

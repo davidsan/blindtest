@@ -66,6 +66,7 @@
     <Compile Include="Service\SongManager.cs" />
     <Compile Include="Model\Quiz.cs" />
     <Compile Include="Model\Song.cs" />
+    <Compile Include="ViewModel\LandingViewModel.cs" />
     <Compile Include="ViewModel\PlayViewModel.cs" />
     <Compile Include="ViewModel\QuizOnlineViewModel.cs" />
     <Compile Include="ViewModel\QuizViewModel.cs" />
@@ -83,6 +84,9 @@
     </Compile>
     <Compile Include="View\ResultView.xaml.cs">
       <DependentUpon>ResultView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LandingView.xaml.cs">
+      <DependentUpon>LandingView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -109,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ResultView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LandingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
