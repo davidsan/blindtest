@@ -94,19 +94,11 @@ namespace BlindTestServer.Controller
                         break;
                     case "connect" :
                         string arg1 = reponseSplit[1];
-                        if (connect(arg1))
-                        {
-                            Message.broadcastOne("This username is already in use : "
-                                + arg1 + " !!\n", sock);
-                        }
-                        else
-                        {
-                            this.Username = arg1;
-                            donnee.UserList.Add(username);
-                            Message.broadcastOne("Welcome " + username + " !!", sock);
-                            Message.broadcastExceptOne(username + " join the server !!", sock);
-                            Console.WriteLine(username + " join the server !!");
-                        }
+                        connect(arg1);
+                        donnee.UserList.Add(username);
+                        Message.sendMessage("connected;" + Username + ";", sock);
+                        Message.sendMessageExceptOne("connectednew;" + Username + ";", sock);
+                        Console.WriteLine(Username + " join the server !!");
                         break;
                     case "ready":
                         if (!IsReady)
@@ -168,9 +160,17 @@ namespace BlindTestServer.Controller
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private bool connect(String name)
+        private void connect(String name)
         {
-            return donnee.UserList.Exists(x => x.Equals(name));
+            int compteur = 0;
+            String username = name;
+            String testname = username;
+            while (donnee.UserList.Exists(x => x.Equals(testname)))
+            {
+                testname = username + "#" + compteur;
+                compteur++;
+            }
+            Username = testname;
         }
 
         private bool checkRightTitle(String title)
