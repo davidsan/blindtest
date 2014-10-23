@@ -32,9 +32,8 @@ namespace Blindtest
         private MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new PlayViewModel();
-            var viewModel = DataContext as PlayViewModel;
-            this.contentControl.Content = new PlayView();
+            this.DataContext = new LandingViewModel();
+            this.contentControl.Content = new LandingView();
         }
     }
 }
