@@ -96,6 +96,18 @@ namespace BlindTestServer.Tools
             reponseByServer = ASCIIEncoding.ASCII.GetBytes(message);
             sock.Send(reponseByServer);
         }
+
+        public void sendMessageExceptOne(String message, Socket sock)
+        {
+            foreach (Socket s in donnee.SockList)
+            {
+                if (s != sock)
+                {
+                    reponseByServer = ASCIIEncoding.ASCII.GetBytes(message);
+                    s.Send(reponseByServer);
+                }
+            }
+        }
         #endregion
 
     }

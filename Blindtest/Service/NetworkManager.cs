@@ -31,7 +31,7 @@ namespace Blindtest.Service
         public String Username
         {
             get { return username; }
-            set { username = value; }
+            set { username = value;  }
         }
         
         private Socket sock;
@@ -64,6 +64,20 @@ namespace Blindtest.Service
                 QuizOnlineViewModel qvm;
                 switch (reponseSplit[0])
                 {
+                    case "connected":
+                        Username = reponseSplit[1];
+                        PlayViewModel pvm;
+                        MainWindow.Instance.Dispatcher.Invoke(() =>
+                        {
+                            Console.WriteLine("Set new Title for " + Username);
+                            MainWindow.Instance.Title = "THE BLINDTEST - " + Username;
+                            pvm = MainWindow.Instance.DataContext as PlayViewModel;
+                            pvm.hasConnected = true;
+                        });
+                        break;
+                    case "connectednew" :
+                        Console.WriteLine(Username + " join the server !!");
+                        break;
                     case "chatR":
                         string arg1 = reponseSplit[1];
                         Console.WriteLine(arg1);
@@ -120,16 +134,6 @@ namespace Blindtest.Service
                         break;
                     case "broadcast":
                         string message = reponseSplit[1];
-                        if (message.Contains("Welcome"))
-                        {
-                            PlayViewModel pvm;
-                            MainWindow.Instance.Dispatcher.Invoke(() =>
-                            {
-                                pvm = MainWindow.Instance.DataContext as PlayViewModel;
-                                pvm.hasConnected = true;
-                            });
-                        }
-
                         if (message.Contains("Score : "))
                         {
                             ResultViewModel rvm;
