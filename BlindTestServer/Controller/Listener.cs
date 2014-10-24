@@ -84,11 +84,13 @@ namespace BlindTestServer.Controller
                 switch (reponseSplit[0])
                 {
                     case "exit" :
-                        Console.WriteLine(username + " leave the server !!");
-                        donnee.NumberUserReady--;
-                        donnee.UserList.Remove(username);
-                        donnee.SockList.Remove(sock);
-                        donnee.UserControlList.Remove(this);
+                        disconnect();
+                        sock.Shutdown(SocketShutdown.Both);
+                        sock.Close();
+                        break;
+                    case "disconnect" :
+                        disconnect();
+                        Message.sendMessage("disconnected;", sock);
                         sock.Shutdown(SocketShutdown.Both);
                         sock.Close();
                         break;
@@ -171,6 +173,15 @@ namespace BlindTestServer.Controller
                 compteur++;
             }
             Username = testname;
+        }
+
+        private void disconnect()
+        {
+            Console.WriteLine(username + " leave the server !!");
+            donnee.NumberUserReady--;
+            donnee.UserList.Remove(username);
+            donnee.SockList.Remove(sock);
+            donnee.UserControlList.Remove(this);
         }
 
         private bool checkRightTitle(String title)

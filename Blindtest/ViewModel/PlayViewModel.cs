@@ -15,10 +15,14 @@ namespace Blindtest.ViewModel
         public bool hasClickedOnline = false;
         private NetworkManager nm = NetworkManager.Instance;
 
-        public NetworkManager Nm
+        public QuizViewModel qvm { get; set; }
+        public QuizOnlineViewModel qovm { get; set; }
+
+        private String username;
+        public String Username
         {
-            get { return nm; }
-            private set { nm = value; OnPropertyChanged("Nm.Username"); }
+            get { return username; }
+            set { username = value; OnPropertyChanged("Username"); }
         }
 
         public bool hasConnected { get; set; }
@@ -44,6 +48,14 @@ namespace Blindtest.ViewModel
             set { btnReady = value; }
         }
 
+        private ICommand btnDisconnect;
+
+        public ICommand BtnDisconnect
+        {
+            get { return btnDisconnect; }
+            set { btnDisconnect = value; }
+        }
+        
         private String messageError;
 
         public String MessageError
@@ -52,12 +64,12 @@ namespace Blindtest.ViewModel
             set { messageError = value; OnPropertyChanged("MessageError"); }
         }
          
-
         public PlayViewModel(String username)
         {
-            nm.Username = username;
+            Username = username;
             BtnPlayOffline = new RelayCommand(new Action<object>(PlayOffline), PredicateOffline);
             BtnPlayOnline = new RelayCommand(new Action<object>(PlayOnline), PredicateOnline);
+            BtnDisconnect = new RelayCommand(new Action<object>(Disconnect), x => hasConnected);
             BtnReady = new RelayCommand(new Action<object>(Ready), x => hasConnected);
         }
 
@@ -76,7 +88,6 @@ namespace Blindtest.ViewModel
             return !hasClickedOnline;
         }
 
-
         private void PlayOnline(object obj)
         {
             if (!hasConnected)
@@ -91,12 +102,13 @@ namespace Blindtest.ViewModel
                 Thread thr = new Thread(new ThreadStart(nm.Listen));
                 thr.Start();
 
-                String connectStr = "connect;" + nm.Username + ";\n";
+                String connectStr = "connect;" + Username + ";\n";
 
                 byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
                 nm.Sock.Send(reponseByServer);
 
                 hasClickedOnline = true;
+                nm.IsOnline = true;
                 }
                 else
                 {
@@ -124,7 +136,15 @@ namespace Blindtest.ViewModel
             MainWindow.Instance.DataContext = qovm;
         }
 
-        public QuizViewModel qvm { get; set; }
-        public QuizOnlineViewModel qovm { get; set; }
+        private void Disconnect(object obj)
+        {
+            nm.IsOnline = false;
+            String connectStr = "disconnect;";
+            byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
+            nm.Sock.Send(reponseByServer);
+            hasClickedOnline = false;
+            hasConnected = false;
+        }
+
     }
 }

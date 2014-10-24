@@ -14,6 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using System.ComponentModel;
+using Blindtest.Service;
+using System.Net.Sockets;
 
 namespace Blindtest
 {
@@ -23,6 +26,8 @@ namespace Blindtest
     public partial class MainWindow : MetroWindow
     {
         public static MainWindow Instance { get; set; }
+
+        private NetworkManager nm = NetworkManager.Instance;
 
         static MainWindow()
         {
@@ -35,5 +40,18 @@ namespace Blindtest
             this.DataContext = new LandingViewModel();
             this.contentControl.Content = new LandingView();
         }
+
+        void MetroWindow_Closing(object sender, CancelEventArgs e)
+        {
+            if (nm.IsOnline)
+            {
+                String connectStr = "exit;";
+                byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
+                nm.Sock.Send(reponseByServer);
+                nm.Sock.Shutdown(SocketShutdown.Both);
+                nm.Sock.Close();
+            }
+        }
+
     }
 }

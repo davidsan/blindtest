@@ -6,16 +6,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Orientation="Vertical" Height="300">
-    <StackPanel Orientation="Vertical" Width="200" Margin="0,20">
-        <Label Content="Welcome " FontSize="30" HorizontalAlignment="Center"/>
-        <Label Content="{Binding Nm.Username}" FontSize="30" HorizontalAlignment="Center"/>
+        <StackPanel Orientation="Vertical" Width="200" Margin="0,5,0,5">
+            <Label Content="Welcome " FontSize="30" HorizontalAlignment="Center"/>
+        <Label Content="{Binding Username}" FontSize="30" HorizontalAlignment="Center"/>
         <Button Content="Play online"                
-                Command="{Binding BtnPlayOnline}" Margin="0,10"/>
+                Command="{Binding BtnPlayOnline}" Margin="0,5"/>
         <Button Content="Play offline"                
-                Command="{Binding BtnPlayOffline}" Margin="0,10"/>
+                Command="{Binding BtnPlayOffline}" Margin="0,5"/>
         <Button Content="Ready"                
-                Command="{Binding BtnReady}" Margin="0,10,0,0"/>
-    </StackPanel>
+                Command="{Binding BtnReady}" Margin="0,5"/>
+            <Button Content="Disconnect"                
+                Command="{Binding BtnDisconnect}" Margin="0,5,0,0"/>
+        </StackPanel>
         <Label Content="{Binding MessageError}" FontSize="20" HorizontalAlignment="Center" Foreground="Red"/>
     </StackPanel>
         

@@ -26,14 +26,20 @@ namespace Blindtest.Service
             }
         }
 
+        private bool isOnline;
+        public bool IsOnline
+        {
+            get { return isOnline; }
+            set { isOnline = value; }
+        }
+        
         private String username;
-
         public String Username
         {
             get { return username; }
-            set { username = value;  }
+            set { username = value; }
         }
-        
+
         private Socket sock;
         public Socket Sock
         {
@@ -50,109 +56,118 @@ namespace Blindtest.Service
             try { sock.Connect(ipep); }
             catch (Exception e) { return false; }
             return true;
-            
+
         }
         public void Listen()
         {
             while (sock.Connected)
             {
-                int count = sock.Receive(rep, rep.Length, 0);
-                string srep = Encoding.ASCII.GetString(rep);
-                string reponse = srep.Substring(0, count);
-                Console.WriteLine("Client : " + reponse);
-                String[] reponseSplit = reponse.Split(';');
-                QuizOnlineViewModel qvm;
-                switch (reponseSplit[0])
+                try
                 {
-                    case "connected":
-                        Username = reponseSplit[1];
-                        PlayViewModel pvm;
-                        MainWindow.Instance.Dispatcher.Invoke(() =>
-                        {
-                            Console.WriteLine("Set new Title for " + Username);
-                            MainWindow.Instance.Title = "THE BLINDTEST - " + Username;
-                            pvm = MainWindow.Instance.DataContext as PlayViewModel;
-                            pvm.hasConnected = true;
-                        });
-                        break;
-                    case "connectednew" :
-                        Console.WriteLine(Username + " join the server !!");
-                        break;
-                    case "chatR":
-                        string arg1 = reponseSplit[1];
-                        Console.WriteLine(arg1);
-                        break;
-                    case "round":
-                        string numRound = reponseSplit[1];
-                        string song1 = reponseSplit[2];
-                        string song2 = reponseSplit[3];
-                        string song3 = reponseSplit[4];
-                        string song4 = reponseSplit[5];
-                        string songUrl = reponseSplit[6];
-                        MainWindow.Instance.Dispatcher.Invoke(() =>
-                        {
-                            qvm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
-                            Console.WriteLine("NEw SONG COMMING");
-                            qvm.Songs.Clear();
-                            qvm.Songs.Add(song1);
-                            qvm.Songs.Add(song2);
-                            qvm.Songs.Add(song3);
-                            qvm.Songs.Add(song4);
-                            qvm.CorrectSongUrl = songUrl.Trim();
-                            qvm.RoundsCount = Convert.ToInt32(numRound);
-                            qvm.WaitNextRound = false;
-                            qvm.Play();
-                        });
-                        Console.WriteLine(numRound, song1, song2, song3, song4, songUrl);
-                        break;
-                    case "roundover" :
-                        String correctSongTitle = reponseSplit[1];
-                        MainWindow.Instance.Dispatcher.Invoke(() =>
-                        {
-                            qvm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
-                            qvm.CorrectSongTitre = correctSongTitle;
-                        });
-                        break;
-                    case "score":
-                        string value = reponseSplit[1];
-                        MainWindow.Instance.Dispatcher.Invoke(() =>
-                        {
-                            qvm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
-                            qvm.Score = Convert.ToInt32(value);
-                        });
-                        Console.WriteLine(value);
-                        break;
-                    case "gameover":
-                        MainWindow.Instance.Dispatcher.Invoke(() =>
-                        {
-                            MainWindow.Instance.contentControl.Content = new ResultView();
-                            ResultViewModel rvm = new ResultViewModel("");
-                            rvm.IsOnline = true;
-                            MainWindow.Instance.DataContext = rvm;
-                            
-                         });
-                        break;
-                    case "broadcast":
-                        string message = reponseSplit[1];
-                        if (message.Contains("Score : "))
-                        {
-                            ResultViewModel rvm;
+                    int count = sock.Receive(rep, rep.Length, 0);
+
+                    string srep = Encoding.ASCII.GetString(rep);
+                    string reponse = srep.Substring(0, count);
+                    Console.WriteLine("Client : " + reponse);
+                    String[] reponseSplit = reponse.Split(';');
+                    QuizOnlineViewModel qvm;
+                    switch (reponseSplit[0])
+                    {
+                        case "connected":
+                            Username = reponseSplit[1];
+                            PlayViewModel pvm;
                             MainWindow.Instance.Dispatcher.Invoke(() =>
                             {
-                                Console.WriteLine("Cool");
-                                rvm = MainWindow.Instance.DataContext as ResultViewModel;
+                                Console.WriteLine("Set new Title for " + Username);
+                                MainWindow.Instance.Title = "THE BLINDTEST - " + Username;
+                                pvm = MainWindow.Instance.DataContext as PlayViewModel;
+                                pvm.hasConnected = true;
+                                pvm.Username = Username;
+                            });
+                            break;
+                        case "connectednew":
+                            Console.WriteLine(Username + " join the server !!");
+                            break;
+                        case "disconnected":
+                            sock.Close();
+                            break;
+                        case "chatR":
+                            string arg1 = reponseSplit[1];
+                            Console.WriteLine(arg1);
+                            break;
+                        case "round":
+                            string numRound = reponseSplit[1];
+                            string song1 = reponseSplit[2];
+                            string song2 = reponseSplit[3];
+                            string song3 = reponseSplit[4];
+                            string song4 = reponseSplit[5];
+                            string songUrl = reponseSplit[6];
+                            MainWindow.Instance.Dispatcher.Invoke(() =>
+                            {
+                                qvm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
+                                Console.WriteLine("NEw SONG COMMING");
+                                qvm.Songs.Clear();
+                                qvm.Songs.Add(song1);
+                                qvm.Songs.Add(song2);
+                                qvm.Songs.Add(song3);
+                                qvm.Songs.Add(song4);
+                                qvm.CorrectSongUrl = songUrl.Trim();
+                                qvm.RoundsCount = Convert.ToInt32(numRound);
+                                qvm.Play();
+                            });
+                            Console.WriteLine(numRound, song1, song2, song3, song4, songUrl);
+                            break;
+                        case "roundover":
+                            String correctSongTitle = reponseSplit[1];
+                            MainWindow.Instance.Dispatcher.Invoke(() =>
+                            {
+                                qvm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
+                                qvm.CorrectSongTitre = correctSongTitle;
+                            });
+                            break;
+                        case "score":
+                            string value = reponseSplit[1];
+                            MainWindow.Instance.Dispatcher.Invoke(() =>
+                            {
+                                qvm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
+                                qvm.Score = Convert.ToInt32(value);
+                            });
+                            Console.WriteLine(value);
+                            break;
+                        case "gameover":
+                            MainWindow.Instance.Dispatcher.Invoke(() =>
+                            {
+                                MainWindow.Instance.contentControl.Content = new ResultView();
+                                ResultViewModel rvm = new ResultViewModel("");
+                                rvm.IsOnline = true;
+                                MainWindow.Instance.DataContext = rvm;
+
+                            });
+                            break;
+                        case "broadcast":
+                            string message = reponseSplit[1];
+                            if (message.Contains("Score : "))
+                            {
+                                ResultViewModel rvm;
+                                MainWindow.Instance.Dispatcher.Invoke(() =>
+                                {
+                                    Console.WriteLine("Cool");
+                                    rvm = MainWindow.Instance.DataContext as ResultViewModel;
                                     Console.WriteLine("Cool2");
                                     rvm.ScoreFinal = message;
-                            });
-                        }
-                        
-                        Console.WriteLine(message);
-                        break;
-                    default:
-                        Console.WriteLine("Command error, please retry\n");
-                        break;
+                                });
+                            }
+
+                            Console.WriteLine(message);
+                            break;
+                        default:
+                            Console.WriteLine("Command error, please retry\n");
+                            break;
+                    }
                 }
+                catch (Exception e) { }
             }
+                
             Thread.CurrentThread.Abort();
         }
     }

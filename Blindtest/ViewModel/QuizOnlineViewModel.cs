@@ -14,8 +14,24 @@ using System.Collections.ObjectModel;
 
 namespace Blindtest.ViewModel
 {
-    class QuizOnlineViewModel : ViewModelBase, INotifyPropertyChanged
+    class QuizOnlineViewModel : ViewModelBase
     {
+        public QuizOnlineViewModel()
+        {
+            Songs = new ObservableCollection<string>();
+            SelectedSong = null;
+            Score = 0;
+            LastAnswer = "You have 30 seconds to find out the artist and the title of the song you hear";
+            WaitNextRound = false;
+            BtnSubmitOnline = new RelayCommand(new Action<object>(SubmitOnline), PredicateOnline);
+        }
+
+        private bool PredicateOnline(object obj)
+        {
+            return !WaitNextRound;
+        }
+
+        #region Attributs
 
         NetworkManager nm = NetworkManager.Instance;
         private string selectedSong;
@@ -36,7 +52,7 @@ namespace Blindtest.ViewModel
         public String SelectedSong
         {
             get { return selectedSong; }
-            set { selectedSong = value; RaisePropertyChanged("SelectedSong"); }
+            set { selectedSong = value; OnPropertyChanged("SelectedSong"); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -55,25 +71,25 @@ namespace Blindtest.ViewModel
         public ObservableCollection<String> Songs
         {
             get { return songs; }
-            set { songs = value; RaisePropertyChanged("Songs"); }
+            set { songs = value; OnPropertyChanged("Songs"); }
         }
 
         public int Score
         {
             get { return score; }
-            set { score = value; RaisePropertyChanged("Score"); }
+            set { score = value; OnPropertyChanged("Score"); }
         }
 
         public int RoundsCount
         {
             get { return roundsCount; }
-            set { roundsCount = value; RaisePropertyChanged("RoundsCount"); }
+            set { roundsCount = value; OnPropertyChanged("RoundsCount"); }
         }
 
         public String LastAnswer
         {
             get { return lastAnswer; }
-            set { lastAnswer = value; RaisePropertyChanged("LastAnswer"); }
+            set { lastAnswer = value; OnPropertyChanged("LastAnswer"); }
         }
 
         public ICommand BtnSubmitOnline
@@ -82,16 +98,16 @@ namespace Blindtest.ViewModel
             set { btnSubmitOnline = value; }
         }
 
-
-        public QuizOnlineViewModel()
+        private bool wait;
+        public bool WaitNextRound
         {
-            Songs = new ObservableCollection<string>();
-            SelectedSong = null;
-            Score = 0;
-            LastAnswer = "You have 30 seconds to find out the artist and the title of the song you hear";
-            WaitNextRound = false;
-            BtnSubmitOnline = new RelayCommand(new Action<object>(SubmitOnline), x => !WaitNextRound);
+            get { return wait; }
+            set { wait = value; OnPropertyChanged("WaitNextRound");
+            }
         }
+
+        #endregion //Attributs
+
 
         public void Play()
         {
@@ -119,15 +135,7 @@ namespace Blindtest.ViewModel
             WaitNextRound = true;
         }
 
-        private bool wait;
-        public bool WaitNextRound
-        {
-            get { return wait; }
-            set { 
-                wait = value;
-                RaisePropertyChanged("WaitNextRound");
-            }
-        }
+        
 
     }
 }

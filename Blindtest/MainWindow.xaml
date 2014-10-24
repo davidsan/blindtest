@@ -9,7 +9,8 @@
         ResizeMode="CanMinimize"
         WindowTransitionsEnabled="True"
         Title="The Blindtest" Height="350" Width="600"
-        ShowMaxRestoreButton="False">
+        ShowMaxRestoreButton="False"
+        Closing="MetroWindow_Closing">
     <Grid>
         
         <Grid.RowDefinitions>
