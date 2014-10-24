@@ -7,13 +7,13 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Orientation="Vertical" Height="300">
         <StackPanel Orientation="Vertical" Width="200" Margin="0,5,0,5">
-            <Label Content="Welcome " FontSize="30" HorizontalAlignment="Center"/>
+        <Label Content="Welcome " FontSize="30" HorizontalAlignment="Center"/>
         <Label Content="{Binding Username}" FontSize="30" HorizontalAlignment="Center"/>
-        <Button Content="Play online"                
-                Command="{Binding BtnPlayOnline}" Margin="0,5"/>
         <Button Content="Play offline"                
                 Command="{Binding BtnPlayOffline}" Margin="0,5"/>
-        <Button Content="Ready"                
+            <Button Content="Play online"                
+                Command="{Binding BtnPlayOnline}" Margin="0,5"/>
+            <Button Content="Ready"                
                 Command="{Binding BtnReady}" Margin="0,5"/>
             <Button Content="Disconnect"                
                 Command="{Binding BtnDisconnect}" Margin="0,5,0,0"/>

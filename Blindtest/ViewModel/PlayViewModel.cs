@@ -119,6 +119,7 @@ namespace Blindtest.ViewModel
 
         private void PlayOffline(object obj)
         {
+            nm.Username = Username;
             MainWindow.Instance.contentControl.Content = new QuizView();
             qvm = new QuizViewModel();
             MainWindow.Instance.DataContext = qvm;

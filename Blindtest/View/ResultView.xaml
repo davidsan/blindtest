@@ -6,8 +6,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Orientation="Vertical">
-        <Label Content="Score Final"/>
-        <Label Content="{Binding ScoreFinal}" Margin="5"/>
+        <StackPanel Orientation="Horizontal">
+        <Label Content="Score Final :" FontSize="25"/>
+            <Label Content="{Binding ScoreFinal}" FontSize="25"/>
+        </StackPanel>
         <Button Content="Replay" Margin="5" Padding="5"                
                 Command="{Binding BtnReplay}"/>
     </StackPanel>
