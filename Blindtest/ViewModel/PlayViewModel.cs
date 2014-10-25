@@ -7,63 +7,13 @@ using Blindtest.View;
 using System.Windows.Input;
 using Blindtest.Service;
 using System.Threading;
+using System.Windows.Controls;
 
 namespace Blindtest.ViewModel
 {
     class PlayViewModel : ViewModelBase
     {
-        public bool hasClickedOnline = false;
-        private NetworkManager nm = NetworkManager.Instance;
-
-        public QuizViewModel qvm { get; set; }
-        public QuizOnlineViewModel qovm { get; set; }
-
-        private String username;
-        public String Username
-        {
-            get { return username; }
-            set { username = value; OnPropertyChanged("Username"); }
-        }
-
-        public bool hasConnected { get; set; }
-
-        private ICommand btnPlayOffline;
-        public ICommand BtnPlayOffline
-        {
-            get { return btnPlayOffline; }
-            set { btnPlayOffline = value; }
-        }
-
-        private ICommand btnPlayOnline;
-        public ICommand BtnPlayOnline
-        {
-            get { return btnPlayOnline; }
-            set { btnPlayOnline = value; }
-        }
-
-        private ICommand btnReady;
-        public ICommand BtnReady
-        {
-            get { return btnReady; }
-            set { btnReady = value; }
-        }
-
-        private ICommand btnDisconnect;
-
-        public ICommand BtnDisconnect
-        {
-            get { return btnDisconnect; }
-            set { btnDisconnect = value; }
-        }
-        
-        private String messageError;
-
-        public String MessageError
-        {
-            get { return messageError; }
-            set { messageError = value; OnPropertyChanged("MessageError"); }
-        }
-         
+        #region Constructor
         public PlayViewModel(String username)
         {
             Username = username;
@@ -71,8 +21,72 @@ namespace Blindtest.ViewModel
             BtnPlayOnline = new RelayCommand(new Action<object>(PlayOnline), PredicateOnline);
             BtnDisconnect = new RelayCommand(new Action<object>(Disconnect), x => hasConnected);
             BtnReady = new RelayCommand(new Action<object>(Ready), x => hasConnected);
+            BtnSettings = new RelayCommand(new Action<object>(Settings));
+        }
+        #endregion // Constructor
+
+        #region Field
+        
+        private NetworkManager nm = NetworkManager.Instance;
+        private String username;
+        private String messageError;
+        private ICommand btnPlayOffline;
+        private ICommand btnPlayOnline;
+        private ICommand btnReady;
+        private ICommand btnDisconnect;
+        private ICommand btnSettings;
+        #endregion // Field
+
+        #region Properties / Command
+        public QuizViewModel qvm { get; set; }
+        public QuizOnlineViewModel qovm { get; set; }
+        public bool hasClickedOnline = false;
+        public bool hasConnected { get; set; }
+
+        public String Username
+        {
+            get { return username; }
+            set { username = value; OnPropertyChanged("Username"); }
         }
 
+        public ICommand BtnPlayOffline
+        {
+            get { return btnPlayOffline; }
+            set { btnPlayOffline = value; }
+        }
+
+        public ICommand BtnPlayOnline
+        {
+            get { return btnPlayOnline; }
+            set { btnPlayOnline = value; }
+        }
+
+        public ICommand BtnReady
+        {
+            get { return btnReady; }
+            set { btnReady = value; }
+        }
+
+        public ICommand BtnDisconnect
+        {
+            get { return btnDisconnect; }
+            set { btnDisconnect = value; }
+        }
+
+        public ICommand BtnSettings
+        {
+            get { return btnSettings; }
+            set { btnSettings = value; }
+        }
+
+        public String MessageError
+        {
+            get { return messageError; }
+            set { messageError = value; OnPropertyChanged("MessageError"); }
+        }
+        #endregion // Properties / Command
+
+        #region Action / Function 
         private bool PredicateOnline(object obj)
         {
             return !hasClickedOnline;
@@ -146,6 +160,16 @@ namespace Blindtest.ViewModel
             hasClickedOnline = false;
             hasConnected = false;
         }
+
+        private void Settings(object obj)
+        {
+            OptionViewModel opt = OptionViewModel.Instance;
+            opt.PreviousView = MainWindow.Instance.contentControl.Content as UserControl;
+            opt.PreviousViewModel = this;
+            MainWindow.Instance.DataContext = opt;
+            MainWindow.Instance.contentControl.Content = new OptionView();
+        }
+        #endregion // Action / Function
 
     }
 }

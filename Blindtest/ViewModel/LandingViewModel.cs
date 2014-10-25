@@ -6,32 +6,57 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Threading;
 using Blindtest.View;
+using System.Windows.Controls;
 
 namespace Blindtest.ViewModel
 {
     class LandingViewModel : ViewModelBase
     {
-        Random r = new Random();
+        #region Field
+        private Random r = new Random();
+        private String username;
+        private ICommand btnGo;
+        private ICommand btnSettings;
+        #endregion // Field
+
+        #region Constructor
         public LandingViewModel()
         {
             Username = "user" + r.Next(10000);
             BtnGo = new RelayCommand(new Action<object>(Go));
+            BtnSettings = new RelayCommand(new Action<object>(Settings));
         }
+        #endregion // Constructor
 
-        private String username;
-
+        #region Properties / Command
         public String Username
         {
             get { return username; }
             set { username = value; }
         }
         
-        private ICommand btnGo;
-
         public ICommand BtnGo
         {
             get { return btnGo; }
             set { btnGo = value; }
+        }
+
+       
+        public ICommand BtnSettings
+        {
+            get { return btnSettings; }
+            set { btnSettings = value; }
+        }
+        #endregion // Properties / Command
+
+        #region Action
+        private void Settings(object obj)
+        {
+            OptionViewModel opt = OptionViewModel.Instance;
+            opt.PreviousView = MainWindow.Instance.contentControl.Content as UserControl;
+            opt.PreviousViewModel = this;
+            MainWindow.Instance.DataContext = opt;
+            MainWindow.Instance.contentControl.Content = new OptionView();
         }
 
 
@@ -49,5 +74,6 @@ namespace Blindtest.ViewModel
             MainWindow.Instance.Title += " - " + Username;
             MainWindow.Instance.DataContext = new PlayViewModel(Username);
         }
+        #endregion // Action
     }
 }

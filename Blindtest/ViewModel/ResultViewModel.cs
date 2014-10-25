@@ -6,36 +6,65 @@ using System.Threading.Tasks;
 using Blindtest.View;
 using System.Windows.Input;
 using Blindtest.Service;
+using System.Windows.Controls;
 
 namespace Blindtest.ViewModel
 {
     class ResultViewModel : ViewModelBase
     {
+        #region Constructor
+        public ResultViewModel(String score)
+        {
+            this.scorefinal = score;
+            BtnReplay = new RelayCommand(new Action<object>(Replay));
+            BtnSettings = new RelayCommand(new Action<object>(Settings));
+        }
+        #endregion // Constructor
+
+        #region Field
         private NetworkManager nm = NetworkManager.Instance;
         private bool isOnline;
+        private String scorefinal;
+        private ICommand btnReplay;
+        private ICommand btnSettings;
+        #endregion // Field
+
+        #region Properties / Command
+
+        public PlayViewModel pvm { get; set; }
         public bool IsOnline
         {
             get { return isOnline; }
             set { isOnline = value; }
         }
-        private ICommand btnReplay;
+        
         public ICommand BtnReplay
         {
             get { return btnReplay; }
             set { btnReplay = value; }
         }
 
-        private String scorefinal;
         public String ScoreFinal
         {
             get { return scorefinal; }
             set { scorefinal = value; OnPropertyChanged("ScoreFinal"); }
         }
 
-        public ResultViewModel(String score)
+        public ICommand BtnSettings
         {
-            this.scorefinal = score;
-            BtnReplay = new RelayCommand(new Action<object>(Replay));
+            get { return btnSettings; }
+            set { btnSettings = value; }
+        }
+        #endregion // Properties / Command
+
+        #region Action / Function
+        private void Settings(object obj)
+        {
+            OptionViewModel opt = OptionViewModel.Instance;
+            opt.PreviousView = MainWindow.Instance.contentControl.Content as UserControl;
+            opt.PreviousViewModel = this;
+            MainWindow.Instance.DataContext = opt;
+            MainWindow.Instance.contentControl.Content = new OptionView();
         }
 
         private void Replay(object obj)
@@ -50,7 +79,7 @@ namespace Blindtest.ViewModel
             MainWindow.Instance.DataContext = pvm;
 
         }
+        #endregion // Action / Function
 
-        public PlayViewModel pvm { get; set; }
     }
 }

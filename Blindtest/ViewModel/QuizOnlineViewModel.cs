@@ -10,12 +10,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Blindtest.Service;
 using System.Threading;
-using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace Blindtest.ViewModel
 {
     class QuizOnlineViewModel : ViewModelBase
     {
+        #region Contructor
         public QuizOnlineViewModel()
         {
             Songs = new ObservableCollection<string>();
@@ -24,15 +25,11 @@ namespace Blindtest.ViewModel
             LastAnswer = "You have 30 seconds to find out the artist and the title of the song you hear";
             WaitNextRound = false;
             BtnSubmitOnline = new RelayCommand(new Action<object>(SubmitOnline), PredicateOnline);
+            BtnSettings = new RelayCommand(new Action<object>(Settings));
         }
+        #endregion // Contructor
 
-        private bool PredicateOnline(object obj)
-        {
-            return !WaitNextRound;
-        }
-
-        #region Attributs
-
+        #region Field
         NetworkManager nm = NetworkManager.Instance;
         private string selectedSong;
         private ObservableCollection<String> songs;
@@ -41,7 +38,16 @@ namespace Blindtest.ViewModel
         private String correctSongurl;
         private String correctSongTitre;
         private String lastAnswer;
+        private bool wait;
         private ICommand btnSubmitOnline;
+        private ICommand btnSettings;
+        #endregion Field
+
+        #region Properties / Command
+        private bool PredicateOnline(object obj)
+        {
+            return !WaitNextRound;
+        }
 
         public String CorrectSongTitre
         {
@@ -53,13 +59,6 @@ namespace Blindtest.ViewModel
         {
             get { return selectedSong; }
             set { selectedSong = value; OnPropertyChanged("SelectedSong"); }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public String CorrectSongUrl
@@ -98,17 +97,24 @@ namespace Blindtest.ViewModel
             set { btnSubmitOnline = value; }
         }
 
-        private bool wait;
+        public ICommand BtnSettings
+        {
+            get { return btnSettings; }
+            set { btnSettings = value; }
+        }
+
         public bool WaitNextRound
         {
             get { return wait; }
-            set { wait = value; OnPropertyChanged("WaitNextRound");
+            set
+            {
+                wait = value; OnPropertyChanged("WaitNextRound");
             }
         }
+       
+        #endregion // Properties / Command
 
-        #endregion //Attributs
-
-
+        #region Action / Function
         public void Play()
         {
             this.WaitNextRound = false;
@@ -135,7 +141,16 @@ namespace Blindtest.ViewModel
             WaitNextRound = true;
         }
 
-        
+        private void Settings(object obj)
+        {
+            OptionViewModel opt = OptionViewModel.Instance;
+            opt.PreviousView = MainWindow.Instance.contentControl.Content as UserControl;
+            opt.PreviousViewModel = this;
+            MainWindow.Instance.DataContext = opt;
+            MainWindow.Instance.contentControl.Content = new OptionView();
+        }
+
+        #endregion
 
     }
 }

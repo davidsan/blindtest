@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Blindtest.ViewModel
@@ -22,6 +23,7 @@ namespace Blindtest.ViewModel
         private int roundsCount;
         private String lastAnswer;
         private ICommand btnSubmit;
+        private ICommand btnSettings;
         private String correctSong; // TODO Change this to Song type
 
         #endregion // Fields
@@ -70,8 +72,15 @@ namespace Blindtest.ViewModel
             set { correctSong = value; }
         }
 
+        public ICommand BtnSettings
+        {
+            get { return btnSettings; }
+            set { btnSettings = value; }
+        }
+
         #endregion // Public Properties / Commands
 
+        #region Contructor
         public QuizViewModel()
         {
             Songs = new ObservableCollection<string>();
@@ -80,8 +89,11 @@ namespace Blindtest.ViewModel
             RoundsCount = 1;
             LastAnswer = "You have 30 seconds to find out the artist and the title of the song you hear";
             BtnSubmit = new RelayCommand(new Action<object>(Submit));
+            BtnSettings = new RelayCommand(new Action<object>(Settings));
         }
+        #endregion // Constructor
 
+        #region Action / Function
         public void Play()
         {
             this.NewRound();
@@ -131,6 +143,15 @@ namespace Blindtest.ViewModel
             }
         }
 
+        private void Settings(object obj)
+        {
+            OptionViewModel opt = OptionViewModel.Instance;
+            opt.PreviousView = MainWindow.Instance.contentControl.Content as UserControl;
+            opt.PreviousViewModel = this;
+            MainWindow.Instance.DataContext = opt;
+            MainWindow.Instance.contentControl.Content = new OptionView();
+        }
+        #endregion // Action / Function
 
     }
 }
