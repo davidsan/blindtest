@@ -133,6 +133,7 @@ namespace Blindtest.ViewModel
 
         private void PlayOffline(object obj)
         {
+            SongManager.Instance.SelectCategoryList(nm.Category);
             nm.Username = Username;
             MainWindow.Instance.contentControl.Content = new QuizView();
             qvm = new QuizViewModel();
@@ -146,9 +147,9 @@ namespace Blindtest.ViewModel
             byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
             nm.Sock.Send(reponseByServer);
 
-            MainWindow.Instance.contentControl.Content = new QuizOnlineView();
-            qovm = new QuizOnlineViewModel();
-            MainWindow.Instance.DataContext = qovm;
+            nm.IsInGame = true;
+            MainWindow.Instance.contentControl.Content = new WaitingView();
+            MainWindow.Instance.DataContext = new WaitingViewModel(); ;
         }
 
         private void Disconnect(object obj)

@@ -33,11 +33,12 @@ namespace Blindtest.ViewModel
             Categorie = "All";
             CategorieList.Add("All");
             CategorieList.Add("Pop");
+            CategorieList.Add("Rock");
             CategorieList.Add("Dance");
+            CategorieList.Add("Classical");
             CategorieList.Add("Electronic");
             CategorieList.Add("Hip Hop/Rap");
             CategorieList.Add("Alternative");
-            CategorieList.Add("Hip Hop/Rap");
             CategorieList.Add("French Pop");
             Volume = 50;
         }
@@ -106,14 +107,23 @@ namespace Blindtest.ViewModel
 
         private void Back(object obj)
         {
+            if (!nm.IsInGame)
+            {
+                if (nm.IsOnline)
+                {
+                    String connectStr = "category;" + Categorie + ";";
+                    byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
+                    nm.Sock.Send(reponseByServer);
+                    nm.Category = Categorie;
+                }
+                else
+                {
+                    nm.Category = Categorie;
+                }
+            }
             MainWindow.Instance.contentControl.Content = PreviousView;
             MainWindow.Instance.DataContext = PreviousViewModel;
-            if (nm.IsOnline)
-            {
-                String connectStr = "category;" + Categorie + ";";
-                byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
-                nm.Sock.Send(reponseByServer);
-            }
+            
         }
         #endregion // Action / Function
     }

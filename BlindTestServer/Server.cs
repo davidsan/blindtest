@@ -21,7 +21,6 @@ namespace BlindTestServer
             Donnee donnee = new Donnee();
             serverSocket.Start();
             Console.WriteLine("Server is loading please wait ...");
-            SongManager s = SongManager.Instance;
             Console.WriteLine("Server Started !!");
             Console.WriteLine("Waiting for users !!");
             Message message = new Message(donnee);

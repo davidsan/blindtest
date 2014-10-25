@@ -17,6 +17,7 @@ namespace BlindTestServer.Model
             sockList = new List<Socket>();
             UserControlList = new List<Listener>();
             UserWhoFindList = new List<Listener>();
+            chooseCategoryList = new List<String>();
         }
         #endregion
 
@@ -27,6 +28,7 @@ namespace BlindTestServer.Model
         private List<Socket> sockList;
         private List<Listener> userControlList;
         private List<Listener> userWhoFindList;
+        private List<String> chooseCategoryList;
         private int numberUserReady = 0;
         private int minJoueur = 2;
         private int currentRound = 0;
@@ -57,6 +59,12 @@ namespace BlindTestServer.Model
         {
             get { return userControlList; }
             private set { userControlList = value; }
+        }
+
+        public List<String> ChooseCategoryList
+        {
+            get { return chooseCategoryList; }
+            set { chooseCategoryList = value; }
         }
 
         public int NumberUserReady
@@ -110,6 +118,19 @@ namespace BlindTestServer.Model
         public void initQuiz()
         {
             quiz = new Quiz(4); // Pour le moment 4 chanson
+        }
+
+        public String randomCategory()
+        {
+            Random rnd = new Random();
+            if (ChooseCategoryList.Count == 0)
+            {
+                return "All";
+            }
+            else
+            {
+                return ChooseCategoryList[rnd.Next(ChooseCategoryList.Count)];
+            }
         }
 
         #endregion

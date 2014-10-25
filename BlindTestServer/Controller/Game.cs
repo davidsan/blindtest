@@ -7,6 +7,7 @@ using System.Threading;
 using System.Net.Sockets;
 using BlindTestServer.Model;
 using BlindTestServer.Tools;
+using BlindTestServer.Service;
 
 namespace BlindTestServer.Controller
 {
@@ -21,7 +22,9 @@ namespace BlindTestServer.Controller
 
         private Donnee donnee;
         private byte[] reponseByServer = new byte[32767];
+        private SongManager sm = SongManager.Instance;
         private Message Message;
+        private String category;
         #endregion
 
         #region Main
@@ -39,6 +42,7 @@ namespace BlindTestServer.Controller
                     roundFinish();
                 }
                 gameOver();
+                donnee.ChooseCategoryList.Clear();
             }
         }
         #endregion
@@ -50,9 +54,11 @@ namespace BlindTestServer.Controller
         /// </summary>
         private void initGame()
         {
+            category = donnee.randomCategory();
+            SongManager.Instance.SelectCategoryList(category);
+            Message.sendMessageToAll("newgame;");
             resetAllScore();
             donnee.CurrentRound = 0;
-//            Message.broadcastToAll("A new game will start !!");
         }
 
         /// <summary>

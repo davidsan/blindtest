@@ -147,6 +147,10 @@ namespace BlindTestServer.Controller
                         string msg = reponseSplit[1];
                         Message.sendMessageToAll("chatR;" + username + ";" + msg + ";");
                         break;
+                    case "category" :
+                        String category = reponseSplit[1];
+                        donnee.ChooseCategoryList.Add(category);
+                        break;
                     default:
                         Console.WriteLine("Command error, please retry\n");
                         break;

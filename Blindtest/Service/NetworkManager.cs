@@ -14,7 +14,7 @@ namespace Blindtest.Service
 {
     class NetworkManager
     {
-
+        #region Constructor
         private static NetworkManager instance;
         private NetworkManager() { }
         public static NetworkManager Instance
@@ -25,29 +25,52 @@ namespace Blindtest.Service
                 return instance;
             }
         }
+        #endregion // Constructor
 
+        #region Field
+        private bool isInGame;
         private bool isOnline;
+        private String username;
+        private Socket sock;
+        private String category = "All";
+        private byte[] rep = new Byte[32767];
+        #endregion // Field
+
+        #region Properties
+        public bool IsInGame
+        {
+            get { return isInGame; }
+            set { isInGame = value; }
+        }
+
+        
         public bool IsOnline
         {
             get { return isOnline; }
             set { isOnline = value; }
         }
         
-        private String username;
+        
         public String Username
         {
             get { return username; }
             set { username = value; }
         }
 
-        private Socket sock;
+        public String Category
+        {
+            get { return category; }
+            set { category = value; }
+        }
+        
         public Socket Sock
         {
             get { return sock; }
             set { sock = value; }
         }
+        #endregion // Properties
 
-        private byte[] rep = new Byte[32767];
+
         public bool InitSock(String address, int port)
         {
             sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -56,8 +79,8 @@ namespace Blindtest.Service
             try { sock.Connect(ipep); }
             catch (Exception e) { return false; }
             return true;
-
         }
+
         public void Listen()
         {
             while (sock.Connected)
@@ -94,6 +117,13 @@ namespace Blindtest.Service
                         case "chatR":
                             string arg1 = reponseSplit[1];
                             Console.WriteLine(arg1);
+                            break;
+                        case "newgame" :
+                             MainWindow.Instance.Dispatcher.Invoke(() =>
+                            {
+                                MainWindow.Instance.DataContext = new QuizOnlineViewModel();
+                                MainWindow.Instance.contentControl.Content = new QuizOnlineView();
+                            });
                             break;
                         case "round":
                             string numRound = reponseSplit[1];

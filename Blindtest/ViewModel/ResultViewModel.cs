@@ -77,6 +77,7 @@ namespace Blindtest.ViewModel
                 pvm.hasClickedOnline = true;
             }
             MainWindow.Instance.DataContext = pvm;
+            nm.IsInGame = false;
 
         }
         #endregion // Action / Function

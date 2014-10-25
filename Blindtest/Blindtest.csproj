@@ -75,6 +75,10 @@
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="ViewModel\ResultViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="ViewModel\WaitingViewModel.cs" />
+    <Compile Include="View\CircularProgressBar.xaml.cs">
+      <DependentUpon>CircularProgressBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\OptionView.xaml.cs">
       <DependentUpon>OptionView.xaml</DependentUpon>
     </Compile>
@@ -93,6 +97,9 @@
     <Compile Include="View\LandingView.xaml.cs">
       <DependentUpon>LandingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\WaitingView.xaml.cs">
+      <DependentUpon>WaitingView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -108,6 +115,10 @@
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\CircularProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\OptionView.xaml">
       <SubType>Designer</SubType>
@@ -130,6 +141,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\LandingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WaitingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
