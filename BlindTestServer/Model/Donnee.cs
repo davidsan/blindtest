@@ -23,7 +23,7 @@ namespace BlindTestServer.Model
         #endregion
 
         #region Field
-        private enum LevelEnum { EASY, MEDIUM, HARDCORE };
+        public enum LevelEnum { EASY, MEDIUM, HARDCORE };
         public AutoResetEvent startGame = new AutoResetEvent(false);
         public AutoResetEvent roundOver = new AutoResetEvent(false);
         private List<String> userList;
