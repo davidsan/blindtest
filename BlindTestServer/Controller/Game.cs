@@ -42,7 +42,6 @@ namespace BlindTestServer.Controller
                     roundFinish();
                 }
                 gameOver();
-                donnee.ChooseCategoryList.Clear();
             }
         }
         #endregion
@@ -56,6 +55,7 @@ namespace BlindTestServer.Controller
         {
             category = donnee.randomCategory();
             SongManager.Instance.SelectCategoryList(category);
+            donnee.randomLevel();
             Message.sendMessageToAll("newgame;");
             resetAllScore();
             donnee.CurrentRound = 0;
@@ -75,16 +75,18 @@ namespace BlindTestServer.Controller
                 donnee.initQuiz();
                 resetPlayer();
                 donnee.UserAnswer = 0;
+                donnee.NumberOfTimesUp = 0;
                 donnee.UserWhoFindList.RemoveAll(x => true);
                 List<String> songList = new List<String>();
                 StringBuilder sb = new StringBuilder("");
-                sb.Append("round;" + donnee.CurrentRound + ";");
-                for (int i = 0; i < 4; i++)
+                sb.Append("round;" + donnee.CurrentRound + ";" + donnee.NumberOfSong + ";");
+                for (int i = 0; i < donnee.NumberOfSong; i++)
                 {
                     sb.Append(donnee.Quiz.Songs.ElementAt(i).Title + ";");
                 }
                 sb.Append(donnee.Quiz.CorrectSong.Link + ";\n");
                 Message.sendMessageToAll(sb.ToString());
+                Console.WriteLine(sb.ToString());
                 Console.WriteLine("La bonne chanson est :" + donnee.Quiz.CorrectSong.Title);
             }
         }
@@ -136,7 +138,8 @@ namespace BlindTestServer.Controller
                 Message.broadcastToAll(sb.ToString());
             }
             donnee.NumberUserReady = 0;
-          
+            donnee.ChooseCategoryList.Clear();
+            donnee.ChooseLevelList.Clear();          
         }
 
         private void resetPlayer() 

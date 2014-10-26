@@ -11,6 +11,7 @@ using System.Windows.Input;
 using Blindtest.Service;
 using System.Threading;
 using System.Windows.Controls;
+using Blindtest.Audio;
 
 namespace Blindtest.ViewModel
 {
@@ -128,7 +129,7 @@ namespace Blindtest.ViewModel
                 LastAnswer = "The answer was " + CorrectSongTitre;
             }
             SelectedSong = null;
-            Audio.AudioManager.Instance.Play(CorrectSongUrl);
+            AudioManager.Instance.Play(CorrectSongUrl);
         }
 
         private void SubmitOnline(object obj)

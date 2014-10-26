@@ -103,17 +103,8 @@ namespace BlindTestServer.Controller
                         Console.WriteLine(Username + " join the server !!");
                         break;
                     case "ready":
-                        if (!IsReady)
-                        {
-                            donnee.NumberUserReady++;
-                            IsReady = true;
-                        }
-                        else
-                        {
-                            donnee.NumberUserReady--;
-                            IsReady = false;
-                        }
-                        if (donnee.NumberUserReady == donnee.MinJoueur)
+                        donnee.NumberUserReady++;
+                        if (donnee.NumberUserReady >= donnee.MinJoueur)
                         {
                             donnee.startGame.Set();
                         }
@@ -138,7 +129,7 @@ namespace BlindTestServer.Controller
                                 Message.broadcastOne("Sorry not the good answer !!", sock);
                             }
                         }
-                        if (donnee.UserAnswer == donnee.MinJoueur)
+                        if (donnee.UserAnswer == donnee.NumberUserReady)
                         {
                             donnee.roundOver.Set();
                         }
@@ -147,9 +138,18 @@ namespace BlindTestServer.Controller
                         string msg = reponseSplit[1];
                         Message.sendMessageToAll("chatR;" + username + ";" + msg + ";");
                         break;
-                    case "category" :
+                    case "categoryandlevel":
                         String category = reponseSplit[1];
+                        String level = reponseSplit[2];
                         donnee.ChooseCategoryList.Add(category);
+                        donnee.ChooseLevelList.Add(level);
+                        break;
+                    case "timesup" :
+                        donnee.NumberOfTimesUp++;
+                        if (donnee.NumberOfTimesUp + donnee.UserAnswer == donnee.NumberUserReady)
+                        {
+                            donnee.roundOver.Set();
+                        }
                         break;
                     default:
                         Console.WriteLine("Command error, please retry\n");

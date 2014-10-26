@@ -18,10 +18,11 @@ namespace BlindTestServer.Model
             UserControlList = new List<Listener>();
             UserWhoFindList = new List<Listener>();
             chooseCategoryList = new List<String>();
+            chooseLevelList = new List<String>();
         }
         #endregion
 
-        #region Params
+        #region Field
         public AutoResetEvent startGame = new AutoResetEvent(false);
         public AutoResetEvent roundOver = new AutoResetEvent(false);
         private List<String> userList;
@@ -29,14 +30,19 @@ namespace BlindTestServer.Model
         private List<Listener> userControlList;
         private List<Listener> userWhoFindList;
         private List<String> chooseCategoryList;
+        private List<String> chooseLevelList;
         private int numberUserReady = 0;
         private int minJoueur = 2;
         private int currentRound = 0;
         private int maxRound = 2;
         private int userAnswer = 0;
+        private int numberOfTimesUp = 0;
+        private int numberOfSong = -1;
+        private String level = "Easy";
         private Quiz quiz;
-        private String xmlUrl = "https://itunes.apple.com/us/rss/topsongs/limit=100/xml";
-        
+        #endregion
+
+        #region Properties
         public List<String> UserList
         {
             get { return userList; }
@@ -65,6 +71,12 @@ namespace BlindTestServer.Model
         {
             get { return chooseCategoryList; }
             set { chooseCategoryList = value; }
+        }
+
+        public List<String> ChooseLevelList
+        {
+            get { return chooseLevelList; }
+            set { chooseLevelList = value; }
         }
 
         public int NumberUserReady
@@ -97,17 +109,30 @@ namespace BlindTestServer.Model
             set { userAnswer = value; }
         }
 
+        public int NumberOfTimesUp
+        {
+            get { return numberOfTimesUp; }
+            set { numberOfTimesUp = value; }
+        }
+
+        public int NumberOfSong
+        {
+            get { return numberOfSong; }
+            set { numberOfSong = value; }
+        }
+
+        public String Level
+        {
+            get { return level; }
+            set { level = value; }
+        }
+
         public Quiz Quiz
         {
             get { return quiz; }
             private set { quiz = value; }
         }
         
-        public String XmlUrl
-        {
-            get { return xmlUrl; }
-            private set { xmlUrl = value; }
-        }
         #endregion //Params
 
         #region Functions
@@ -117,7 +142,22 @@ namespace BlindTestServer.Model
         /// </summary>
         public void initQuiz()
         {
-            quiz = new Quiz(4); // Pour le moment 4 chanson
+            if (NumberOfSong < 0)
+            {
+                switch (Level)
+                {
+                    case "Easy":
+                        NumberOfSong = 4;
+                        break;
+                    case "Medium":
+                        NumberOfSong = 6;
+                        break;
+                    case "Hardcore":
+                        NumberOfSong = 8;
+                        break;
+                }
+            }
+            quiz = new Quiz(NumberOfSong); // Pour le moment 4 chanson
         }
 
         public String randomCategory()
@@ -130,6 +170,19 @@ namespace BlindTestServer.Model
             else
             {
                 return ChooseCategoryList[rnd.Next(ChooseCategoryList.Count)];
+            }
+        }
+
+        public void randomLevel()
+        {
+            Random rnd = new Random();
+            if (ChooseLevelList.Count == 0)
+            {
+                Level = "Easy";
+            }
+            else
+            {
+                Level = ChooseLevelList[rnd.Next(ChooseLevelList.Count)];
             }
         }
 

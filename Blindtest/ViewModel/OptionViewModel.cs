@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blindtest.View;
 using System.Windows.Input;
-using Blindtest.Service;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using Blindtest.Audio;
+using Blindtest.View;
+using Blindtest.Service;
 
 namespace Blindtest.ViewModel
 {
@@ -28,8 +29,13 @@ namespace Blindtest.ViewModel
         public OptionViewModel()
         {
             CategorieList = new ObservableCollection<string>();
+            LevelList = new ObservableCollection<string>();
             BtnSettings = new RelayCommand(new Action<object>(Settings));
             BtnBack = new RelayCommand(new Action<object>(Back));
+            Level = "Easy";
+            LevelList.Add("Easy");
+            LevelList.Add("Medium");
+            LevelList.Add("Hardcore");
             Categorie = "All";
             CategorieList.Add("All");
             CategorieList.Add("Pop");
@@ -51,6 +57,8 @@ namespace Blindtest.ViewModel
         private ICommand btnSettings;
         private ICommand btnBack;
         private ObservableCollection<String> categorieList;
+        private ObservableCollection<String> levelList;
+        private String level;
         private String categorie;
         private int volume;
         #endregion // Field
@@ -86,6 +94,18 @@ namespace Blindtest.ViewModel
             set { categorieList = value; }
         }
 
+        public ObservableCollection<String> LevelList
+        {
+            get { return levelList; }
+            set { levelList = value; }
+        }
+
+        public String Level
+        {
+            get { return level; }
+            set { level = value; OnPropertyChanged("Level"); }
+        }
+
         public String Categorie
         {
             get { return categorie; }
@@ -95,7 +115,7 @@ namespace Blindtest.ViewModel
         public int Volume
         {
             get { return volume; }
-            set { volume = value; }
+            set { volume = value; OnPropertyChanged("Volume"); }
         }
         #endregion // Properties / Command
 
@@ -107,23 +127,32 @@ namespace Blindtest.ViewModel
 
         private void Back(object obj)
         {
+            AudioManager.Instance.setSound(Volume);
             if (!nm.IsInGame)
             {
                 if (nm.IsOnline)
                 {
-                    String connectStr = "category;" + Categorie + ";";
-                    byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
+                    String connectStr = "categoryandlevel;" + Categorie + ";" + Level + ";";
+                    Console.WriteLine(connectStr);
+                    byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr);
                     nm.Sock.Send(reponseByServer);
                     nm.Category = Categorie;
+                    nm.Level = Level;
                 }
                 else
                 {
                     nm.Category = Categorie;
+                    nm.Level = Level;
                 }
             }
             MainWindow.Instance.contentControl.Content = PreviousView;
             MainWindow.Instance.DataContext = PreviousViewModel;
             
+        }
+
+        public void VolumeChange()
+        {
+            AudioManager.Instance.setSound(Volume);
         }
         #endregion // Action / Function
     }

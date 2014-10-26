@@ -24,6 +24,7 @@ namespace Blindtest.ViewModel
         private String lastAnswer;
         private ICommand btnSubmit;
         private ICommand btnSettings;
+        private int maxSong = -1;
         private String correctSong; // TODO Change this to Song type
 
         #endregion // Fields
@@ -101,10 +102,25 @@ namespace Blindtest.ViewModel
 
         private void NewRound()
         {
+            if (maxSong < 0)
+            {
+                switch (Service.NetworkManager.Instance.Level)
+                {
+                    case "Easy":
+                        maxSong = 4;
+                        break;
+                    case "Medium":
+                        maxSong = 6;
+                        break;
+                    case "Hardcore":
+                        maxSong = 8;
+                        break;
+                }
+            }
             SelectedSong = null;
             Songs = new ObservableCollection<string>();
-            Quiz q = new Quiz(4);
-            for (int i = 0; i < 4; i++)
+            Quiz q = new Quiz(maxSong);
+            for (int i = 0; i < maxSong; i++)
             {
                 Songs.Add(q.Songs.ElementAt(i).Title);
             }

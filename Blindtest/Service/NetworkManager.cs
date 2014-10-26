@@ -33,6 +33,7 @@ namespace Blindtest.Service
         private String username;
         private Socket sock;
         private String category = "All";
+        private String level = "Easy";
         private byte[] rep = new Byte[32767];
         #endregion // Field
 
@@ -43,13 +44,11 @@ namespace Blindtest.Service
             set { isInGame = value; }
         }
 
-        
         public bool IsOnline
         {
             get { return isOnline; }
             set { isOnline = value; }
         }
-        
         
         public String Username
         {
@@ -61,6 +60,12 @@ namespace Blindtest.Service
         {
             get { return category; }
             set { category = value; }
+        }
+
+        public String Level
+        {
+            get { return level; }
+            set { level = value; }
         }
         
         public Socket Sock
@@ -127,20 +132,54 @@ namespace Blindtest.Service
                             break;
                         case "round":
                             string numRound = reponseSplit[1];
-                            string song1 = reponseSplit[2];
-                            string song2 = reponseSplit[3];
-                            string song3 = reponseSplit[4];
-                            string song4 = reponseSplit[5];
-                            string songUrl = reponseSplit[6];
+                            string maxSongs = reponseSplit[2];
+                            string song1 = reponseSplit[3];
+                            string song2 = reponseSplit[4];
+                            string song3 = reponseSplit[5];
+                            string song4 = reponseSplit[6];
+                            string song5 = null;
+                            string song6 = null;
+                            string song7 = null;
+                            string song8 = null;
+                            string songUrl = null;
+                            switch (Convert.ToInt32(maxSongs))
+                            {
+                                case 4 :
+                                    songUrl = reponseSplit[7];
+                                    break;
+                                case 6:
+                                    song5 = reponseSplit[7];
+                                    song6 = reponseSplit[8];
+                                    songUrl = reponseSplit[9];
+                                    break;
+                                case 8 :
+                                    song5 = reponseSplit[7];
+                                    song6 = reponseSplit[8];
+                                    song7 = reponseSplit[9];
+                                    song8 = reponseSplit[10];
+                                    songUrl = reponseSplit[11];
+                                    break;
+                            }
+                            
                             MainWindow.Instance.Dispatcher.Invoke(() =>
                             {
                                 qvm = MainWindow.Instance.DataContext as QuizOnlineViewModel;
-                                Console.WriteLine("NEw SONG COMMING");
+                                Console.WriteLine("NEW SONG COMMING");
                                 qvm.Songs.Clear();
                                 qvm.Songs.Add(song1);
                                 qvm.Songs.Add(song2);
                                 qvm.Songs.Add(song3);
                                 qvm.Songs.Add(song4);
+                                if (song5 != null)
+                                {
+                                    qvm.Songs.Add(song5);
+                                    qvm.Songs.Add(song6);
+                                }
+                                if (song7 != null)
+                                {
+                                    qvm.Songs.Add(song7);
+                                    qvm.Songs.Add(song8);
+                                }
                                 qvm.CorrectSongUrl = songUrl.Trim();
                                 qvm.RoundsCount = Convert.ToInt32(numRound);
                                 qvm.Play();
