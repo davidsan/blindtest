@@ -120,11 +120,20 @@ namespace Blindtest.ViewModel
         #endregion // Properties / Command
 
         #region Action / Function
+        /// <summary>
+        /// Ne fait rien
+        /// </summary>
+        /// <param name="obj"></param>
         private void Settings(object obj)
         {
             // Pour le moment rien
         }
 
+        /// <summary>
+        /// Retour a la fenetre precedente
+        /// Et valide les choix de l'utilisateur pour les options
+        /// </summary>
+        /// <param name="obj"></param>
         private void Back(object obj)
         {
             AudioManager.Instance.setSound(Volume);
@@ -148,6 +157,9 @@ namespace Blindtest.ViewModel
             
         }
 
+        /// <summary>
+        /// Change le volume 
+        /// </summary>
         public void VolumeChange()
         {
             AudioManager.Instance.setSound(Volume);

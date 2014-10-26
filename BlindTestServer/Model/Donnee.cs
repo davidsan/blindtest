@@ -161,6 +161,10 @@ namespace BlindTestServer.Model
             quiz = new Quiz(NumberOfSong); // Pour le moment 4 chanson
         }
 
+        /// <summary>
+        /// Choisi parmis les categories envoyé une categorie
+        /// </summary>
+        /// <returns></returns>
         public String randomCategory()
         {
             Random rnd = new Random();
@@ -174,6 +178,9 @@ namespace BlindTestServer.Model
             }
         }
 
+        /// <summary>
+        /// Choisi un mode de difficulte parmis celle envoye
+        /// </summary>
         public void randomLevel()
         {
             Random rnd = new Random();

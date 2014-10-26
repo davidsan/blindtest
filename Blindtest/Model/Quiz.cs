@@ -12,6 +12,10 @@ namespace Blindtest.Model
         public HashSet<Song> Songs { get; set; }
         public Song CorrectSong { get; set; }
 
+        /// <summary>
+        /// Choisi nrofSongs chansons pour un round
+        /// </summary>
+        /// <param name="nrofSongs"></param>
         public Quiz(int nrofSongs)
         {
             Songs = new HashSet<Song>();

@@ -16,7 +16,6 @@ namespace Blindtest.ViewModel
     {
 
         #region Fields
-
         private string selectedSong;
         private ObservableCollection<String> songs;
         private int score;
@@ -26,7 +25,6 @@ namespace Blindtest.ViewModel
         private ICommand btnSettings;
         private int maxSong = -1;
         private String correctSong; // TODO Change this to Song type
-
         #endregion // Fields
 
         #region Public Properties / Commands
@@ -95,11 +93,17 @@ namespace Blindtest.ViewModel
         #endregion // Constructor
 
         #region Action / Function
+        /// <summary>
+        /// Demarre un round
+        /// </summary>
         public void Play()
         {
             this.NewRound();
         }
 
+        /// <summary>
+        /// Prepare un round
+        /// </summary>
         private void NewRound()
         {
             if (maxSong < 0)
@@ -132,6 +136,10 @@ namespace Blindtest.ViewModel
             Audio.AudioManager.Instance.Play(q.CorrectSong.Link);
         }
 
+        /// <summary>
+        /// Envoi de la reponse
+        /// </summary>
+        /// <param name="obj"></param>
         private void Submit(object obj)
         {
             Audio.AudioManager.Instance.Stop();
@@ -151,6 +159,9 @@ namespace Blindtest.ViewModel
 
         }
 
+        /// <summary>
+        /// Mise a jour du score
+        /// </summary>
         private void UpdateScore()
         {
             if (CorrectSong == SelectedSong)
@@ -159,6 +170,10 @@ namespace Blindtest.ViewModel
             }
         }
 
+        /// <summary>
+        /// Affichage de la fenetre d'option
+        /// </summary>
+        /// <param name="obj"></param>
         private void Settings(object obj)
         {
             OptionViewModel opt = OptionViewModel.Instance;

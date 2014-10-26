@@ -52,7 +52,9 @@ namespace Blindtest.Service
         public List<Song> CategorySongs { get { return categorySongs; } set { categorySongs = value; } }
         public List<Song> SelectedList { get { return selectedList; } set { selectedList = value; } }
        
-
+        /// <summary>
+        /// Charge et parse le fichier xml de music choisi
+        /// </summary>
         public void FetchSongsItunes()
         {
             XDocument myDoc = XDocument.Load(myFile);
@@ -66,6 +68,11 @@ namespace Blindtest.Service
             }).ToList<Song>();
         }
 
+
+        /// <summary>
+        /// Permet de charger le bon fichier selon la categorie choisi
+        /// </summary>
+        /// <param name="category"></param>
         public void SelectCategoryList(String category)
         {
             if (!oldCate.Equals(category))

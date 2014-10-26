@@ -87,21 +87,42 @@ namespace Blindtest.ViewModel
         #endregion // Properties / Command
 
         #region Action / Function 
+        /// <summary>
+        /// Predicat en ligne
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private bool PredicateOnline(object obj)
         {
             return !hasClickedOnline;
         }
 
+        /// <summary>
+        /// Predicat Pret
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private bool PredicateReady(object obj)
         {
             return hasClickedOnline;
         }
 
+        /// <summary>
+        /// Predicat hors ligne
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private bool PredicateOffline(object obj)
         {
             return !hasClickedOnline;
         }
 
+        /// <summary>
+        /// Gestion du bouton PlayOnline 
+        /// Set l'adress et le port
+        /// Active les boutons "ready" et "diconnect"
+        /// </summary>
+        /// <param name="obj"></param>
         private void PlayOnline(object obj)
         {
             if (!hasConnected)
@@ -129,6 +150,11 @@ namespace Blindtest.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gestion du bouton PlayOffine
+        /// Redirection vers la fenetre de jeu
+        /// </summary>
+        /// <param name="obj"></param>
         private void PlayOffline(object obj)
         {
             SongManager.Instance.SelectCategoryList(nm.Category);
@@ -139,6 +165,11 @@ namespace Blindtest.ViewModel
             qvm.Play();
         }
 
+        /// <summary>
+        /// Envoi au serveur qu'on est pret à jouer
+        /// et redirige vers la fentre de chargement
+        /// </summary>
+        /// <param name="obj"></param>
         private void Ready(object obj)
         {
             String connectStr = "ready;";
@@ -149,6 +180,10 @@ namespace Blindtest.ViewModel
             MainWindow.Instance.DataContext = new WaitingViewModel(); ;
         }
 
+        /// <summary>
+        /// Permet la deconnexion au serveur
+        /// </summary>
+        /// <param name="obj"></param>
         private void Disconnect(object obj)
         {
             nm.IsOnline = false;
@@ -158,6 +193,10 @@ namespace Blindtest.ViewModel
             hasConnected = false;
         }
 
+        /// <summary>
+        /// Permet d'afficher la fenetre d'option
+        /// </summary>
+        /// <param name="obj"></param>
         private void Settings(object obj)
         {
             OptionViewModel opt = OptionViewModel.Instance;

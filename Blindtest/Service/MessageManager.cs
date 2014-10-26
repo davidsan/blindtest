@@ -10,6 +10,10 @@ namespace Blindtest.Service
     {
         private static NetworkManager nm = NetworkManager.Instance;
 
+        /// <summary>
+        /// Envoi d'une commande au serveur
+        /// </summary>
+        /// <param name="message"></param>
         public static void sendMessageToServer(String message)
         {
             String m = message + "\n";

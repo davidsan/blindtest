@@ -27,6 +27,10 @@ namespace Blindtest.ViewModel
         #endregion // Properties / Command
 
         #region Action
+        /// <summary>
+        /// Affiche la fenetre d'option
+        /// </summary>
+        /// <param name="obj"></param>
         private void Settings(object obj)
         {
             OptionViewModel opt = OptionViewModel.Instance;

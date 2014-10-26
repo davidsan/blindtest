@@ -28,6 +28,10 @@ namespace BlindTestServer.Controller
         #endregion
 
         #region Main
+        /// <summary>
+        /// Fonction Threader qui lance une partie lorsque 
+        /// l'evenement startGame est reçu
+        /// </summary>
         public void Run()
         {
             while (true)
@@ -141,6 +145,9 @@ namespace BlindTestServer.Controller
             donnee.ChooseLevelList.Clear();          
         }
 
+        /// <summary>
+        /// Reset a false la valeur de guessed des clients
+        /// </summary>
         private void resetPlayer() 
         {
             foreach (Listener e in donnee.UserControlList) {
@@ -148,6 +155,9 @@ namespace BlindTestServer.Controller
             }
         }
 
+        /// <summary>
+        /// Remet les scores a 0 des clients
+        /// </summary>
         private void resetAllScore()
         {
             foreach (Listener e in donnee.UserControlList)

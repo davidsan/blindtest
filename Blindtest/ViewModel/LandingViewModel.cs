@@ -50,6 +50,10 @@ namespace Blindtest.ViewModel
         #endregion // Properties / Command
 
         #region Action
+        /// <summary>
+        /// Affiche la fentre d'option
+        /// </summary>
+        /// <param name="obj"></param>
         private void Settings(object obj)
         {
             OptionViewModel opt = OptionViewModel.Instance;
@@ -59,7 +63,12 @@ namespace Blindtest.ViewModel
             MainWindow.Instance.contentControl.Content = new OptionView();
         }
 
-
+        /// <summary>
+        /// Donne un nouveau nom si le champs est vide
+        /// Sinon affiche la fenetre de choix de jeu.
+        /// Set le nom dans la Title bar
+        /// </summary>
+        /// <param name="obj"></param>
         private void Go(object obj)
         {
             if (Username == null || Username.Equals(""))

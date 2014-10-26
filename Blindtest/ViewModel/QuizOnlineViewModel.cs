@@ -116,12 +116,18 @@ namespace Blindtest.ViewModel
         #endregion // Properties / Command
 
         #region Action / Function
+        /// <summary>
+        /// Demarre un nouveau round
+        /// </summary>
         public void Play()
         {
             this.WaitNextRound = false;
             this.NewRound();
         }
 
+        /// <summary>
+        /// Demarre la nouvelle musique
+        /// </summary>
         private void NewRound()
         {
             if (RoundsCount > 1)
@@ -132,6 +138,10 @@ namespace Blindtest.ViewModel
             AudioManager.Instance.Play(CorrectSongUrl);
         }
 
+        /// <summary>
+        /// Envoi la reponse choisi pour le round au serveur
+        /// </summary>
+        /// <param name="obj"></param>
         private void SubmitOnline(object obj)
         {
             String connectStr = "guess;" + SelectedSong + ";\n";
@@ -140,6 +150,10 @@ namespace Blindtest.ViewModel
             WaitNextRound = true;
         }
 
+        /// <summary>
+        /// Permet d'afficher la fenetre d'option
+        /// </summary>
+        /// <param name="obj"></param>
         private void Settings(object obj)
         {
             OptionViewModel opt = OptionViewModel.Instance;

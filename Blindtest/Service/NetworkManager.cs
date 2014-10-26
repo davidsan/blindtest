@@ -75,7 +75,12 @@ namespace Blindtest.Service
         }
         #endregion // Properties
 
-
+        /// <summary>
+        /// Etablie la connexion avec le serveur
+        /// </summary>
+        /// <param name="address"></param>
+        /// <param name="port"></param>
+        /// <returns></returns>
         public bool InitSock(String address, int port)
         {
             sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -86,6 +91,11 @@ namespace Blindtest.Service
             return true;
         }
 
+        /// <summary>
+        /// Fonction qui est threader, 
+        /// permet la reception des messages du serveur
+        /// et fait le traitement qui va avec.
+        /// </summary>
         public void Listen()
         {
             while (sock.Connected)

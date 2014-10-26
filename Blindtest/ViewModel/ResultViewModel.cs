@@ -58,6 +58,10 @@ namespace Blindtest.ViewModel
         #endregion // Properties / Command
 
         #region Action / Function
+        /// <summary>
+        /// Affiche la fentre d'option
+        /// </summary>
+        /// <param name="obj"></param>
         private void Settings(object obj)
         {
             OptionViewModel opt = OptionViewModel.Instance;
@@ -67,6 +71,10 @@ namespace Blindtest.ViewModel
             MainWindow.Instance.contentControl.Content = new OptionView();
         }
 
+        /// <summary>
+        /// Permet de revenir sur la fenetre de choix de jeu
+        /// </summary>
+        /// <param name="obj"></param>
         private void Replay(object obj)
         {
             MainWindow.Instance.contentControl.Content = new PlayView();

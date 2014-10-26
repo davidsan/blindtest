@@ -166,7 +166,7 @@ namespace BlindTestServer.Controller
 
         #region Private Function
         /// <summary>
-        /// True if the username exist on the server
+        /// Verfie si le nom d'utilisateur est utilise ou non
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -183,6 +183,9 @@ namespace BlindTestServer.Controller
             Username = testname;
         }
 
+        /// <summary>
+        /// Deconnect un client
+        /// </summary>
         private void disconnect()
         {
             Console.WriteLine(username + " leave the server !!");
@@ -192,6 +195,11 @@ namespace BlindTestServer.Controller
             donnee.UserControlList.Remove(this);
         }
 
+        /// <summary>
+        /// Test si la chanson envoyer par le client est la bonne
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
         private bool checkRightTitle(String title)
         {
             return donnee.Quiz.CorrectSong.Title.Equals(title);

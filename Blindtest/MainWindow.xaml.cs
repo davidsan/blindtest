@@ -41,6 +41,11 @@ namespace Blindtest
             this.contentControl.Content = new LandingView();
         }
 
+        /// <summary>
+        /// Event lorsqu'on clique sur la croix
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
             if (nm.IsOnline)
