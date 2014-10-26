@@ -87,6 +87,10 @@ namespace BlindTestServer.Controller
                         disconnect();
                         sock.Shutdown(SocketShutdown.Both);
                         sock.Close();
+                        if (donnee.UserAnswer == donnee.NumberUserReady)
+                        {
+                            donnee.roundOver.Set();
+                        }
                         break;
                     case "disconnect" :
                         disconnect();

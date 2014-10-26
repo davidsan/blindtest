@@ -84,9 +84,8 @@ namespace BlindTestServer.Controller
                 {
                     sb.Append(donnee.Quiz.Songs.ElementAt(i).Title + ";");
                 }
-                sb.Append(donnee.Quiz.CorrectSong.Link + ";\n");
+                sb.Append(donnee.Quiz.CorrectSong.Link + ";");
                 Message.sendMessageToAll(sb.ToString());
-                Console.WriteLine(sb.ToString());
                 Console.WriteLine("La bonne chanson est :" + donnee.Quiz.CorrectSong.Title);
             }
         }
@@ -126,7 +125,7 @@ namespace BlindTestServer.Controller
             Console.WriteLine("Game Over !!");
             lock (Message)
             {
-                Message.sendMessageToAll("gameover;");
+                Message.sendMessageToAll("gameover;\n");
 
                 StringBuilder sb = new StringBuilder("");
                 sb.Append("Score : \n");

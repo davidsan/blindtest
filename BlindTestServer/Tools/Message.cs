@@ -77,9 +77,10 @@ namespace BlindTestServer.Tools
         /// <param name="message"></param>
         public void sendMessageToAll(String message)
         {
+            String m = message + "\n";
             foreach (Socket s in donnee.SockList)
             {
-                reponseByServer = ASCIIEncoding.ASCII.GetBytes(message);
+                reponseByServer = ASCIIEncoding.ASCII.GetBytes(m);
                 s.Send(reponseByServer);
                 Console.WriteLine(message);
             }
@@ -93,17 +94,23 @@ namespace BlindTestServer.Tools
         /// <param name="sock"></param>
         public void sendMessage(String message, Socket sock)
         {
-            reponseByServer = ASCIIEncoding.ASCII.GetBytes(message);
-            sock.Send(reponseByServer);
+            String m = message + "\n";
+            reponseByServer = ASCIIEncoding.ASCII.GetBytes(m);
         }
 
+        /// <summary>
+        /// Pour envoyer une commande excepter le client en param
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="sock"></param>
         public void sendMessageExceptOne(String message, Socket sock)
         {
+            String m = message + "\n";
             foreach (Socket s in donnee.SockList)
             {
                 if (s != sock)
                 {
-                    reponseByServer = ASCIIEncoding.ASCII.GetBytes(message);
+                    reponseByServer = ASCIIEncoding.ASCII.GetBytes(m);
                     s.Send(reponseByServer);
                 }
             }
