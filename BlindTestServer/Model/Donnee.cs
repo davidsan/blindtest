@@ -23,6 +23,7 @@ namespace BlindTestServer.Model
         #endregion
 
         #region Field
+        private enum LevelEnum { EASY, MEDIUM, HARDCORE };
         public AutoResetEvent startGame = new AutoResetEvent(false);
         public AutoResetEvent roundOver = new AutoResetEvent(false);
         private List<String> userList;
@@ -38,7 +39,7 @@ namespace BlindTestServer.Model
         private int userAnswer = 0;
         private int numberOfTimesUp = 0;
         private int numberOfSong = -1;
-        private String level = "Easy";
+        private LevelEnum level = LevelEnum.EASY;
         private Quiz quiz;
         #endregion
 
@@ -121,7 +122,7 @@ namespace BlindTestServer.Model
             set { numberOfSong = value; }
         }
 
-        public String Level
+        public LevelEnum Level
         {
             get { return level; }
             set { level = value; }
@@ -146,13 +147,13 @@ namespace BlindTestServer.Model
             {
                 switch (Level)
                 {
-                    case "Easy":
+                    case LevelEnum.EASY:
                         NumberOfSong = 4;
                         break;
-                    case "Medium":
+                    case LevelEnum.MEDIUM:
                         NumberOfSong = 6;
                         break;
-                    case "Hardcore":
+                    case LevelEnum.HARDCORE:
                         NumberOfSong = 8;
                         break;
                 }
@@ -178,11 +179,23 @@ namespace BlindTestServer.Model
             Random rnd = new Random();
             if (ChooseLevelList.Count == 0)
             {
-                Level = "Easy";
+                Level = LevelEnum.EASY;
             }
             else
             {
-                Level = ChooseLevelList[rnd.Next(ChooseLevelList.Count)];
+                String choose = ChooseLevelList[rnd.Next(ChooseLevelList.Count)];
+                if (choose.Equals("Easy"))
+                {
+                    Level = LevelEnum.EASY;
+                }
+                else if (choose.Equals("Medium"))
+                {
+                    Level = LevelEnum.MEDIUM;
+                }
+                else
+                {
+                    Level = LevelEnum.HARDCORE;
+                }
             }
         }
 
