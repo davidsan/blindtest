@@ -46,8 +46,7 @@ namespace Blindtest
             if (nm.IsOnline)
             {
                 String connectStr = "exit;";
-                byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
-                nm.Sock.Send(reponseByServer);
+                MessageManager.sendMessageToServer(connectStr);
                 nm.Sock.Shutdown(SocketShutdown.Both);
                 nm.Sock.Close();
             }

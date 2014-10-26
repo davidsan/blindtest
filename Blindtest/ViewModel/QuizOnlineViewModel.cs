@@ -135,9 +135,7 @@ namespace Blindtest.ViewModel
         private void SubmitOnline(object obj)
         {
             String connectStr = "guess;" + SelectedSong + ";\n";
-            byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
-            nm.Sock.Send(reponseByServer);
-
+            MessageManager.sendMessageToServer(connectStr);
             Audio.AudioManager.Instance.Stop();
             WaitNextRound = true;
         }

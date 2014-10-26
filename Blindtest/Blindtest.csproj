@@ -63,6 +63,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Audio\AudioManager.cs" />
+    <Compile Include="Service\MessageManager.cs" />
     <Compile Include="Service\NetworkManager.cs" />
     <Compile Include="Service\SongManager.cs" />
     <Compile Include="Model\Quiz.cs" />

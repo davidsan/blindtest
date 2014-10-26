@@ -96,6 +96,7 @@ namespace BlindTestServer.Tools
         {
             String m = message + "\n";
             reponseByServer = ASCIIEncoding.ASCII.GetBytes(m);
+            sock.Send(reponseByServer);
         }
 
         /// <summary>

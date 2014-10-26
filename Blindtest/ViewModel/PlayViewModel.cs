@@ -117,9 +117,7 @@ namespace Blindtest.ViewModel
                 thr.Start();
 
                 String connectStr = "connect;" + Username + ";\n";
-
-                byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
-                nm.Sock.Send(reponseByServer);
+                MessageManager.sendMessageToServer(connectStr);
 
                 hasClickedOnline = true;
                 nm.IsOnline = true;
@@ -144,8 +142,7 @@ namespace Blindtest.ViewModel
         private void Ready(object obj)
         {
             String connectStr = "ready;";
-            byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
-            nm.Sock.Send(reponseByServer);
+            MessageManager.sendMessageToServer(connectStr);
 
             nm.IsInGame = true;
             MainWindow.Instance.contentControl.Content = new WaitingView();
@@ -156,8 +153,7 @@ namespace Blindtest.ViewModel
         {
             nm.IsOnline = false;
             String connectStr = "disconnect;";
-            byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
-            nm.Sock.Send(reponseByServer);
+            MessageManager.sendMessageToServer(connectStr);
             hasClickedOnline = false;
             hasConnected = false;
         }

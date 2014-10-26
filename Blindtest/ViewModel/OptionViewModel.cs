@@ -133,9 +133,7 @@ namespace Blindtest.ViewModel
                 if (nm.IsOnline)
                 {
                     String connectStr = "categoryandlevel;" + Categorie + ";" + Level + ";";
-                    Console.WriteLine(connectStr);
-                    byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr);
-                    nm.Sock.Send(reponseByServer);
+                    MessageManager.sendMessageToServer(connectStr);
                     nm.Category = Categorie;
                     nm.Level = Level;
                 }

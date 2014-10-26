@@ -54,8 +54,7 @@ namespace Blindtest.Audio
             if (nm.IsOnline)
             {
                 String connectStr = "timesup;";
-                byte[] reponseByServer = ASCIIEncoding.ASCII.GetBytes(connectStr.ToString());
-                nm.Sock.Send(reponseByServer);
+                MessageManager.sendMessageToServer(connectStr);
             }
         }
     }
