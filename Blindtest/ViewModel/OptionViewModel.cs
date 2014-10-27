@@ -47,6 +47,8 @@ namespace Blindtest.ViewModel
             CategorieList.Add("Alternative");
             CategorieList.Add("French Pop");
             Volume = 50;
+            Port = 8888;
+            Adresse = "127.0.0.1";
         }
         #endregion // Constructor
 
@@ -61,6 +63,8 @@ namespace Blindtest.ViewModel
         private String level;
         private String categorie;
         private int volume;
+        private int port;
+        private String adresse;
         #endregion // Field
 
         #region Properties / Command
@@ -117,6 +121,19 @@ namespace Blindtest.ViewModel
             get { return volume; }
             set { volume = value; OnPropertyChanged("Volume"); }
         }
+
+        public int Port
+        {
+            get { return port; }
+            set { port = value; }
+        }
+
+        public String Adresse
+        {
+            get { return adresse; }
+            set { adresse = value; }
+        }
+        
         #endregion // Properties / Command
 
         #region Action / Function
@@ -148,6 +165,8 @@ namespace Blindtest.ViewModel
                 }
                 else
                 {
+                    nm.Adresse = Adresse;
+                    nm.Port = Port;
                     nm.Category = Categorie;
                     nm.Level = Level;
                 }

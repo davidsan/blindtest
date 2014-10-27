@@ -30,6 +30,8 @@ namespace Blindtest.Service
         #region Field
         private bool isInGame;
         private bool isOnline;
+        private int port;
+        private String adresse;
         private String username;
         private Socket sock;
         private String category = "All";
@@ -48,6 +50,18 @@ namespace Blindtest.Service
         {
             get { return isOnline; }
             set { isOnline = value; }
+        }
+
+        public int Port
+        {
+            get { return port; }
+            set { port = value; }
+        }
+
+        public String Adresse
+        {
+            get { return adresse; }
+            set { adresse = value; }
         }
         
         public String Username

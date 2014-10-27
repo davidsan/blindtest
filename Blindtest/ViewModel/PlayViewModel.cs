@@ -127,8 +127,8 @@ namespace Blindtest.ViewModel
         {
             if (!hasConnected)
             {
-                String address = "127.0.0.1";
-                int port = 8888;
+                String address = nm.Adresse;//"192.168.1.31"
+                int port = nm.Port;
 
                 if (nm.InitSock(address, port))
                 {

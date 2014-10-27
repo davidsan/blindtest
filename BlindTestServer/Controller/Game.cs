@@ -118,6 +118,7 @@ namespace BlindTestServer.Controller
                     Message.sendMessage("score;" + e.Score + ";", e.Sock);
                 }
             }
+            System.Threading.Thread.Sleep(1000);
         }
 
         /// <summary>

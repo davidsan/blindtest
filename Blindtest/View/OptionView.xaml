@@ -29,7 +29,15 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
             <Label Content="Volume : "/>
-            <Slider Margin="0,0,10,0" Value="{Binding Volume, Mode=TwoWay}" Width="200" Maximum="100" Minimum="0"/>
+            <Slider Margin="10,0,0,0" Value="{Binding Volume, Mode=TwoWay}" Width="200" Maximum="100" Minimum="0"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,5"> 
+            <Label Content="Port : "/>
+            <TextBox Text="{Binding Port}" Margin="30,0,0,0" Width="50" MaxLength="5"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+            <Label Content="Adress : "/>
+            <TextBox Text="{Binding Adresse}" Margin="16,0,0,0" Width="100" MaxLength="15"/>
         </StackPanel>
         <Button Content="Back" Command="{Binding BtnBack}"/>
     </StackPanel>
