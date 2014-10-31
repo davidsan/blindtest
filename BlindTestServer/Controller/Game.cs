@@ -108,14 +108,14 @@ namespace BlindTestServer.Controller
                 //  maj du score
                 foreach (Listener e in donnee.UserWhoFindList)
                 {
-                    e.Score += score;
+                    e.Score.Points += score;
                     if (score > 5)
                         score--;
                 }
                 // envoie du score
                 foreach (Listener e in donnee.UserControlList)
                 {
-                    Message.sendMessage("score;" + e.Score + ";", e.Sock);
+                    Message.sendMessage("score;" + e.Score.Points + ";", e.Sock);
                 }
             }
             System.Threading.Thread.Sleep(1000);
@@ -137,7 +137,7 @@ namespace BlindTestServer.Controller
                 foreach (Listener e in donnee.UserControlList)
                 {
                     e.IsReady = false;
-                    sb.Append(e.Username + " : " + e.Score + "\n");
+                    sb.Append(e.Username + " : " + e.Score.Points + "\n");
                 }
                 Message.broadcastToAll(sb.ToString());
             }
@@ -161,10 +161,10 @@ namespace BlindTestServer.Controller
         /// </summary>
         private void resetAllScore()
         {
-            foreach (Listener e in donnee.UserControlList)
-            {
-                e.Score = 0;
-            }
+            //foreach (Listener e in donnee.UserControlList)
+            //{
+            //    e.Score.Points = 0;
+            //}
         }
         #endregion
     }

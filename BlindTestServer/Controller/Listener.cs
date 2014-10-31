@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using System.Threading;
 using BlindTestServer.Tools;
 using BlindTestServer.Model;
+using BlindTestServer.Service;
 
 namespace BlindTestServer.Controller
 {
@@ -22,7 +23,18 @@ namespace BlindTestServer.Controller
         private Message Message;
         private bool guessed = false;
         private bool isReady = false;
-        private int score = 0;
+        //private int score;
+        private Score score;
+        private ScoreContext scoreContext;
+
+        public ScoreContext ScoreContext { get; set; }
+
+        public Score Score
+        {
+            get { return score; }
+            set { score = value; }
+        }
+
 
         public String Username
         {
@@ -35,11 +47,11 @@ namespace BlindTestServer.Controller
             set { guessed = value; }
         }
 
-        public int Score
-        {
-            get { return score; }
-            set { score = value; }
-        }
+        //public int Score
+        //{
+        //    get { return score; }
+        //    set { score = value; }
+        //}
 
         public Socket Sock
         {
@@ -65,6 +77,7 @@ namespace BlindTestServer.Controller
             this.Sock = client;
             this.donnee = donnee;
             this.Message = messages;
+            this.score = new Score();
             donnee.UserControlList.Add(this);
         }
         #endregion
@@ -75,6 +88,7 @@ namespace BlindTestServer.Controller
         /// </summary>
         public void Listen()
         {
+            scoreContext = new ScoreContext();
             while (sock.Connected)
             {
                 int count = sock.Receive(rep, rep.Length, 0);
@@ -83,7 +97,7 @@ namespace BlindTestServer.Controller
                 reponseSplit = reponse.Split(';');
                 switch (reponseSplit[0])
                 {
-                    case "exit" :
+                    case "exit":
                         disconnect();
                         sock.Shutdown(SocketShutdown.Both);
                         sock.Close();
@@ -92,16 +106,31 @@ namespace BlindTestServer.Controller
                             donnee.roundOver.Set();
                         }
                         break;
-                    case "disconnect" :
+                    case "disconnect":
                         disconnect();
                         Message.sendMessage("disconnected;", sock);
                         sock.Shutdown(SocketShutdown.Both);
                         sock.Close();
                         break;
-                    case "connect" :
+                    case "connect":
                         string arg1 = reponseSplit[1];
                         connect(arg1);
                         donnee.UserList.Add(username);
+                        score.Name = Username;
+                        var scores = from s in scoreContext.Scores
+                                     where s.Name.StartsWith(username)
+                                     select s;
+                        if (scores.Count() == 0)
+                        {
+                            score.Points = 0;
+                            scoreContext.Scores.Add(score);
+                            scoreContext.SaveChanges();
+                        }
+                        else
+                        {
+                            score = scores.First();
+                        }
+
                         Message.sendMessage("connected;" + Username + ";", sock);
                         Message.sendMessageExceptOne("connectednew;" + Username + ";", sock);
                         Console.WriteLine(Username + " join the server !!");
@@ -148,7 +177,7 @@ namespace BlindTestServer.Controller
                         donnee.ChooseCategoryList.Add(category);
                         donnee.ChooseLevelList.Add(level);
                         break;
-                    case "timesup" :
+                    case "timesup":
                         donnee.NumberOfTimesUp++;
                         if (donnee.NumberOfTimesUp + donnee.UserAnswer == donnee.NumberUserReady)
                         {
