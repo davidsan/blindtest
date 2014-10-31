@@ -22,6 +22,8 @@ namespace Blindtest.ViewModel
             BtnDisconnect = new RelayCommand(new Action<object>(Disconnect), x => hasConnected);
             BtnReady = new RelayCommand(new Action<object>(Ready), x => hasConnected);
             BtnSettings = new RelayCommand(new Action<object>(Settings));
+            nm.Adresse = "127.0.0.1";
+            nm.Port = 8888;
         }
         #endregion // Constructor
 
@@ -132,16 +134,16 @@ namespace Blindtest.ViewModel
 
                 if (nm.InitSock(address, port))
                 {
-                // will create a new thread for listening
-                // will also send a connect request
-                Thread thr = new Thread(new ThreadStart(nm.Listen));
-                thr.Start();
+                    // will create a new thread for listening
+                    // will also send a connect request
+                    Thread thr = new Thread(new ThreadStart(nm.Listen));
+                    thr.Start();
 
-                String connectStr = "connect;" + Username + ";\n";
-                MessageManager.sendMessageToServer(connectStr);
+                    String connectStr = "connect;" + Username + ";\n";
+                    MessageManager.sendMessageToServer(connectStr);
 
-                hasClickedOnline = true;
-                nm.IsOnline = true;
+                    hasClickedOnline = true;
+                    nm.IsOnline = true;
                 }
                 else
                 {

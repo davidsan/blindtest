@@ -156,6 +156,9 @@ namespace BlindTestServer.Model
                     case LevelEnum.HARDCORE:
                         NumberOfSong = 8;
                         break;
+                    default: 
+                        NumberOfSong = 4;
+                        break;
                 }
             }
             quiz = new Quiz(NumberOfSong); // Pour le moment 4 chanson

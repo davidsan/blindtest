@@ -81,7 +81,6 @@ namespace BlindTestServer.Controller
                 donnee.UserAnswer = 0;
                 donnee.NumberOfTimesUp = 0;
                 donnee.UserWhoFindList.RemoveAll(x => true);
-                List<String> songList = new List<String>();
                 StringBuilder sb = new StringBuilder("");
                 sb.Append("round;" + donnee.CurrentRound + ";" + donnee.NumberOfSong + ";");
                 for (int i = 0; i < donnee.NumberOfSong; i++)
@@ -143,7 +142,8 @@ namespace BlindTestServer.Controller
             }
             donnee.NumberUserReady = 0;
             donnee.ChooseCategoryList.Clear();
-            donnee.ChooseLevelList.Clear();          
+            donnee.ChooseLevelList.Clear();
+            donnee.NumberOfSong = -1;
         }
 
         /// <summary>
