@@ -159,16 +159,7 @@ namespace BlindTestServer.Controller
                             if (checkRightTitle(title))
                             {
                                 Message.broadcastOne("Your a champion !!", sock);
-                                foreach (Score s in scoreContext.DbSetScores)
-                                {
-                                    Console.WriteLine(string.Format("Score Guess : {0} - {1}", s.Name, s.Points));
-                                }
                                 donnee.UserWhoFindList.Add(this);
-                                scoreContext.SaveChanges();
-                                foreach (Score s in scoreContext.DbSetScores)
-                                {
-                                    Console.WriteLine(string.Format("score GUESS : {0} - {1}", s.Name, s.Points));
-                                }
                             }
                             else
                             {
@@ -248,5 +239,9 @@ namespace BlindTestServer.Controller
         }
         #endregion
 
+        public void saveScoreChanges()
+        {
+            scoreContext.SaveChanges();
+        }
     }
 }
