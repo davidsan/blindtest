@@ -10,6 +10,6 @@ namespace BlindTestServer.Service
 {
     class ScoreContext : DbContext
     {
-        public DbSet<Score> Scores { get; set; }
+        public DbSet<Score> DbSetScores { get; set; }
     }
 }

@@ -108,6 +108,8 @@ namespace BlindTestServer.Controller
                 foreach (Listener e in donnee.UserWhoFindList)
                 {
                     e.Score.Points += score;
+                    Console.WriteLine("score joueur roundFinish :" + e.Score.Points);
+                    //e.ScoreContext.SaveChanges();
                     if (score > 5)
                         score--;
                 }

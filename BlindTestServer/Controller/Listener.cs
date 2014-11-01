@@ -78,6 +78,11 @@ namespace BlindTestServer.Controller
             this.donnee = donnee;
             this.Message = messages;
             this.score = new Score();
+            this.scoreContext = new ScoreContext();
+            foreach (Score s in scoreContext.DbSetScores)
+            {
+                Console.WriteLine(string.Format("Score !!!!!!!!!!!! : {0} - {1}", s.Name, s.Points));
+            }
             donnee.UserControlList.Add(this);
         }
         #endregion
@@ -88,7 +93,6 @@ namespace BlindTestServer.Controller
         /// </summary>
         public void Listen()
         {
-            scoreContext = new ScoreContext();
             while (sock.Connected)
             {
                 int count = sock.Receive(rep, rep.Length, 0);
@@ -117,13 +121,13 @@ namespace BlindTestServer.Controller
                         connect(arg1);
                         donnee.UserList.Add(username);
                         score.Name = Username;
-                        var scores = from s in scoreContext.Scores
+                        var scores = from s in scoreContext.DbSetScores
                                      where s.Name.StartsWith(username)
                                      select s;
                         if (scores.Count() == 0)
                         {
                             score.Points = 0;
-                            scoreContext.Scores.Add(score);
+                            scoreContext.DbSetScores.Add(score);
                             scoreContext.SaveChanges();
                         }
                         else
@@ -155,7 +159,12 @@ namespace BlindTestServer.Controller
                             if (checkRightTitle(title))
                             {
                                 Message.broadcastOne("Your a champion !!", sock);
+                                foreach (Score s in scoreContext.DbSetScores)
+                                {
+                                    Console.WriteLine(string.Format("Score Guess : {0} - {1}", s.Name, s.Points));
+                                }
                                 donnee.UserWhoFindList.Add(this);
+                                scoreContext.SaveChanges();
                             }
                             else
                             {
