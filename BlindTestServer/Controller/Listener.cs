@@ -165,6 +165,10 @@ namespace BlindTestServer.Controller
                                 }
                                 donnee.UserWhoFindList.Add(this);
                                 scoreContext.SaveChanges();
+                                foreach (Score s in scoreContext.DbSetScores)
+                                {
+                                    Console.WriteLine(string.Format("score GUESS : {0} - {1}", s.Name, s.Points));
+                                }
                             }
                             else
                             {
