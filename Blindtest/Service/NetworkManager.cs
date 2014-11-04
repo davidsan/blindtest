@@ -247,7 +247,19 @@ namespace Blindtest.Service
                                     Console.WriteLine("Cool");
                                     rvm = MainWindow.Instance.DataContext as ResultViewModel;
                                     Console.WriteLine("Cool2");
-                                    rvm.ScoreFinal = message;
+                                    rvm.ScoreFinal = message.Replace("Score : ", "");
+                                });
+                            }
+
+                            if (message.Contains("All time score : "))
+                            {
+                                ResultViewModel rvm;
+                                MainWindow.Instance.Dispatcher.Invoke(() =>
+                                {
+                                    Console.WriteLine("Cool");
+                                    rvm = MainWindow.Instance.DataContext as ResultViewModel;
+                                    Console.WriteLine("Cool2");
+                                    rvm.ScoreAllTime = message.Replace("All time score : ", "");
                                 });
                             }
 

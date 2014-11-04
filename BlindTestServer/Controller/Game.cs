@@ -107,15 +107,14 @@ namespace BlindTestServer.Controller
                 //  maj du score
                 foreach (Listener e in donnee.UserWhoFindList)
                 {
-                    e.Score.Points += score;
+                    e.ScoreRound += score;
                     if (score > 5)
                         score--;
                 }
                 // envoie du score
                 foreach (Listener e in donnee.UserControlList)
                 {
-                    e.saveScoreChanges();
-                    Message.sendMessage("score;" + e.Score.Points + ";", e.Sock);
+                    Message.sendMessage("score;" + e.ScoreRound + ";", e.Sock);
                 }
             }
             System.Threading.Thread.Sleep(1000);
@@ -133,13 +132,17 @@ namespace BlindTestServer.Controller
                 Message.sendMessageToAll("gameover;\n");
 
                 StringBuilder sb = new StringBuilder("");
-                sb.Append("Score : \n");
+                sb.Append("Score : ");
                 foreach (Listener e in donnee.UserControlList)
                 {
                     e.IsReady = false;
-                    sb.Append(e.Username + " : " + e.Score.Points + "\n");
+                    sb.Append(e.Username + " : " + e.ScoreRound + "\n");
+                    e.ScoreUser.Points += e.ScoreRound;
+                    e.ScoreContext.SaveChanges();
                 }
                 Message.broadcastToAll(sb.ToString());
+                System.Threading.Thread.Sleep(500);
+                writeAllTimeScore();
             }
             donnee.NumberUserReady = 0;
             donnee.ChooseCategoryList.Clear();
@@ -166,6 +169,24 @@ namespace BlindTestServer.Controller
             //{
             //    e.Score.Points = 0;
             //}
+        }
+
+        /// <summary>
+        /// Write all time score to all user
+        /// </summary>
+        private void writeAllTimeScore()
+        {
+            StringBuilder sb = new StringBuilder("");
+            ScoreContext sc = new ScoreContext();
+            IEnumerable<Score> dbSet = sc.DbSetScores.OrderByDescending(item => item.Points);
+            sb.Append("All time score : ");
+            Score s;
+            for (int i = 0; i < dbSet.Count() && i < 5; i++)
+            {
+                s = dbSet.ElementAt(i);
+                Console.WriteLine(sb.Append(string.Format("{0} : {1}\n", s.Name, s.Points)));
+            }
+            Message.broadcastToAll(sb.ToString());
         }
         #endregion
     }

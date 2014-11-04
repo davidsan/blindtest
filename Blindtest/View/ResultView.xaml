@@ -7,8 +7,14 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
-        <Label Content="Score Final :" FontSize="25"/>
-            <Label Content="{Binding ScoreFinal}" FontSize="25"/>
+            <StackPanel Orientation="Vertical">
+                <Label Content="Game Score :" FontSize="25"/>
+                <Label Content="{Binding ScoreFinal}" FontSize="25"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Visibility="{Binding Visible}" Margin="120,0,0,0">
+                <Label Content="All time score :" FontSize="25"/>
+                <Label Content="{Binding ScoreAllTime}" FontSize="25"/>
+            </StackPanel>
         </StackPanel>
         <Button Content="Replay" Margin="5" Padding="5"                
                 Command="{Binding BtnReplay}"/>

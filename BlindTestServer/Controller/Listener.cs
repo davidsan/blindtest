@@ -23,35 +23,35 @@ namespace BlindTestServer.Controller
         private Message Message;
         private bool guessed = false;
         private bool isReady = false;
-        //private int score;
-        private Score score;
+        private int scoreRound;
+        private Score scoreUser;
         private ScoreContext scoreContext;
 
         public ScoreContext ScoreContext { get; set; }
 
-        public Score Score
+        public Score ScoreUser
         {
-            get { return score; }
-            set { score = value; }
+            get { return scoreUser; }
+            set { scoreUser = value; }
         }
-
 
         public String Username
         {
             get { return username; }
             private set { username = value; }
         }
+
         public bool Guessed
         {
             get { return guessed; }
             set { guessed = value; }
         }
 
-        //public int Score
-        //{
-        //    get { return score; }
-        //    set { score = value; }
-        //}
+        public int ScoreRound
+        {
+            get { return scoreRound; }
+            set { scoreRound = value; }
+        }
 
         public Socket Sock
         {
@@ -77,9 +77,9 @@ namespace BlindTestServer.Controller
             this.Sock = client;
             this.donnee = donnee;
             this.Message = messages;
-            this.score = new Score();
-            this.scoreContext = new ScoreContext();
-            foreach (Score s in scoreContext.DbSetScores)
+            this.ScoreUser = new Score();
+            this.ScoreContext = new ScoreContext();
+            foreach (Score s in ScoreContext.DbSetScores)
             {
                 Console.WriteLine(string.Format("Score !!!!!!!!!!!! : {0} - {1}", s.Name, s.Points));
             }
@@ -119,20 +119,20 @@ namespace BlindTestServer.Controller
                     case "connect":
                         string arg1 = reponseSplit[1];
                         connect(arg1);
-                        donnee.UserList.Add(username);
-                        score.Name = Username;
-                        var scores = from s in scoreContext.DbSetScores
-                                     where s.Name.StartsWith(username)
+                        donnee.UserList.Add(Username);
+                        ScoreUser.Name = Username;
+                        var scoreList = from s in ScoreContext.DbSetScores
+                                     where s.Name.Equals(Username)
                                      select s;
-                        if (scores.Count() == 0)
+                        if (scoreList.Count() == 0)
                         {
-                            score.Points = 0;
-                            scoreContext.DbSetScores.Add(score);
-                            scoreContext.SaveChanges();
+                            ScoreUser.Points = 0;
+                            ScoreContext.DbSetScores.Add(ScoreUser);
+                            ScoreContext.SaveChanges();
                         }
                         else
                         {
-                            score = scores.First();
+                            scoreUser = scoreList.First();
                         }
 
                         Message.sendMessage("connected;" + Username + ";", sock);
@@ -238,10 +238,5 @@ namespace BlindTestServer.Controller
             return donnee.Quiz.CorrectSong.Title.Equals(title);
         }
         #endregion
-
-        public void saveScoreChanges()
-        {
-            scoreContext.SaveChanges();
-        }
     }
 }

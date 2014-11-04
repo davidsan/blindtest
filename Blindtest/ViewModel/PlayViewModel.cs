@@ -24,6 +24,7 @@ namespace Blindtest.ViewModel
             BtnSettings = new RelayCommand(new Action<object>(Settings));
             nm.Adresse = "127.0.0.1";
             nm.Port = 8888;
+            nm.Username = Username;
         }
         #endregion // Constructor
 

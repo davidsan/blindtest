@@ -18,6 +18,12 @@ namespace Blindtest.ViewModel
             this.scorefinal = score;
             BtnReplay = new RelayCommand(new Action<object>(Replay));
             BtnSettings = new RelayCommand(new Action<object>(Settings));
+            if (nm.IsOnline)
+            {
+                Visible = System.Windows.Visibility.Visible;
+            } else {
+                Visible = System.Windows.Visibility.Hidden;
+            }
         }
         #endregion // Constructor
 
@@ -25,13 +31,22 @@ namespace Blindtest.ViewModel
         private NetworkManager nm = NetworkManager.Instance;
         private bool isOnline;
         private String scorefinal;
+        private String scoreAllTime;
         private ICommand btnReplay;
         private ICommand btnSettings;
+        private System.Windows.Visibility visible;
         #endregion // Field
 
         #region Properties / Command
 
+        public System.Windows.Visibility Visible
+        {
+            get { return visible; }
+            set { visible = value; OnPropertyChanged("Visible"); }
+        }
+
         public PlayViewModel pvm { get; set; }
+
         public bool IsOnline
         {
             get { return isOnline; }
@@ -48,6 +63,12 @@ namespace Blindtest.ViewModel
         {
             get { return scorefinal; }
             set { scorefinal = value; OnPropertyChanged("ScoreFinal"); }
+        }
+
+        public String ScoreAllTime
+        {
+            get { return scoreAllTime; }
+            set { scoreAllTime = value; OnPropertyChanged("ScoreAllTime"); }
         }
 
         public ICommand BtnSettings

@@ -149,7 +149,9 @@ namespace Blindtest.ViewModel
             this.UpdateScore();
             if (RoundsCount > 6)
             {
-                ResultViewModel rvm = new ResultViewModel(Score.ToString());
+                ResultViewModel rvm = new ResultViewModel(
+                    Service.NetworkManager.Instance.Username 
+                    + " : " + Score.ToString());
                 rvm.IsOnline = false;
                 MainWindow.Instance.contentControl.Content = new ResultView();
                 MainWindow.Instance.DataContext = rvm;
@@ -183,6 +185,5 @@ namespace Blindtest.ViewModel
             MainWindow.Instance.contentControl.Content = new OptionView();
         }
         #endregion // Action / Function
-
     }
 }
