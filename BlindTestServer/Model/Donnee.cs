@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Threading;
 using BlindTestServer.Controller;
+
 namespace BlindTestServer.Model
 {
+    /// <summary>
+    /// Information utile pour le serveur
+    /// </summary>
     class Donnee
     {
         #region Contrutor
@@ -24,21 +28,23 @@ namespace BlindTestServer.Model
 
         #region Field
         public enum LevelEnum { EASY, MEDIUM, HARDCORE };
-        public AutoResetEvent startGame = new AutoResetEvent(false);
+        // event leve pour demarre une partie
+        public AutoResetEvent startGame = new AutoResetEvent(false); 
+        // event leve pour la fin d'un round
         public AutoResetEvent roundOver = new AutoResetEvent(false);
-        private List<String> userList;
-        private List<Socket> sockList;
-        private List<Listener> userControlList;
-        private List<Listener> userWhoFindList;
-        private List<String> chooseCategoryList;
-        private List<String> chooseLevelList;
-        private int numberUserReady = 0;
-        private int minJoueur = 2;
-        private int currentRound = 0;
-        private int maxRound = 2;
-        private int userAnswer = 0;
-        private int numberOfTimesUp = 0;
-        private int numberOfSong = -1;
+        private List<String> userList; // List des utilisateurs
+        private List<Socket> sockList; // List des sockets
+        private List<Listener> userControlList; // Listener des gens connecte
+        private List<Listener> userWhoFindList; // Joueur ayant la bonne reponse
+        private List<String> chooseCategoryList; // Choix de categorie des joueurs
+        private List<String> chooseLevelList; // Choix de difficulte des joueurs
+        private int numberUserReady = 0; // Nombre de joueur pret
+        private int minJoueur = 2; // Nombre de joueur minimum pour commence
+        private int currentRound = 0; // Round courant
+        private int maxRound = 2; // Nombre max de round
+        private int userAnswer = 0; // Personne ayant repondu
+        private int numberOfTimesUp = 0; // Nombre de personne ayant atteint la limite de temps
+        private int numberOfSong = -1; // Nombre de chanson par round
         private LevelEnum level = LevelEnum.EASY;
         private Quiz quiz;
         #endregion

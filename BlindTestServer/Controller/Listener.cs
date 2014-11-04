@@ -102,7 +102,7 @@ namespace BlindTestServer.Controller
                 switch (reponseSplit[0])
                 {
                     case "exit":
-                        disconnect();
+                        Disconnect();
                         sock.Shutdown(SocketShutdown.Both);
                         sock.Close();
                         if (donnee.UserAnswer == donnee.NumberUserReady)
@@ -111,14 +111,14 @@ namespace BlindTestServer.Controller
                         }
                         break;
                     case "disconnect":
-                        disconnect();
-                        Message.sendMessage("disconnected;", sock);
+                        Disconnect();
+                        Message.SendMessage("disconnected;", sock);
                         sock.Shutdown(SocketShutdown.Both);
                         sock.Close();
                         break;
                     case "connect":
                         string arg1 = reponseSplit[1];
-                        connect(arg1);
+                        Connect(arg1);
                         donnee.UserList.Add(Username);
                         ScoreUser.Name = Username;
                         var scoreList = from s in ScoreContext.DbSetScores
@@ -135,8 +135,8 @@ namespace BlindTestServer.Controller
                             scoreUser = scoreList.First();
                         }
 
-                        Message.sendMessage("connected;" + Username + ";", sock);
-                        Message.sendMessageExceptOne("connectednew;" + Username + ";", sock);
+                        Message.SendMessage("connected;" + Username + ";", sock);
+                        Message.SendMessageExceptOne("connectednew;" + Username + ";", sock);
                         Console.WriteLine(Username + " join the server !!");
                         break;
                     case "ready":
@@ -150,20 +150,20 @@ namespace BlindTestServer.Controller
                         string title = reponseSplit[1];
                         if (guessed)
                         {
-                            Message.broadcastOne("You already guess !!", sock);
+                            Message.BroadcastOne("You already guess !!", sock);
                         }
                         else
                         {
                             guessed = true;
                             donnee.UserAnswer++;
-                            if (checkRightTitle(title))
+                            if (CheckRightTitle(title))
                             {
-                                Message.broadcastOne("Your a champion !!", sock);
+                                Message.BroadcastOne("Your a champion !!", sock);
                                 donnee.UserWhoFindList.Add(this);
                             }
                             else
                             {
-                                Message.broadcastOne("Sorry not the good answer !!", sock);
+                                Message.BroadcastOne("Sorry not the good answer !!", sock);
                             }
                         }
                         if (donnee.UserAnswer == donnee.NumberUserReady)
@@ -173,7 +173,7 @@ namespace BlindTestServer.Controller
                         break;
                     case "chat":
                         string msg = reponseSplit[1];
-                        Message.sendMessageToAll("chatR;" + username + ";" + msg + ";");
+                        Message.SendMessageToAll("chatR;" + username + ";" + msg + ";");
                         break;
                     case "categoryandlevel":
                         String category = reponseSplit[1];
@@ -203,7 +203,7 @@ namespace BlindTestServer.Controller
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private void connect(String name)
+        private void Connect(String name)
         {
             int compteur = 0;
             String username = name;
@@ -219,7 +219,7 @@ namespace BlindTestServer.Controller
         /// <summary>
         /// Deconnect un client
         /// </summary>
-        private void disconnect()
+        private void Disconnect()
         {
             Console.WriteLine(username + " leave the server !!");
             donnee.NumberUserReady--;
@@ -233,7 +233,7 @@ namespace BlindTestServer.Controller
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
-        private bool checkRightTitle(String title)
+        private bool CheckRightTitle(String title)
         {
             return donnee.Quiz.CorrectSong.Title.Equals(title);
         }

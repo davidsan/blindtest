@@ -37,15 +37,15 @@ namespace BlindTestServer.Controller
             while (true)
             {
                 donnee.startGame.WaitOne();
-                initGame();
+                InitGame();
                 while (donnee.CurrentRound != donnee.MaxRound+1)
                 {
                     donnee.CurrentRound++;
-                    initRound();
+                    InitRound();
                     donnee.roundOver.WaitOne();
-                    roundFinish();
+                    RoundFinish();
                 }
-                gameOver();
+                GameOver();
             }
         }
         #endregion
@@ -55,13 +55,13 @@ namespace BlindTestServer.Controller
         /// Initialise une partie
         /// Mise a zero des scores
         /// </summary>
-        private void initGame()
+        private void InitGame()
         {
             category = donnee.randomCategory();
             SongManager.Instance.SelectCategoryList(category);
             donnee.randomLevel();
-            Message.sendMessageToAll("newgame;");
-            resetAllScore();
+            Message.SendMessageToAll("newgame;");
+            ResetAllScore();
             donnee.CurrentRound = 0;
         }
 
@@ -71,13 +71,13 @@ namespace BlindTestServer.Controller
         /// List des personnes ayant trouvés vide
         /// Envoi round;numRound;s1;s2;s3;s4;url;
         /// </summary>
-        private void initRound()
+        private void InitRound()
         {
             lock (Message)
             {
                 Console.WriteLine("Init du round " + donnee.CurrentRound);
                 donnee.initQuiz();
-                resetPlayer();
+                ResetPlayer();
                 donnee.UserAnswer = 0;
                 donnee.NumberOfTimesUp = 0;
                 donnee.UserWhoFindList.RemoveAll(x => true);
@@ -88,7 +88,7 @@ namespace BlindTestServer.Controller
                     sb.Append(donnee.Quiz.Songs.ElementAt(i).Title + ";");
                 }
                 sb.Append(donnee.Quiz.CorrectSong.Link + ";");
-                Message.sendMessageToAll(sb.ToString());
+                Message.SendMessageToAll(sb.ToString());
                 Console.WriteLine("La bonne chanson est :" + donnee.Quiz.CorrectSong.Title);
             }
         }
@@ -97,24 +97,27 @@ namespace BlindTestServer.Controller
         /// Traitement fin de round
         /// Envoi a tout les clients "score;score du client;"
         /// </summary>
-        private void roundFinish()
+        private void RoundFinish()
         {
             lock (Message)
             {
                 Console.WriteLine("Fin du round " + donnee.CurrentRound);
-                Message.sendMessageToAll("roundover;" + donnee.Quiz.CorrectSong.Title+ ";");
+                Message.SendMessageToAll("roundover;" + donnee.Quiz.CorrectSong.Title+ ";");
                 int score = 10;
                 //  maj du score
                 foreach (Listener e in donnee.UserWhoFindList)
                 {
                     e.ScoreRound += score;
                     if (score > 5)
+                    {
                         score--;
+                    }
+                        
                 }
                 // envoie du score
                 foreach (Listener e in donnee.UserControlList)
                 {
-                    Message.sendMessage("score;" + e.ScoreRound + ";", e.Sock);
+                    Message.SendMessage("score;" + e.ScoreRound + ";", e.Sock);
                 }
             }
             System.Threading.Thread.Sleep(1000);
@@ -124,12 +127,12 @@ namespace BlindTestServer.Controller
         /// Traitement de fin de partie
         /// Affiche le score pour les clients
         /// </summary>
-        private void gameOver()
+        private void GameOver()
         {
             Console.WriteLine("Game Over !!");
             lock (Message)
             {
-                Message.sendMessageToAll("gameover;\n");
+                Message.SendMessageToAll("gameover;\n");
 
                 StringBuilder sb = new StringBuilder("");
                 sb.Append("Score : ");
@@ -140,9 +143,9 @@ namespace BlindTestServer.Controller
                     e.ScoreUser.Points += e.ScoreRound;
                     e.ScoreContext.SaveChanges();
                 }
-                Message.broadcastToAll(sb.ToString());
+                Message.BroadcastToAll(sb.ToString());
                 System.Threading.Thread.Sleep(500);
-                writeAllTimeScore();
+                WriteAllTimeScore();
             }
             donnee.NumberUserReady = 0;
             donnee.ChooseCategoryList.Clear();
@@ -153,7 +156,7 @@ namespace BlindTestServer.Controller
         /// <summary>
         /// Reset a false la valeur de guessed des clients
         /// </summary>
-        private void resetPlayer() 
+        private void ResetPlayer() 
         {
             foreach (Listener e in donnee.UserControlList) {
                 e.Guessed = false;
@@ -163,18 +166,18 @@ namespace BlindTestServer.Controller
         /// <summary>
         /// Remet les scores a 0 des clients
         /// </summary>
-        private void resetAllScore()
+        private void ResetAllScore()
         {
-            //foreach (Listener e in donnee.UserControlList)
-            //{
-            //    e.Score.Points = 0;
-            //}
+           foreach (Listener e in donnee.UserControlList)
+            {
+                e.ScoreRound = 0;
+            }
         }
 
         /// <summary>
         /// Write all time score to all user
         /// </summary>
-        private void writeAllTimeScore()
+        private void WriteAllTimeScore()
         {
             StringBuilder sb = new StringBuilder("");
             ScoreContext sc = new ScoreContext();
@@ -186,7 +189,7 @@ namespace BlindTestServer.Controller
                 s = dbSet.ElementAt(i);
                 Console.WriteLine(sb.Append(string.Format("{0} : {1}\n", s.Name, s.Points)));
             }
-            Message.broadcastToAll(sb.ToString());
+            Message.BroadcastToAll(sb.ToString());
         }
         #endregion
     }

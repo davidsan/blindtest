@@ -25,9 +25,11 @@ namespace BlindTestServer
             Console.WriteLine("Waiting for users !!");
             Message message = new Message(donnee);
             Game game = new Game(donnee, message);
+            // Declaration et demarrage du thread de partie
             Thread thrGame = new Thread(new ThreadStart(game.Run));
             thrGame.Start();
 
+            // Boucle pour recevoir un client
             while (true)
             {
                 Socket client = serverSocket.AcceptSocket();

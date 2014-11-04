@@ -9,7 +9,6 @@ namespace BlindTestServer.Model
 {
     class Score
     {
-        
         [Key]
         public string Name { get; set; }
         public int Points { get; set; }

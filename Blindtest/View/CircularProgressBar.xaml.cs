@@ -84,9 +84,13 @@ namespace Blindtest.View
             bool isVisible = (bool)e.NewValue;
 
             if (isVisible)
+            {
                 Start();
+            }
             else
+            {
                 Stop();
+            }
         }
         #endregion
     }

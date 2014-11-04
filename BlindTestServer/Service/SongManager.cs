@@ -10,11 +10,11 @@ namespace BlindTestServer.Service
 {
     class SongManager
     {
+        private SongManager() { }
+
         // Singleton instance
         private static SongManager instance;
-        private SongManager()
-        {
-        }
+        
         public static SongManager Instance
         {
             get
@@ -59,6 +59,10 @@ namespace BlindTestServer.Service
             }).ToList<Song>();
         }
 
+        /// <summary>
+        /// Recupere le bon fichier xml selon le genre
+        /// </summary>
+        /// <param name="category"></param>
         public void SelectCategoryList(String category)
         {
             if (!oldCate.Equals(category))

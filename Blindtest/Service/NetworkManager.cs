@@ -12,6 +12,11 @@ using System.Windows.Threading;
 
 namespace Blindtest.Service
 {
+    /// <summary>
+    /// Classe permettant d'ecouter le serveur.
+    /// Un NetworkManager par client
+    /// Contient les informations utiles a un client
+    /// </summary>
     class NetworkManager
     {
         #region Constructor
@@ -116,10 +121,11 @@ namespace Blindtest.Service
             {
                 try
                 {
+                    /* Reception du message */
                     int count = sock.Receive(rep, rep.Length, 0);
-
                     string srep = Encoding.ASCII.GetString(rep);
                     string reponse = srep.Substring(0, count);
+                    /* Fin reception */
                     Console.WriteLine("Client : " + reponse);
                     String[] reponseSplit = reponse.Split(';');
                     QuizOnlineViewModel qvm;
@@ -182,6 +188,8 @@ namespace Blindtest.Service
                                     song7 = reponseSplit[9];
                                     song8 = reponseSplit[10];
                                     songUrl = reponseSplit[11];
+                                    break;
+                                default :
                                     break;
                             }
                             
@@ -270,7 +278,7 @@ namespace Blindtest.Service
                             break;
                     }
                 }
-                catch (Exception e) { }
+                catch (Exception e) { Console.WriteLine(e.ToString()); }
             }
                 
             Thread.CurrentThread.Abort();

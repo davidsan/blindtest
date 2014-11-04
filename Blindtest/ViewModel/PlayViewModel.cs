@@ -180,7 +180,7 @@ namespace Blindtest.ViewModel
 
             nm.IsInGame = true;
             MainWindow.Instance.contentControl.Content = new WaitingView();
-            MainWindow.Instance.DataContext = new WaitingViewModel(); ;
+            MainWindow.Instance.DataContext = new WaitingViewModel();
         }
 
         /// <summary>

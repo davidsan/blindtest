@@ -119,6 +119,9 @@ namespace Blindtest.ViewModel
                     case "Hardcore":
                         maxSong = 8;
                         break;
+                    default :
+                        maxSong = 4;
+                        break;
                 }
             }
             SelectedSong = null;

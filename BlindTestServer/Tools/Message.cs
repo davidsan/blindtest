@@ -24,7 +24,7 @@ namespace BlindTestServer.Tools
         /// Envoi "broadcast;message;"
         /// </summary>
         /// <param name="message"></param>
-        public void broadcastOne(String message, Socket sock)
+        public void BroadcastOne(String message, Socket sock)
         {
             StringBuilder broadcast = new StringBuilder("broadcast;");
             broadcast.Append(message);
@@ -39,7 +39,7 @@ namespace BlindTestServer.Tools
         /// </summary>
         /// <param name="message"></param>
         /// <param name="sock"></param>
-        public void broadcastExceptOne(String message, Socket sock)
+        public void BroadcastExceptOne(String message, Socket sock)
         {
             StringBuilder broadcast = new StringBuilder("broadcast;");
             broadcast.Append(message);
@@ -58,7 +58,7 @@ namespace BlindTestServer.Tools
         /// Envoi "broadcast;message;"
         /// </summary>
         /// <param name="message"></param>
-        public void broadcastToAll(String message)
+        public void BroadcastToAll(String message)
         {
             StringBuilder broadcast = new StringBuilder("broadcast;");
             broadcast.Append(message);
@@ -75,7 +75,7 @@ namespace BlindTestServer.Tools
         /// Exemple : "score;10;" "chatR;David;Salut sava !;"
         /// </summary>
         /// <param name="message"></param>
-        public void sendMessageToAll(String message)
+        public void SendMessageToAll(String message)
         {
             String m = message + "\n";
             foreach (Socket s in donnee.SockList)
@@ -92,7 +92,7 @@ namespace BlindTestServer.Tools
         /// </summary>
         /// <param name="message"></param>
         /// <param name="sock"></param>
-        public void sendMessage(String message, Socket sock)
+        public void SendMessage(String message, Socket sock)
         {
             String m = message + "\n";
             reponseByServer = ASCIIEncoding.ASCII.GetBytes(m);
@@ -104,7 +104,7 @@ namespace BlindTestServer.Tools
         /// </summary>
         /// <param name="message"></param>
         /// <param name="sock"></param>
-        public void sendMessageExceptOne(String message, Socket sock)
+        public void SendMessageExceptOne(String message, Socket sock)
         {
             String m = message + "\n";
             foreach (Socket s in donnee.SockList)
